@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Container from "@/components/ui/Container";
+import Logo from "@/components/ui/Logo";
 
 const NAV_LINKS = [
   { label: "Product", href: "/product" },
@@ -34,7 +35,8 @@ export default function Header() {
       }`}
     >
       <Container className="flex h-[70px] items-center justify-between md:h-[100px]">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center gap-[10px]">
+          <Logo className="h-[24px] w-auto drop-shadow-[0_2px_6px_rgba(22,163,74,0.25)]" />
           <span className="font-display text-[22px] font-bold tracking-[-0.3px] text-black">Carbonsynq</span>
         </Link>
 

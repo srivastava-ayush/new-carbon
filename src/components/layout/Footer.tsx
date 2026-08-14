@@ -1,6 +1,7 @@
 const CONTACT_EMAIL = "sales@Carbonsynqnetworks.com";
 
 import Container from "@/components/ui/Container";
+import Logo from "@/components/ui/Logo";
 
 const LEGAL_LINKS = [
   { label: "Privacy", href: "/privacy" },
@@ -44,10 +45,13 @@ export default function Footer() {
 
           <div className="flex flex-col items-start justify-between gap-[20px] md:flex-row md:items-end md:gap-0">
             <div className="flex flex-col gap-[15px]">
-              <p className="text-[12px] font-medium uppercase leading-[1.2] tracking-[1.44px] text-black">
-                © 2026 Carbonsynq.
-                <br className="md:hidden" /> All rights reserved.
-              </p>
+              <div className="flex items-center gap-[12px]">
+                <Logo className="h-[22px] w-auto" />
+                <p className="text-[12px] font-medium uppercase leading-[1.2] tracking-[1.44px] text-black">
+                  © 2026 Carbonsynq.
+                  <br className="md:hidden" /> All rights reserved.
+                </p>
+              </div>
               <div className="flex items-center gap-[20px]">
                 {LEGAL_LINKS.map((item) => (
                   <a key={item.href} href={item.href} className="text-[12px] font-medium uppercase leading-[1.2] tracking-[1.44px] text-black hover:underline">
