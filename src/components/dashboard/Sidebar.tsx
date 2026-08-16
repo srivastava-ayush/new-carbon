@@ -41,6 +41,36 @@ interface NavEntry {
   tint?: string;
 }
 
+// Roles that can see each nav item. Empty array = everyone can see.
+const ROLE_MAP: Partial<Record<TabId, string[]>> = {
+  // Analyze — everyone sees these
+  "overview":           [],
+  "footprint":          [],
+  "category":           [],
+
+  // Carbon — everyone
+  "scope1":             [],
+  "scope2":             [],
+  "scope3":             [],
+
+  // Manage — data entry & above
+  "activity-data":      ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER","FACILITIES_MANAGER","DATA_ENTRY","REVIEWER","AUDITOR","MANAGEMENT"],
+  "documents":          ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER","FACILITIES_MANAGER","DATA_ENTRY","REVIEWER","AUDITOR","MANAGEMENT"],
+  "review":             ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER","REVIEWER","AUDITOR","MANAGEMENT"],
+  "calculations":       ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER","REVIEWER","MANAGEMENT"],
+  "baseline":           ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER"],
+  "targets":            ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER"],
+  "data-quality":       ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER","AUDITOR"],
+  "recommendations":    ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER","MANAGEMENT"],
+  "reports":            ["SUPER_ADMIN","UNIVERSITY_ADMIN","SUSTAINABILITY_MANAGER","AUDITOR","MANAGEMENT"],
+  "reporting-periods":  ["SUPER_ADMIN","UNIVERSITY_ADMIN"],
+  "emission-factors":   ["SUPER_ADMIN"],
+  "notifications":      [],
+  "team":               ["SUPER_ADMIN","UNIVERSITY_ADMIN"],
+  "settings":           ["SUPER_ADMIN","UNIVERSITY_ADMIN"],
+  "audit-logs":         ["SUPER_ADMIN","AUDITOR"],
+};
+
 const NAV_GROUPS: { label: string; items: NavEntry[] }[] = [
   {
     label: "Analyze",
@@ -184,16 +214,13 @@ export default function Sidebar({ open, onClose, active, onChange }: SidebarProp
 
       <nav className="mt-[14px] flex flex-1 flex-col gap-[18px] overflow-y-auto px-[12px]">
         {NAV_GROUPS.map((group) => {
-          const visibleItems = group.items.filter((entry) => {
-            // Hide settings, team, reporting-periods, emission-factors for anyone other than ADMINs
-            if (entry.id === "settings" || entry.id === "team" || entry.id === "reporting-periods" || entry.id === "emission-factors") {
-              return user?.role === "SUPER_ADMIN" || user?.role === "UNIVERSITY_ADMIN";
-            }
-            // Review is for ADMINS, MANAGEMENT, REVIEWER, AUDITOR
-            if (entry.id === "review") {
-              return ["SUPER_ADMIN", "UNIVERSITY_ADMIN", "MANAGEMENT", "REVIEWER", "AUDITOR"].includes(user?.role || "");
-            }
-            return true;
+      const visibleItems = group.items.filter((entry) => {
+            const allowed = ROLE_MAP[entry.id];
+            // Empty array = everyone can see
+            if (!allowed || allowed.length === 0) return true;
+            // SUPER_ADMIN sees everything
+            if (user?.role === "SUPER_ADMIN") return true;
+            return allowed.includes(user?.role || "");
           });
 
           if (visibleItems.length === 0) return null;
