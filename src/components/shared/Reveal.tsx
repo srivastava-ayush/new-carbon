@@ -1,41 +1,37 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { motion, useReducedMotion } from "motion/react";
+import { EASE } from "@/lib/animations";
 
 interface RevealProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  y?: number;
+  amount?: number;
+  once?: boolean;
 }
 
-export default function Reveal({ children, className = "", delay = 0 }: RevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("visible");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+export default function Reveal({
+  children,
+  className = "",
+  delay = 0,
+  y = 28,
+  amount = 0.2,
+  once = true,
+}: RevealProps) {
+  const reduced = useReducedMotion();
 
   return (
-    <div
-      ref={ref}
-      className={`reveal-up ${className}`}
-      style={{ ["--reveal-delay" as string]: `${delay}s` }}
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: reduced ? 0 : y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once, amount }}
+      transition={{ duration: 0.7, delay, ease: EASE }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

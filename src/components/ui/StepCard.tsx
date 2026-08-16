@@ -1,5 +1,7 @@
 "use client";
 
+import { motion, useReducedMotion } from "motion/react";
+
 interface StepCardProps {
   num: string;
   title: string;
@@ -10,10 +12,14 @@ interface StepCardProps {
 }
 
 export default function StepCard({ num, title, description, active = false, compact = false, onClick }: StepCardProps) {
+  const reduced = useReducedMotion();
+
   return (
-    <button
+    <motion.button
       onClick={onClick}
       aria-pressed={active}
+      animate={active && !reduced ? { scale: [1, 1.015, 1] } : { scale: 1 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={`group flex w-full items-start rounded-[16px] border text-left transition-all duration-300 ${
         compact
           ? "gap-[16px] p-[16px] md:p-[18px]"
@@ -45,6 +51,6 @@ export default function StepCard({ num, title, description, active = false, comp
           {description}
         </p>
       </div>
-    </button>
+    </motion.button>
   );
 }

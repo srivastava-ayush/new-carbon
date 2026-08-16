@@ -1,7 +1,11 @@
-const CONTACT_EMAIL = "sales@Carbonsynqnetworks.com";
+"use client";
 
+import { motion, useReducedMotion } from "motion/react";
 import Container from "@/components/ui/Container";
 import Logo from "@/components/ui/Logo";
+import { EASE, maskReveal } from "@/lib/animations";
+
+const CONTACT_EMAIL = "sales@Carbonsynqnetworks.com";
 
 const LEGAL_LINKS = [
   { label: "Privacy", href: "/privacy" },
@@ -14,7 +18,14 @@ const SOCIAL_LINKS = [
   { label: "X", href: "https://x.com/CarbonsynqNetworks" },
 ];
 
+const WORD_REVEAL = { hidden: {}, visible: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } } };
+
 export default function Footer() {
+  const reduced = useReducedMotion();
+  const line: typeof maskReveal = reduced
+    ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
+    : maskReveal;
+
   return (
     <footer className="relative z-50 mt-[80px] bg-[#f0f0f0] md:mt-[120px]">
       <Container className="flex h-[440px] flex-col justify-between py-[30px] md:h-[400px] md:pt-[40px] md:pb-[50px]">
@@ -22,9 +33,22 @@ export default function Footer() {
           href={`mailto:${CONTACT_EMAIL}`}
           className="group flex items-center gap-[10px] md:gap-[30px]"
         >
-          <span className="font-display text-[44px] leading-[0.95] tracking-[-0.88px] text-black min-[768px]:text-[80px] min-[1000px]:text-[100px] min-[1000px]:tracking-[-1px]">
-            Get In Touch
-          </span>
+          <motion.span
+            variants={WORD_REVEAL}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.6 }}
+            className="font-display text-[44px] leading-[0.95] tracking-[-0.88px] text-black min-[768px]:text-[80px] min-[1000px]:text-[100px] min-[1000px]:tracking-[-1px]"
+          >
+            {"Get In Touch".split(" ").map((word, i) => (
+              <span key={i} className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em]">
+                <motion.span variants={line} className="inline-block">
+                  {word}
+                  {i < 2 ? "\u00A0" : ""}
+                </motion.span>
+              </span>
+            ))}
+          </motion.span>
           <svg
             viewBox="0 0 32 32"
             fill="none"
@@ -40,8 +64,21 @@ export default function Footer() {
           </div>
         </a>
 
-        <div className="flex flex-col gap-[30px]">
-          <div className="h-px w-full bg-black" />
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.7, ease: EASE }}
+          className="flex flex-col gap-[30px]"
+        >
+          <motion.div
+            className="h-px w-full bg-black"
+            initial={reduced ? false : { scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, ease: EASE }}
+            style={{ transformOrigin: "left" }}
+          />
 
           <div className="flex flex-col items-start justify-between gap-[20px] md:flex-row md:items-end md:gap-0">
             <div className="flex flex-col gap-[15px]">
@@ -69,7 +106,7 @@ export default function Footer() {
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </Container>
     </footer>
   );

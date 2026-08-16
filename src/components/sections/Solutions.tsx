@@ -31,12 +31,12 @@ export default function Solutions() {
         {SOLUTIONS.map((solution, i) => {
           const { name, Icon } = solution;
           return (
+            <Reveal key={name} delay={(i % 3) * 0.08} className="h-full">
             <a
-              key={name}
               href={`/solutions/${name.toLowerCase().replace(/[,\s]+/g, "-")}`}
-              className="group flex flex-col justify-between gap-[48px] rounded-[16px] border border-black/10 bg-white p-[24px] transition-all duration-300 hover:border-[#16a34a]/30 hover:bg-[#fafff8] md:p-[28px]"
+              className="group flex h-full flex-col overflow-hidden rounded-[16px] border border-black/10 bg-white transition-all duration-300 hover:border-[#16a34a]/30"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex flex-1 items-start justify-between p-[24px] md:p-[28px]">
                 <span className="flex h-[44px] w-[44px] items-center justify-center rounded-[12px] bg-[#16a34a]/8 text-[#16a34a] transition-colors duration-300 group-hover:bg-[#16a34a] group-hover:text-white">
                   <Icon size={22} weight="bold" />
                 </span>
@@ -59,10 +59,13 @@ export default function Solutions() {
                   </svg>
                 </div>
               </div>
-              <h3 className="font-display text-[22px] leading-[1.1] tracking-[-0.4px] text-black md:text-[24px]">
-                {name}
-              </h3>
+              <div className="flex flex-1 items-center rounded-b-[15px] bg-[#0d3b2d] p-[24px] transition-colors duration-300 group-hover:bg-[#114a39] md:p-[28px]">
+                <h3 className="font-display text-[22px] leading-[1.1] tracking-[-0.4px] text-white md:text-[24px]">
+                  {name}
+                </h3>
+              </div>
             </a>
+            </Reveal>
           );
         })}
       </div>
