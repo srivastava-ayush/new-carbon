@@ -16,12 +16,23 @@ import {
   Lightning,
   MapTrifold,
   X,
+  Users,
+  Database,
+  ListChecks,
+  Files,
+  CalendarBlank,
+  Leaf,
+  ShieldCheck,
+  ChartLineUp,
+  Target,
+  Lightbulb,
 } from "@phosphor-icons/react";
 import type { IconProps } from "@phosphor-icons/react";
 import Logo from "@/components/ui/Logo";
 import { EASE } from "@/lib/animations";
+import { useAuth } from "@/context/AuthContext";
 
-export type TabId = "overview" | "footprint" | "category" | "scope1" | "scope2" | "scope3" | "reports" | "settings";
+export type TabId = "overview" | "footprint" | "category" | "scope1" | "scope2" | "scope3" | "activity-data" | "documents" | "review" | "calculations" | "reports" | "team" | "settings" | "reporting-periods" | "emission-factors" | "baseline" | "targets" | "data-quality" | "recommendations" | "notifications" | "audit-logs";
 
 interface NavEntry {
   id: TabId;
@@ -50,7 +61,18 @@ const NAV_GROUPS: { label: string; items: NavEntry[] }[] = [
   {
     label: "Manage",
     items: [
+      { id: "activity-data", label: "Activity Data", Icon: Database },
+      { id: "documents", label: "Documents", Icon: Files },
+      { id: "review", label: "Review", Icon: ListChecks },
+      { id: "calculations", label: "Calculations", Icon: ChartBar },
+      { id: "baseline", label: "Baseline", Icon: ChartLineUp },
+      { id: "targets", label: "Targets", Icon: Target },
+      { id: "data-quality", label: "Data Quality", Icon: ShieldCheck },
+      { id: "recommendations", label: "Recommendations", Icon: Lightbulb },
       { id: "reports", label: "Reports", Icon: FileText },
+      { id: "reporting-periods", label: "Reporting Periods", Icon: CalendarBlank },
+      { id: "emission-factors", label: "Emission Factors", Icon: Leaf },
+      { id: "team", label: "Team", Icon: Users },
       { id: "settings", label: "Settings", Icon: GearSix },
     ],
   },
@@ -101,6 +123,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ open, onClose, active, onChange }: SidebarProps) {
+  const { user } = useAuth();
   const [workspace, setWorkspace] = useState(0);
   const [wsOpen, setWsOpen] = useState(false);
 
@@ -160,26 +183,50 @@ export default function Sidebar({ open, onClose, active, onChange }: SidebarProp
       </div>
 
       <nav className="mt-[14px] flex flex-1 flex-col gap-[18px] overflow-y-auto px-[12px]">
-        {NAV_GROUPS.map((group) => (
-          <div key={group.label}>
-            <p className="mb-[6px] px-[10px] text-[10.5px] font-semibold uppercase tracking-[0.1em] text-[#a1a1aa]">
-              {group.label}
-            </p>
-            <div className="flex flex-col gap-[2px]">
-              {group.items.map((entry) => (
-                <NavItem
-                  key={entry.id}
-                  entry={entry}
-                  active={active === entry.id}
-                  onClick={() => {
-                    onChange(entry.id);
-                    onClose();
-                  }}
-                />
-              ))}
+        {NAV_GROUPS.map((group) => {
+          const visibleItems = group.items.filter((entry) => {
+            // Hide settings, team, reporting-periods, emission-factors for anyone other than ADMINs
+            if (entry.id === "settings" || entry.id === "team" || entry.id === "reporting-periods" || entry.id === "emission-factors") {
+              return user?.role === "SUPER_ADMIN" || user?.role === "UNIVERSITY_ADMIN";
+            }
+            // Review is for ADMINS, MANAGEMENT, REVIEWER, AUDITOR
+            if (entry.id === "review") {
+              return ["SUPER_ADMIN", "UNIVERSITY_ADMIN", "MANAGEMENT", "REVIEWER", "AUDITOR"].includes(user?.role || "");
+            }
+            return true;
+          });
+
+          if (visibleItems.length === 0) return null;
+
+          return (
+            <div key={group.label}>
+              <p className="mb-[6px] px-[10px] text-[10.5px] font-semibold uppercase tracking-[0.1em] text-[#a1a1aa]">
+                {group.label}
+              </p>
+              <div className="flex flex-col gap-[2px]">
+                {visibleItems.map((entry) => (
+                  <NavItem
+                    key={entry.id}
+                    entry={entry}
+                    active={active === entry.id}
+                    onClick={() => {
+                      if (["activity-data", "documents", "review", "calculations", "team", "settings", "reporting-periods", "emission-factors", "baseline", "targets", "data-quality", "recommendations", "reports"].includes(entry.id)) {
+                        window.location.href = `/${entry.id}`;
+                      } else {
+                        if (window.location.pathname !== "/dashboard" && window.location.pathname !== "/") {
+                          window.location.href = `/dashboard?tab=${entry.id}`;
+                        } else {
+                          onChange(entry.id);
+                        }
+                      }
+                      onClose();
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         <div className="mt-[2px] rounded-[10px] border border-[#16a34a]/15 bg-[#f6fbf8] p-[12px]">
           <div className="flex items-center justify-between">
@@ -207,12 +254,20 @@ export default function Sidebar({ open, onClose, active, onChange }: SidebarProp
           <ArrowUpRight size={14} className="text-[#a1a1aa]" />
         </Link>
         <div className="flex items-center gap-[10px] rounded-[8px] px-[10px] py-[8px]">
-          <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#0d3b2d] text-[11px] font-semibold text-white">
-            AK
+          <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#0d3b2d] text-[11px] font-semibold text-white uppercase">
+            {user?.firstName?.slice(0, 1) || "U"}
+            {user?.lastName?.slice(0, 1) || ""}
           </span>
           <div className="min-w-0">
-            <p className="truncate text-[13px] font-medium text-black">Aria Khanna</p>
-            <p className="truncate text-[11px] text-[#a1a1aa]">admin@carbonsynq.io</p>
+            <p className="truncate text-[13px] font-medium text-black">
+              {user?.firstName} {user?.lastName || ""}
+            </p>
+            <div className="mt-[2px] flex items-center gap-[6px]">
+              <p className="truncate text-[11px] text-[#a1a1aa]">{user?.email}</p>
+              <span className="rounded-full border border-black/10 bg-black/5 px-[6px] py-[1px] text-[8.5px] font-bold uppercase tracking-wider text-black">
+                {user?.role?.replace("_", " ") || "USER"}
+              </span>
+            </div>
           </div>
         </div>
       </div>

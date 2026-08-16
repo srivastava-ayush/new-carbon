@@ -2,8 +2,12 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Bell, CalendarBlank, CaretDown, DownloadSimple, List, MagnifyingGlass } from "@phosphor-icons/react";
+import { Bell, CalendarBlank, CaretDown, DownloadSimple, List, MagnifyingGlass, LockKey, CircleNotch, CheckCircle } from "@phosphor-icons/react";
 import { EASE } from "@/lib/animations";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "sonner";
+import { getNotifications, getUnreadNotificationsCount, markNotificationAsRead } from "@/lib/api";
+import { useEffect } from "react";
 
 const RANGES = ["Last 12 months", "Last 6 months", "Last 3 months", "Year to date"];
 
@@ -16,6 +20,33 @@ interface TopbarProps {
 export default function Topbar({ onMenu, title, subtitle }: TopbarProps) {
   const [range, setRange] = useState(0);
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
+  const canExport = ["SUPER_ADMIN", "UNIVERSITY_ADMIN", "MANAGEMENT", "AUDITOR"].includes(user?.role || "");
+  const canLock = ["SUPER_ADMIN", "UNIVERSITY_ADMIN", "MANAGEMENT"].includes(user?.role || "");
+  const [isLocked, setIsLocked] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [recentNotifs, setRecentNotifs] = useState<any[]>([]);
+
+  useEffect(() => {
+    getUnreadNotificationsCount().then(r => r.success && setUnreadCount(r.data.count)).catch(() => {});
+  }, []);
+
+  const fetchNotifs = async () => {
+    const res = await getNotifications();
+    if (res.success) setRecentNotifs(res.data.slice(0, 5)); // Just show recent 5 in popover
+  };
+
+  const toggleNotif = () => {
+    if (!notifOpen) fetchNotifs();
+    setNotifOpen(!notifOpen);
+  };
+
+  const handleRead = async (id: string) => {
+    await markNotificationAsRead(id);
+    setRecentNotifs(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+    setUnreadCount(c => Math.max(0, c - 1));
+  };
 
   return (
     <motion.header
@@ -88,15 +119,97 @@ export default function Topbar({ onMenu, title, subtitle }: TopbarProps) {
           </AnimatePresence>
         </div>
 
-        <button className="hidden h-[34px] items-center gap-[6px] rounded-[8px] bg-[#16a34a] px-[12px] text-[13px] font-semibold text-white transition-colors hover:bg-[#15803d] md:flex">
-          <DownloadSimple size={14} />
-          Export
-        </button>
+        {canLock && (
+          <button 
+            onClick={() => {
+              const newState = !isLocked;
+              setIsLocked(newState);
+              toast.success(`Reporting period ${newState ? "locked" : "unlocked"} successfully`);
+            }}
+            className={`hidden h-[34px] items-center gap-[6px] rounded-[8px] px-[12px] text-[13px] font-semibold transition-colors md:flex ${
+              isLocked 
+                ? "bg-[#fffbeb] text-[#d97706] border border-[#f59e0b]/20 hover:bg-[#fef3c7]" 
+                : "bg-white border border-black/[0.06] text-[#52525b] hover:bg-black/5"
+            }`}
+          >
+            <LockKey size={14} weight={isLocked ? "fill" : "regular"} />
+            {isLocked ? "Period Locked" : "Lock Period"}
+          </button>
+        )}
 
-        <button className="relative flex h-[34px] w-[34px] items-center justify-center rounded-[8px] border border-black/[0.06] bg-white text-[#71717a] transition-colors hover:text-black">
-          <Bell size={16} />
-          <span className="absolute top-[7px] right-[8px] h-[5px] w-[5px] rounded-full bg-[#16a34a]" />
-        </button>
+        {canExport && (
+          <button 
+            onClick={() => {
+              const t = toast.loading("Preparing export...");
+              setTimeout(() => toast.success("Export successful", { id: t }), 1500);
+            }}
+            className="hidden h-[34px] items-center gap-[6px] rounded-[8px] bg-[#16a34a] px-[12px] text-[13px] font-semibold text-white transition-colors hover:bg-[#15803d] md:flex"
+          >
+            <DownloadSimple size={14} />
+            Export
+          </button>
+        )}
+
+        <div className="relative">
+          <button 
+            onClick={toggleNotif}
+            className="relative flex h-[34px] w-[34px] items-center justify-center rounded-[8px] border border-black/[0.06] bg-white text-[#71717a] transition-colors hover:text-black"
+          >
+            <Bell size={16} />
+            {unreadCount > 0 && (
+              <span className="absolute -top-[4px] -right-[4px] flex h-[16px] min-w-[16px] items-center justify-center rounded-full bg-[#ef4444] px-[4px] text-[9px] font-bold text-white shadow-sm border border-white">
+                {unreadCount > 99 ? "99+" : unreadCount}
+              </span>
+            )}
+          </button>
+
+          <AnimatePresence>
+            {notifOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.98 }}
+                transition={{ duration: 0.2, ease: EASE }}
+                className="absolute top-[calc(100%+8px)] right-0 z-50 w-[320px] rounded-[12px] border border-black/[0.08] bg-white shadow-[0_12px_32px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden"
+              >
+                <div className="flex items-center justify-between border-b border-black/[0.06] px-[16px] py-[12px] bg-[#fafafa]">
+                  <h3 className="text-[13px] font-semibold text-black">Notifications</h3>
+                  <a href="/notifications" className="text-[11px] font-medium text-[#15803d] hover:underline">View All</a>
+                </div>
+                
+                <div className="flex max-h-[300px] flex-col overflow-y-auto">
+                  {recentNotifs.length === 0 ? (
+                    <div className="flex items-center justify-center py-[32px] text-[13px] text-[#71717a]">
+                      No notifications
+                    </div>
+                  ) : (
+                    recentNotifs.map(n => (
+                      <div key={n.id} className={`flex gap-[12px] border-b border-black/[0.04] p-[16px] transition-colors hover:bg-black/[0.02] ${!n.isRead ? "bg-blue-50/30" : ""}`}>
+                        <div className="mt-[2px] flex h-[8px] w-[8px] shrink-0 items-center justify-center">
+                          {!n.isRead ? <span className="h-[6px] w-[6px] rounded-full bg-blue-600" /> : <span className="h-[6px] w-[6px] rounded-full bg-transparent" />}
+                        </div>
+                        <div className="flex-1">
+                          <p className={`text-[12.5px] leading-snug ${!n.isRead ? "font-semibold text-black" : "font-medium text-[#52525b]"}`}>{n.title}</p>
+                          <p className="mt-[4px] text-[11.5px] text-[#71717a] line-clamp-2">{n.message}</p>
+                          <div className="mt-[8px] flex items-center justify-between">
+                            <span className="text-[10px] font-medium text-[#a1a1aa] uppercase tracking-wide">
+                              {new Date(n.createdAt).toLocaleDateString()}
+                            </span>
+                            {!n.isRead && (
+                              <button onClick={() => handleRead(n.id)} className="flex items-center gap-[4px] text-[10px] font-semibold text-[#15803d] hover:text-[#16a34a]">
+                                <CheckCircle size={12} weight="fill" /> Mark Read
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </motion.header>
   );

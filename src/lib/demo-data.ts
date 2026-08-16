@@ -303,6 +303,18 @@ export const ACTIVITY: Activity[] = [
   { source: "Refrigerant top-up — Site B", type: "Refrigerants", scope: "S1", value: "2.1 tCO₂e", status: "Synced" },
 ];
 
+export const ACTIVITY_STATS = {
+  total: 6,
+  draft: 0,
+  submitted: 3,
+  underReview: 1,
+  verified: 0,
+  rejected: 0,
+  calculated: 2,
+  pending: 4,
+  verifiedTotal: 0
+};
+
 export const TARGETS = [
   { label: "2023 baseline", value: 7002, unit: "tCO₂e", complete: false },
   { label: "2026 reduction", value: 5716, unit: "tCO₂e", complete: false },

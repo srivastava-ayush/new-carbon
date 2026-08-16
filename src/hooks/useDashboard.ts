@@ -7,12 +7,21 @@ export function useDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [filters, setFilters] = useState({
+    reportingPeriodId: "",
+    campusId: "",
+    buildingId: "",
+    floorId: "",
+    scope: "ALL",
+    dateRange: "ALL"
+  });
+
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
-        // By default, it will read token & ID from localStorage (via api.ts)
-        const response = await getDashboardSummary();
+        // Pass reportingPeriodId to the API
+        const response = await getDashboardSummary(undefined, filters.reportingPeriodId || undefined);
         
         if (response.success) {
           setData(mapBackendToFrontend(response.data));
@@ -29,9 +38,9 @@ export function useDashboard() {
     }
 
     fetchData();
-  }, []);
+  }, [filters.reportingPeriodId, filters.campusId, filters.buildingId, filters.floorId, filters.scope, filters.dateRange]);
 
-  return { data, loading, error };
+  return { data, loading, error, filters, setFilters };
 }
 
 // Maps the backend format to the exact frontend structures expected
@@ -119,8 +128,8 @@ function mapBackendToFrontend(backendData: any) {
       color: "#15803d",
       share: TOTAL_12M ? SCOPE1_12M / TOTAL_12M : 0,
       total: SCOPE1_12M,
-      delta: 0,
-      intensity: 0,
+      delta: b.scopeBreakdown?.scope1?.delta || 0,
+      intensity: b.intensity?.tonnesPerStudent || 0,
       monthly: MONTHLY.map((m: any) => ({ month: m.month, value: m.scope1 })),
       sources: (b.categories || [])
         .filter((c: any) => c.scope === "SCOPE_1")
@@ -135,8 +144,8 @@ function mapBackendToFrontend(backendData: any) {
       color: "#22c55e",
       share: TOTAL_12M ? SCOPE2_12M / TOTAL_12M : 0,
       total: SCOPE2_12M,
-      delta: 0,
-      intensity: 0,
+      delta: b.scopeBreakdown?.scope2?.delta || 0,
+      intensity: b.intensity?.kgPerSqm || 0,
       monthly: MONTHLY.map((m: any) => ({ month: m.month, value: m.scope2 })),
       sources: (b.categories || [])
         .filter((c: any) => c.scope === "SCOPE_2")
@@ -172,6 +181,9 @@ function mapBackendToFrontend(backendData: any) {
     SCOPE_DETAILS,
     FOOTPRINT_GROUPS: b.groups || [],
     ACTIVITY: b.recentActivity || [],
+    ACTIVITY_STATS: b.activityStats || {
+      total: 0, draft: 0, submitted: 0, underReview: 0, verified: 0, rejected: 0, calculated: 0, pending: 0, verifiedTotal: 0
+    },
     TARGETS: b.targets || [],
   };
 }

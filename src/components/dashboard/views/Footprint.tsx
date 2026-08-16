@@ -142,11 +142,20 @@ export default function Footprint() {
 
         <Section title="Insights" subtitle="Top-line observations" delay={0.3}>
           <div className="flex flex-col gap-[12px]">
-            {[
-              { label: "Largest contributor", value: "Supply chain", sub: "55% of total footprint", icon: "factory" },
-              { label: "Fastest growing", value: "Employees", sub: "+4.1% vs last year", icon: "users" },
-              { label: "Reduced the most", value: "Offices", sub: "−9.3% vs last year", icon: "building" },
-            ].map((ins: any, i: number) => {
+            {(() => {
+              if (!FOOTPRINT_GROUPS || FOOTPRINT_GROUPS.length === 0) return [];
+              const sortedByValue = [...FOOTPRINT_GROUPS].sort((a, b) => b.value - a.value);
+              const sortedByDelta = [...FOOTPRINT_GROUPS].sort((a, b) => b.delta - a.delta);
+              const largest = sortedByValue[0];
+              const fastest = sortedByDelta[0]; 
+              const reduced = sortedByDelta[sortedByDelta.length - 1]; 
+
+              return [
+                { label: "Largest contributor", value: largest.name, sub: `${Math.round(largest.share * 100)}% of total footprint`, icon: largest.icon },
+                { label: "Fastest growing", value: fastest.name, sub: `${fastest.delta > 0 ? "+" : ""}${fastest.delta}% vs last year`, icon: fastest.icon },
+                { label: "Reduced the most", value: reduced.name, sub: `${reduced.delta > 0 ? "+" : ""}${reduced.delta}% vs last year`, icon: reduced.icon },
+              ];
+            })().map((ins: any, i: number) => {
               const Icon = ICONS[ins.icon];
               return (
                 <motion.div

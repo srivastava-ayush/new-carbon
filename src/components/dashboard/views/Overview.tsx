@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "@phosphor-icons/react";
 import { motion } from "motion/react";
+import { useState, useEffect } from "react";
 import KpiCard from "@/components/dashboard/KpiCard";
 import AreaChart from "@/components/dashboard/AreaChart";
 import Donut from "@/components/dashboard/Donut";
@@ -13,6 +14,9 @@ import CountUp from "@/components/dashboard/CountUp";
 import { EASE } from "@/lib/animations";
 import type { TabId } from "@/components/dashboard/Sidebar";
 import { useDashboardContext } from "@/hooks/useDashboardContext";
+import { useAuth } from "@/context/AuthContext";
+import ActivityStatsPanel from "@/components/dashboard/ActivityStatsPanel";
+import { getRecommendations } from "@/lib/api";
 
 const GROUP_ICONS = {
   airplane: "✈",
@@ -24,9 +28,21 @@ const GROUP_ICONS = {
 
 export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => void }) {
   const { data: { KPIS, SCOPES, FOOTPRINT_GROUPS, TOTAL_12M } } = useDashboardContext();
+  const { user } = useAuth();
+  
+  const isDataEntry = user?.role === "DATA_ENTRY";
+  const [topRecs, setTopRecs] = useState<any[]>([]);
+
+  useEffect(() => {
+    getRecommendations({ priority: "HIGH" }).then(r => {
+      if (r.success) setTopRecs((r.data || []).slice(0, 3));
+    }).catch(() => {});
+  }, []);
 
   return (
     <div className="flex flex-col gap-[16px]">
+      <ActivityStatsPanel delay={0.05} />
+
       <div className="grid grid-cols-1 gap-[16px] sm:grid-cols-2 xl:grid-cols-4">
         {KPIS.map((kpi: any, i: number) => (
           <KpiCard key={kpi.label} kpi={kpi} delay={0.05 + i * 0.08} />
@@ -42,13 +58,15 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
         </Section>
       </div>
 
-      <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-2">
+      <div className={`grid grid-cols-1 gap-[16px] ${isDataEntry ? "lg:grid-cols-1" : "lg:grid-cols-2"}`}>
         <Section title="Biggest sources" subtitle="Emissions by category" delay={0.3}>
           <CategoryList delay={0.15} />
         </Section>
-        <Section title="2030 reduction target" subtitle="Science-based · aligned to 1.5 °C" delay={0.35}>
-          <TargetPanel delay={0.2} />
-        </Section>
+        {!isDataEntry && (
+          <Section title="2030 reduction target" subtitle="Science-based · aligned to 1.5 °C" delay={0.35}>
+            <TargetPanel delay={0.2} />
+          </Section>
+        )}
       </div>
 
       <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-3">
@@ -130,6 +148,45 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
             </p>
           </div>
         </motion.div>
+      </div>
+
+      <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-3">
+        <Section
+          title="Top Recommendations"
+          subtitle="High-impact actions to reduce emissions"
+          className="lg:col-span-3"
+          delay={0.5}
+          action={
+            <button
+              onClick={() => onNavigate("recommendations")}
+              className="flex items-center gap-[4px] text-[12px] font-semibold text-[#15803d] transition-colors hover:text-[#0d3b2d]"
+            >
+              View all <ArrowRight size={12} weight="bold" />
+            </button>
+          }
+        >
+          {topRecs.length === 0 ? (
+            <div className="flex items-center justify-center py-[24px] text-[13px] text-[#71717a]">
+              No high-priority recommendations right now.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-[16px] md:grid-cols-3">
+              {topRecs.map((rec) => (
+                <button 
+                  key={rec.id} 
+                  onClick={() => onNavigate("recommendations")}
+                  className="flex flex-col gap-[8px] rounded-[10px] border border-red-200 bg-red-50 p-[16px] text-left hover:bg-red-100 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center gap-[8px]">
+                    <span className="h-[8px] w-[8px] shrink-0 rounded-full bg-red-500" />
+                    <h4 className="text-[13px] font-semibold text-red-900 line-clamp-1">{rec.title}</h4>
+                  </div>
+                  <p className="text-[12px] text-red-800 line-clamp-2 leading-relaxed">{rec.description}</p>
+                </button>
+              ))}
+            </div>
+          )}
+        </Section>
       </div>
     </div>
   );

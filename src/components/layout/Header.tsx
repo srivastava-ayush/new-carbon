@@ -6,6 +6,7 @@ import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
 import Container from "@/components/ui/Container";
 import Logo from "@/components/ui/Logo";
 import { EASE } from "@/lib/animations";
+import { useAuth } from "@/context/AuthContext";
 
 const NAV_LINKS = [
   { label: "Product", href: "/product" },
@@ -21,6 +22,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion();
+  const { isAuthenticated, user, logout } = useAuth();
 
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
@@ -57,19 +59,41 @@ export default function Header() {
 
           <div className="flex items-center gap-[20px]">
             <nav className="hidden items-center gap-[20px] md:flex">
-              {NAV_LINKS.map((item) => (
+              {NAV_LINKS.filter(item => {
+                if (item.label === "Dashboard" && !isAuthenticated) return false;
+                return true;
+              }).map((item) => (
                 <a key={item.href} href={item.href} className={link}>
                   {item.label}
                 </a>
               ))}
             </nav>
 
-            <a
-              href={`mailto:${CONTACT_EMAIL}`}
-              className="hidden h-[40px] w-[100px] items-center justify-center rounded-full bg-[#16a34a] text-[14px] font-semibold tracking-[-0.14px] text-white transition-colors duration-200 hover:bg-[#15803d] md:inline-flex"
-            >
-              Contact
-            </a>
+            {isAuthenticated ? (
+              <div className="hidden md:flex items-center gap-[16px]">
+                <span className="text-[14px] font-medium text-black">
+                  {user?.firstName} {user?.lastName}
+                </span>
+                <button
+                  onClick={logout}
+                  className="h-[40px] px-[20px] items-center justify-center rounded-full bg-black text-[14px] font-semibold tracking-[-0.14px] text-white transition-colors duration-200 hover:bg-black/80"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="hidden md:flex items-center gap-[12px]">
+                <Link href="/login" className={link}>
+                  Login
+                </Link>
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  className="h-[40px] w-[100px] flex items-center justify-center rounded-full bg-[#16a34a] text-[14px] font-semibold tracking-[-0.14px] text-white transition-colors duration-200 hover:bg-[#15803d]"
+                >
+                  Contact
+                </a>
+              </div>
+            )}
 
             <button
               onClick={() => setOpen(true)}
@@ -103,7 +127,10 @@ export default function Header() {
                 transition={{ duration: 0.5, ease: EASE, delay: 0.08 }}
                 className="absolute top-1/2 left-[20px] flex -translate-y-1/2 flex-col gap-[25px]"
               >
-                {NAV_LINKS.map((item) => (
+                {NAV_LINKS.filter(item => {
+                  if (item.label === "Dashboard" && !isAuthenticated) return false;
+                  return true;
+                }).map((item) => (
                   <a
                     key={item.href}
                     href={item.href}
@@ -113,16 +140,37 @@ export default function Header() {
                     {item.label}
                   </a>
                 ))}
+                {!isAuthenticated && (
+                  <Link
+                    href="/login"
+                    onClick={() => setOpen(false)}
+                    className="pl-[20px] font-display text-[40px] leading-[0.95] text-black"
+                  >
+                    Login
+                  </Link>
+                )}
               </motion.nav>
 
-              <div className="absolute right-[20px] bottom-[20px] left-[20px]">
-                <a
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  onClick={() => setOpen(false)}
-                  className="flex h-[60px] w-full items-center justify-center rounded-[70px] bg-[#16a34a] text-[16px] font-semibold text-white"
-                >
-                  Contact
-                </a>
+              <div className="absolute right-[20px] bottom-[20px] left-[20px] flex flex-col gap-[10px]">
+                {isAuthenticated ? (
+                  <button
+                    onClick={() => {
+                      setOpen(false);
+                      logout();
+                    }}
+                    className="flex h-[60px] w-full items-center justify-center rounded-[70px] bg-black text-[16px] font-semibold text-white"
+                  >
+                    Logout
+                  </button>
+                ) : (
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    onClick={() => setOpen(false)}
+                    className="flex h-[60px] w-full items-center justify-center rounded-[70px] bg-[#16a34a] text-[16px] font-semibold text-white"
+                  >
+                    Contact
+                  </a>
+                )}
               </div>
             </div>
           </div>
