@@ -10,10 +10,9 @@ import BarList from "@/components/dashboard/BarList";
 import VerticalBars from "@/components/dashboard/VerticalBars";
 import Donut from "@/components/dashboard/Donut";
 import { EASE } from "@/lib/animations";
-import { FOOTPRINT_GROUPS, TOTAL_12M } from "@/lib/demo-data";
-import type { FootprintGroup } from "@/lib/demo-data";
+import { useDashboardContext } from "@/hooks/useDashboardContext";
 
-const ICONS: Record<FootprintGroup["icon"], Icon> = {
+const ICONS: Record<string, Icon> = {
   airplane: Airplane,
   users: Users,
   building: Building,
@@ -28,14 +27,17 @@ const SCOPE_TINT: Record<string, string> = {
 };
 
 export default function Footprint() {
+  const { data: { FOOTPRINT_GROUPS, TOTAL_12M } } = useDashboardContext();
   const [selected, setSelected] = useState(0);
-  const group = FOOTPRINT_GROUPS[selected];
+  const group = FOOTPRINT_GROUPS[selected] || FOOTPRINT_GROUPS[0];
+
+  if (!group) return null;
 
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="grid grid-cols-1 gap-[16px] sm:grid-cols-2 xl:grid-cols-5">
-        {FOOTPRINT_GROUPS.map((g, i) => {
-          const Icon = ICONS[g.icon];
+        {FOOTPRINT_GROUPS.map((g: any, i: number) => {
+          const Icon = ICONS[g.icon as keyof typeof ICONS];
           const active = selected === i;
           return (
             <motion.button
@@ -55,7 +57,7 @@ export default function Footprint() {
                     active ? "bg-[#16a34a] text-white" : "bg-[#f0fdf4] text-[#15803d]"
                   }`}
                 >
-                  <Icon size={15} weight={active ? "fill" : "regular"} />
+                  {Icon && <Icon size={15} weight={active ? "fill" : "regular"} />}
                 </span>
                 <span
                   className={`flex items-center gap-[2px] rounded-full px-[6px] py-[2px] text-[10.5px] font-semibold tabular-nums ${
@@ -91,7 +93,7 @@ export default function Footprint() {
           }
         >
           <VerticalBars
-            data={FOOTPRINT_GROUPS.map((g, i) => ({
+            data={FOOTPRINT_GROUPS.map((g: any, i: number) => ({
               label: g.name.split(" ")[0],
               value: g.value,
               color: i === selected ? "#15803d" : i % 2 === 0 ? "#22c55e" : "#4ade80",
@@ -104,7 +106,7 @@ export default function Footprint() {
 
         <Section title="Group share" subtitle="Share of total footprint" delay={0.2}>
           <Donut
-            segments={FOOTPRINT_GROUPS.map((g, i) => ({
+            segments={FOOTPRINT_GROUPS.map((g: any, i: number) => ({
               key: g.key,
               name: g.name,
               value: g.value,
@@ -127,13 +129,13 @@ export default function Footprint() {
           delay={0.25}
           action={
             <span className="flex items-center gap-[6px] rounded-full border border-black/[0.06] bg-[#fafafa] px-[8px] py-[2px] text-[11px] font-medium text-[#71717a]">
-              <span className="h-[7px] w-[7px] rounded-full" style={{ backgroundColor: SCOPE_TINT[group.items[0].scope] }} />
+              <span className="h-[7px] w-[7px] rounded-full" style={{ backgroundColor: group.items?.[0] ? SCOPE_TINT[group.items[0].scope] : "#ccc" }} />
               {Math.round(group.share * 100)}% of footprint
             </span>
           }
         >
           <BarList
-            rows={group.items.map((it) => ({ label: it.name, value: it.value, badge: it.scope }))}
+            rows={(group.items || []).map((it: any) => ({ label: it.name, value: it.value, badge: it.scope }))}
             delay={0.25}
           />
         </Section>
@@ -141,10 +143,10 @@ export default function Footprint() {
         <Section title="Insights" subtitle="Top-line observations" delay={0.3}>
           <div className="flex flex-col gap-[12px]">
             {[
-              { label: "Largest contributor", value: "Supply chain", sub: "55% of total footprint", icon: "factory" as const },
-              { label: "Fastest growing", value: "Employees", sub: "+4.1% vs last year", icon: "users" as const },
-              { label: "Reduced the most", value: "Offices", sub: "−9.3% vs last year", icon: "building" as const },
-            ].map((ins, i) => {
+              { label: "Largest contributor", value: "Supply chain", sub: "55% of total footprint", icon: "factory" },
+              { label: "Fastest growing", value: "Employees", sub: "+4.1% vs last year", icon: "users" },
+              { label: "Reduced the most", value: "Offices", sub: "−9.3% vs last year", icon: "building" },
+            ].map((ins: any, i: number) => {
               const Icon = ICONS[ins.icon];
               return (
                 <motion.div
@@ -155,7 +157,7 @@ export default function Footprint() {
                   className="flex items-center gap-[12px] rounded-[10px] border border-black/[0.05] bg-[#fafafa] p-[12px]"
                 >
                   <span className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-[8px] bg-[#f0fdf4] text-[#15803d]">
-                    <Icon size={15} />
+                    {Icon && <Icon size={15} />}
                   </span>
                   <div className="min-w-0">
                     <p className="text-[10.5px] font-semibold uppercase tracking-[0.08em] text-[#a1a1aa]">{ins.label}</p>

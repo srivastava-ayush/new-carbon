@@ -11,8 +11,8 @@ import ActivityTable from "@/components/dashboard/ActivityTable";
 import Section from "@/components/dashboard/Section";
 import CountUp from "@/components/dashboard/CountUp";
 import { EASE } from "@/lib/animations";
-import { KPIS, SCOPES, FOOTPRINT_GROUPS, TOTAL_12M } from "@/lib/demo-data";
 import type { TabId } from "@/components/dashboard/Sidebar";
+import { useDashboardContext } from "@/hooks/useDashboardContext";
 
 const GROUP_ICONS = {
   airplane: "✈",
@@ -23,10 +23,12 @@ const GROUP_ICONS = {
 } as const;
 
 export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => void }) {
+  const { data: { KPIS, SCOPES, FOOTPRINT_GROUPS, TOTAL_12M } } = useDashboardContext();
+
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="grid grid-cols-1 gap-[16px] sm:grid-cols-2 xl:grid-cols-4">
-        {KPIS.map((kpi, i) => (
+        {KPIS.map((kpi: any, i: number) => (
           <KpiCard key={kpi.label} kpi={kpi} delay={0.05 + i * 0.08} />
         ))}
       </div>
@@ -87,7 +89,7 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
           </div>
 
           <div className="mt-[18px] flex flex-1 flex-col justify-center gap-[13px]">
-            {FOOTPRINT_GROUPS.map((g, i) => (
+            {FOOTPRINT_GROUPS.map((g: any, i: number) => (
               <motion.button
                 key={g.key}
                 initial={{ opacity: 0, x: -12 }}
@@ -97,7 +99,7 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
                 className="group flex items-center gap-[10px] text-left"
               >
                 <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[7px] bg-white text-[13px] shadow-[0_1px_2px_rgba(0,0,0,0.06)]">
-                  {GROUP_ICONS[g.icon]}
+                  {GROUP_ICONS[g.icon as keyof typeof GROUP_ICONS]}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="mb-[4px] flex items-baseline justify-between gap-[8px]">
@@ -111,7 +113,7 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
                   <div className="h-[5px] w-full overflow-hidden rounded-full bg-white">
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: `${(g.value / FOOTPRINT_GROUPS[0].value) * 100}%` }}
+                      animate={{ width: `${FOOTPRINT_GROUPS[0] ? (g.value / FOOTPRINT_GROUPS[0].value) * 100 : 0}%` }}
                       transition={{ duration: 1, ease: EASE, delay: 0.55 + i * 0.07 }}
                       className="h-full rounded-full bg-gradient-to-r from-[#16a34a] to-[#4ade80]"
                     />

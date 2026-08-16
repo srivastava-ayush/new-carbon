@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { ArrowRight, CheckCircle, Clock, DotsThree, WarningCircle } from "@phosphor-icons/react";
 import { EASE } from "@/lib/animations";
-import { ACTIVITY } from "@/lib/demo-data";
+import { useDashboardContext } from "@/hooks/useDashboardContext";
 
 const STATUS = {
   Synced: { icon: CheckCircle, cls: "text-[#16a34a] bg-[#f0fdf4] border-[#16a34a]/20" },
@@ -12,6 +12,7 @@ const STATUS = {
 } as const;
 
 export default function ActivityTable({ delay = 0 }: { delay?: number }) {
+  const { data: { ACTIVITY } } = useDashboardContext();
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between">
@@ -36,8 +37,8 @@ export default function ActivityTable({ delay = 0 }: { delay?: number }) {
             </tr>
           </thead>
           <tbody>
-            {ACTIVITY.map((row, i) => {
-              const st = STATUS[row.status];
+            {(ACTIVITY || []).map((row: any, i: number) => {
+              const st = STATUS[row.status as keyof typeof STATUS] || STATUS.Synced;
               const Icon = st.icon;
               return (
                 <motion.tr

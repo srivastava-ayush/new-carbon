@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { EASE } from "@/lib/animations";
-import { MONTHLY } from "@/lib/demo-data";
+import { useDashboardContext } from "@/hooks/useDashboardContext";
 
 const SCOPE_COLORS: Record<string, string> = {
   scope1: "#15803d",
@@ -56,6 +56,7 @@ const MODES = [
 ];
 
 export default function AreaChart({ delay = 0, defaultMode = "stacked" }: { delay?: number; defaultMode?: string }) {
+  const { data: { MONTHLY } } = useDashboardContext();
   const containerRef = useRef<HTMLDivElement>(null);
   const [w, setW] = useState(0);
   const [hover, setHover] = useState<number | null>(null);
@@ -74,7 +75,7 @@ export default function AreaChart({ delay = 0, defaultMode = "stacked" }: { dela
   const padT = 18;
   const padB = 28;
 
-  const totals = MONTHLY.map((m) => m.total);
+  const totals = MONTHLY.map((m: any) => m.total);
   const niceMax = Math.ceil(Math.max(...totals) / 100) * 100;
   const innerW = Math.max(w - padL - padR, 0);
   const innerH = h - padT - padB;
@@ -83,12 +84,12 @@ export default function AreaChart({ delay = 0, defaultMode = "stacked" }: { dela
   const y = (v: number) => padT + (1 - v / niceMax) * innerH;
   const baseY = padT + innerH;
 
-  const cum1 = MONTHLY.map((m) => m.scope1);
-  const cum2 = MONTHLY.map((m) => m.scope1 + m.scope2);
-  const cum3 = MONTHLY.map((m) => m.total);
+  const cum1 = MONTHLY.map((m: any) => m.scope1);
+  const cum2 = MONTHLY.map((m: any) => m.scope1 + m.scope2);
+  const cum3 = MONTHLY.map((m: any) => m.total);
 
   const pts = (vals: number[]) => vals.map((v, i) => [x(i), y(v)] as Pt);
-  const base = MONTHLY.map((_, i) => [x(i), baseY] as Pt);
+  const base = MONTHLY.map((_: any, i: number) => [x(i), baseY] as Pt);
 
   const stackedLayers = [
     { key: "scope3", color: SCOPE_COLORS.scope3, top: pts(cum1), bottom: base, fill: "url(#grad-s3)" },
@@ -96,7 +97,7 @@ export default function AreaChart({ delay = 0, defaultMode = "stacked" }: { dela
     { key: "scope1", color: SCOPE_COLORS.scope1, top: pts(cum3), bottom: pts(cum2), fill: "url(#grad-s1)" },
   ];
 
-  const single = mode === "stacked" ? null : MONTHLY.map((m) => (mode as "scope1" | "scope2" | "scope3") === "scope1" ? m.scope1 : (mode as "scope1" | "scope2" | "scope3") === "scope2" ? m.scope2 : m.scope3);
+  const single = mode === "stacked" ? null : MONTHLY.map((m: any) => (mode as "scope1" | "scope2" | "scope3") === "scope1" ? m.scope1 : (mode as "scope1" | "scope2" | "scope3") === "scope2" ? m.scope2 : m.scope3);
   const singleColor = SCOPE_COLORS[mode];
   const singlePts = single ? pts(single) : [];
   const singleArea = single ? layerPath(singlePts, base) : "";
@@ -231,7 +232,7 @@ export default function AreaChart({ delay = 0, defaultMode = "stacked" }: { dela
               />
             )}
 
-            {MONTHLY.map((m, i) => (
+            {MONTHLY.map((m: any, i: number) => (
               <text
                 key={m.month}
                 x={x(i)}

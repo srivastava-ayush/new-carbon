@@ -4,9 +4,10 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import CountUp from "@/components/dashboard/CountUp";
 import { EASE } from "@/lib/animations";
-import { CATEGORIES } from "@/lib/demo-data";
+import { useDashboardContext } from "@/hooks/useDashboardContext";
 
 export default function CategoryList({ delay = 0 }: { delay?: number }) {
+  const { data: { CATEGORIES } } = useDashboardContext();
   const [hover, setHover] = useState<number | null>(null);
 
   return (
@@ -20,7 +21,7 @@ export default function CategoryList({ delay = 0 }: { delay?: number }) {
       </div>
 
       <div className="flex flex-1 flex-col justify-between gap-[14px]">
-        {CATEGORIES.map((c, i) => (
+        {CATEGORIES.map((c: any, i: number) => (
           <motion.div
             key={c.name}
             initial={{ opacity: 0, x: -12 }}

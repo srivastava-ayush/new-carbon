@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import Topbar from "@/components/dashboard/Topbar";
@@ -24,11 +24,60 @@ const TITLES: Record<TabId, { title: string; subtitle: string }> = {
   settings: { title: "Settings", subtitle: "Workspace and team preferences" },
 };
 
-export default function Dashboard() {
+import { DashboardProvider, useDashboardContext } from "@/hooks/useDashboardContext";
+
+function DashboardContent() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [tab, setTab] = useState<TabId>("overview");
+  
+  // Auto-login utility for testing
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get("token");
+      const uid = urlParams.get("universityId");
+      const pid = urlParams.get("reportingPeriodId");
+      if (token) localStorage.setItem("token", token);
+      if (uid) localStorage.setItem("universityId", uid);
+      if (pid) localStorage.setItem("reportingPeriodId", pid);
+      if (token || uid || pid) {
+        // Clean up URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        window.location.reload();
+      }
+    }
+  }, []);
+
+  const { data, loading, error } = useDashboardContext();
 
   const meta = TITLES[tab];
+
+  if (loading) {
+    return (
+      <div className="flex min-h-dvh items-center justify-center bg-[#fafafa]">
+        <div className="flex flex-col items-center gap-4 text-[#71717a]">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-black/10 border-t-black" />
+          <p className="text-sm font-medium">Loading your footprint data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error && !data) {
+    return (
+      <div className="flex min-h-dvh items-center justify-center bg-[#fafafa]">
+        <div className="flex flex-col items-center gap-4 text-red-500">
+          <p className="text-sm font-medium">Error loading data: {error}</p>
+          <button 
+            className="rounded bg-black px-4 py-2 text-sm text-white" 
+            onClick={() => window.location.reload()}
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-dvh bg-[#fafafa]">
@@ -60,5 +109,13 @@ export default function Dashboard() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <DashboardProvider>
+      <DashboardContent />
+    </DashboardProvider>
   );
 }

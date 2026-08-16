@@ -8,58 +8,60 @@ import BarList from "@/components/dashboard/BarList";
 import VerticalBars from "@/components/dashboard/VerticalBars";
 import Donut from "@/components/dashboard/Donut";
 import { EASE } from "@/lib/animations";
-import { CATEGORIES, TOTAL_12M } from "@/lib/demo-data";
-
-const SCOPE_FROM_CATEGORIES = (() => {
-  const s1 = CATEGORIES.filter((c) => c.scope === "S1").reduce((a, c) => a + c.value, 0);
-  const s2 = CATEGORIES.filter((c) => c.scope === "S2").reduce((a, c) => a + c.value, 0);
-  const s3 = CATEGORIES.filter((c) => c.scope === "S3").reduce((a, c) => a + c.value, 0);
-  const total = s1 + s2 + s3;
-  return [
-    { key: "scope1", name: "Scope 1 — Direct", value: s1, share: s1 / total, color: "#15803d" },
-    { key: "scope2", name: "Scope 2 — Energy", value: s2, share: s2 / total, color: "#22c55e" },
-    { key: "scope3", name: "Scope 3 — Value chain", value: s3, share: s3 / total, color: "#86efac" },
-  ];
-})();
-
-const STATS = [
-  {
-    label: "Total footprint",
-    value: TOTAL_12M,
-    suffix: " tCO₂e",
-    delta: -12.4,
-    good: true,
-    Icon: Stack,
-  },
-  {
-    label: "Scope 3 share",
-    value: Math.round(SCOPE_FROM_CATEGORIES[2].share * 100),
-    suffix: "%",
-    delta: 0.6,
-    good: false,
-    Icon: ChartPieSlice,
-  },
-  {
-    label: "Largest category",
-    value: CATEGORIES[0].value,
-    suffix: " tCO₂e",
-    delta: CATEGORIES[0].trend,
-    good: CATEGORIES[0].trend < 0,
-    Icon: ChartBar,
-    caption: CATEGORIES[0].name,
-  },
-  {
-    label: "Data sources",
-    value: 512,
-    suffix: "",
-    delta: 8.2,
-    good: true,
-    Icon: Database,
-    caption: "synced automatically",
-  },
-];
+import { useDashboardContext } from "@/hooks/useDashboardContext";
 
 export default function Category() {
+  const { data: { CATEGORIES, TOTAL_12M } } = useDashboardContext();
+
+  const SCOPE_FROM_CATEGORIES = (() => {
+    const s1 = CATEGORIES.filter((c: any) => c.scope === "S1").reduce((a: number, c: any) => a + c.value, 0);
+    const s2 = CATEGORIES.filter((c: any) => c.scope === "S2").reduce((a: number, c: any) => a + c.value, 0);
+    const s3 = CATEGORIES.filter((c: any) => c.scope === "S3").reduce((a: number, c: any) => a + c.value, 0);
+    const total = s1 + s2 + s3 || 1; // avoid division by zero
+    return [
+      { key: "scope1", name: "Scope 1 — Direct", value: s1, share: s1 / total, color: "#15803d" },
+      { key: "scope2", name: "Scope 2 — Energy", value: s2, share: s2 / total, color: "#22c55e" },
+      { key: "scope3", name: "Scope 3 — Value chain", value: s3, share: s3 / total, color: "#86efac" },
+    ];
+  })();
+
+  const STATS = [
+    {
+      label: "Total footprint",
+      value: TOTAL_12M,
+      suffix: " tCO₂e",
+      delta: -12.4,
+      good: true,
+      Icon: Stack,
+    },
+    {
+      label: "Scope 3 share",
+      value: Math.round(SCOPE_FROM_CATEGORIES[2].share * 100),
+      suffix: "%",
+      delta: 0.6,
+      good: false,
+      Icon: ChartPieSlice,
+    },
+    {
+      label: "Largest category",
+      value: CATEGORIES[0] ? CATEGORIES[0].value : 0,
+      suffix: " tCO₂e",
+      delta: CATEGORIES[0] ? CATEGORIES[0].trend : 0,
+      good: CATEGORIES[0] ? CATEGORIES[0].trend < 0 : false,
+      Icon: ChartBar,
+      caption: CATEGORIES[0] ? CATEGORIES[0].name : "None",
+    },
+    {
+      label: "Data sources",
+      value: 512,
+      suffix: "",
+      delta: 8.2,
+      good: true,
+      Icon: Database,
+      caption: "synced automatically",
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-[16px]">
       <div className="grid grid-cols-1 gap-[16px] sm:grid-cols-2 xl:grid-cols-4">
@@ -112,7 +114,7 @@ export default function Category() {
           }
         >
           <BarList
-            rows={CATEGORIES.map((c) => ({
+            rows={CATEGORIES.map((c: any) => ({
               label: c.name,
               value: c.value,
               badge: c.scope,
@@ -143,8 +145,8 @@ export default function Category() {
         }
       >
         <VerticalBars
-          data={CATEGORIES.map((c, i) => ({
-            label: ["Goods & services", "Electricity", "Other S3", "Business travel", "Transport", "On-site fuel", "Heating"][i],
+          data={CATEGORIES.map((c: any, i: number) => ({
+            label: ["Goods & services", "Electricity", "Other S3", "Business travel", "Transport", "On-site fuel", "Heating"][i] || c.name,
             value: c.value,
             color: c.scope === "S1" ? "#15803d" : c.scope === "S2" ? "#22c55e" : "#86efac",
           }))}

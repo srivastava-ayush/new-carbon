@@ -9,8 +9,8 @@ import AreaChart from "@/components/dashboard/AreaChart";
 import Donut from "@/components/dashboard/Donut";
 import BarList from "@/components/dashboard/BarList";
 import { EASE } from "@/lib/animations";
-import { SCOPE_DETAILS } from "@/lib/demo-data";
 import type { ScopeDetail } from "@/lib/demo-data";
+import { useDashboardContext } from "@/hooks/useDashboardContext";
 
 const ICONS: Record<ScopeDetail["key"], Icon> = {
   scope1: Flame,
@@ -25,8 +25,9 @@ const METRICS: { key: string; Icon: Icon; label: string }[] = [
 ];
 
 export default function Scope({ scope }: { scope: ScopeDetail["key"] }) {
-  const detail = SCOPE_DETAILS.find((d) => d.key === scope)!;
-  const ScopeIcon = ICONS[detail.key];
+  const { data: { SCOPE_DETAILS } } = useDashboardContext();
+  const detail = SCOPE_DETAILS.find((d: any) => d.key === scope)!;
+  const ScopeIcon = ICONS[detail.key as keyof typeof ICONS];
 
   const metrics = [
     {
@@ -145,7 +146,7 @@ export default function Scope({ scope }: { scope: ScopeDetail["key"] }) {
 
         <Section title="Source mix" subtitle="Where these emissions come from" delay={0.25}>
           <Donut
-            segments={detail.sources.map((s) => ({
+            segments={detail.sources.map((s: any) => ({
               key: s.name,
               name: s.name,
               value: s.value,
@@ -173,7 +174,7 @@ export default function Scope({ scope }: { scope: ScopeDetail["key"] }) {
       >
         <div className="mx-auto max-w-[720px]">
           <BarList
-            rows={detail.sources.map((s) => ({ label: s.name, value: s.value, sublabel: `${Math.round(s.share * 100)}% of scope` }))}
+            rows={detail.sources.map((s: any) => ({ label: s.name, value: s.value, sublabel: `${Math.round(s.share * 100)}% of scope` }))}
             delay={0.25}
             color={detail.color}
           />

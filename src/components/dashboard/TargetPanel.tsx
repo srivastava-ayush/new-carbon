@@ -3,9 +3,12 @@
 import { motion } from "motion/react";
 import CountUp from "@/components/dashboard/CountUp";
 import { EASE } from "@/lib/animations";
-import { TARGETS, reductionProgress } from "@/lib/demo-data";
+import { useDashboardContext } from "@/hooks/useDashboardContext";
 
 export default function TargetPanel({ delay = 0 }: { delay?: number }) {
+  const { data: { TARGETS, TOTAL_12M } } = useDashboardContext();
+  const reductionProgress = ((TOTAL_12M - 7002) / (4061 - 7002)) * 100; // using static baseline and target for now
+
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center justify-between">
@@ -34,7 +37,7 @@ export default function TargetPanel({ delay = 0 }: { delay?: number }) {
         </div>
 
         <div className="mt-[12px] flex items-start justify-between gap-[8px]">
-          {TARGETS.map((tgt, i) => (
+          {TARGETS.map((tgt: any, i: number) => (
             <div key={tgt.label} className="flex flex-col items-start">
               <motion.div
                 initial={{ scale: 0 }}
