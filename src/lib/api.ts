@@ -413,6 +413,10 @@ export async function updateUser(id: string, data: any) {
   return fetchAPI(`/users/${id}`, { method: "PATCH", body: JSON.stringify(data) });
 }
 
+export async function deleteUser(id: string) {
+  return fetchAPI(`/users/${id}`, { method: "DELETE" });
+}
+
 // Admin / University APIs
 export async function updateUniversity(id: string, data: any) {
   return fetchAPI(`/universities/${id}`, { method: "PATCH", body: JSON.stringify(data) });
