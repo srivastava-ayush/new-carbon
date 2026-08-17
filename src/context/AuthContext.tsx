@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await fetchAPI("/auth/register", {
         method: "POST",
-        body: JSON.stringify({ firstName, lastName, email, password, role: "UNIVERSITY_ADMIN" }),
+        body: JSON.stringify({ firstName, lastName, email, password, role: "USER" }),
       });
       // The user wants to redirect to login after signup, so we don't auto-login here.
     } catch (error: any) {
