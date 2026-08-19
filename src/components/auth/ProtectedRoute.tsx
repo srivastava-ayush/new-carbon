@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children, allowedRoles }: { children: R
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/auth/login");
+      router.push("/login");
     }
   }, [user, loading, router]);
 

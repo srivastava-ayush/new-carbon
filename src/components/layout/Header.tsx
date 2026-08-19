@@ -1,4 +1,5 @@
 "use client";
+import { auth } from '@/lib/auth/server';
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -83,7 +84,7 @@ export default function Header() {
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-[12px]">
-                <Link href="/login" className={link}>
+                <Link href="/auth/signin" className={link}>
                   Login
                 </Link>
                 <a
@@ -142,7 +143,7 @@ export default function Header() {
                 ))}
                 {!isAuthenticated && (
                   <Link
-                    href="/login"
+                    href="/auth/signin"
                     onClick={() => setOpen(false)}
                     className="pl-[20px] font-display text-[40px] leading-[0.95] text-black"
                   >

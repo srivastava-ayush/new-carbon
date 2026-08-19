@@ -1,5 +1,6 @@
 import { DM_Sans, DM_Serif_Display } from "next/font/google";
 
+
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
