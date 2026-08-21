@@ -26,6 +26,7 @@ import {
   ChartLineUp,
   Target,
   Lightbulb,
+  SignOut,
 } from "@phosphor-icons/react";
 import type { IconProps } from "@phosphor-icons/react";
 import Logo from "@/components/ui/Logo";
@@ -153,7 +154,7 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ open, onClose, active, onChange }: SidebarProps) {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [workspace, setWorkspace] = useState(0);
   const [wsOpen, setWsOpen] = useState(false);
 
@@ -285,7 +286,7 @@ export default function Sidebar({ open, onClose, active, onChange }: SidebarProp
             {user?.firstName?.slice(0, 1) || "U"}
             {user?.lastName?.slice(0, 1) || ""}
           </span>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="truncate text-[13px] font-medium text-black">
               {user?.firstName} {user?.lastName || ""}
             </p>
@@ -296,6 +297,14 @@ export default function Sidebar({ open, onClose, active, onChange }: SidebarProp
               </span>
             </div>
           </div>
+          <button
+            onClick={logout}
+            title="Log out"
+            aria-label="Log out"
+            className="flex h-[28px] w-[28px] shrink-0 items-center justify-center rounded-[6px] text-[#71717a] transition-colors hover:bg-red-50 hover:text-red-600"
+          >
+            <SignOut size={16} />
+          </button>
         </div>
       </div>
     </div>

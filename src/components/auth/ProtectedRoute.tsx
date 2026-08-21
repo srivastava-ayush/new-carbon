@@ -11,7 +11,7 @@ export default function ProtectedRoute({ children, allowedRoles }: { children: R
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push("/login");
+      router.push("/auth/signin");
     }
   }, [user, loading, router]);
 
@@ -25,7 +25,7 @@ export default function ProtectedRoute({ children, allowedRoles }: { children: R
 
   if (!user) return null;
 
-  if (allowedRoles && !allowedRoles.includes(user.role)) {
+  if (allowedRoles && !allowedRoles.includes(user.role ?? "")) {
     return (
       <div className="flex h-screen w-full items-center justify-center bg-[#fafafa]">
         <div className="text-center">

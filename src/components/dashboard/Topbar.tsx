@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Bell, CalendarBlank, CaretDown, DownloadSimple, List, MagnifyingGlass, LockKey, CircleNotch, CheckCircle } from "@phosphor-icons/react";
+import { Bell, CalendarBlank, CaretDown, DownloadSimple, List, MagnifyingGlass, LockKey, CircleNotch, CheckCircle, SignOut } from "@phosphor-icons/react";
 import { EASE } from "@/lib/animations";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
@@ -20,7 +20,7 @@ interface TopbarProps {
 export default function Topbar({ onMenu, title, subtitle }: TopbarProps) {
   const [range, setRange] = useState(0);
   const [open, setOpen] = useState(false);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const canExport = ["SUPER_ADMIN", "UNIVERSITY_ADMIN", "MANAGEMENT", "AUDITOR"].includes(user?.role || "");
   const canLock = ["SUPER_ADMIN", "UNIVERSITY_ADMIN", "MANAGEMENT"].includes(user?.role || "");
   const [isLocked, setIsLocked] = useState(false);
@@ -210,6 +210,15 @@ export default function Topbar({ onMenu, title, subtitle }: TopbarProps) {
             )}
           </AnimatePresence>
         </div>
+
+        <button
+          onClick={logout}
+          title="Log out"
+          aria-label="Log out"
+          className="flex h-[34px] w-[34px] items-center justify-center rounded-[8px] border border-black/[0.06] bg-white text-[#71717a] transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+        >
+          <SignOut size={16} />
+        </button>
       </div>
     </motion.header>
   );

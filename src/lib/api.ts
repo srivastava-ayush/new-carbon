@@ -23,19 +23,7 @@ export async function fetchAPI(endpoint: string, options: RequestInit = {}) {
   }
 
   if (response.status === 401) {
-    // Do not force redirect if we are actively trying to log in or register
-    if (!endpoint.includes("/auth/login") && !endpoint.includes("/auth/register")) {
-      if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        localStorage.removeItem("universityId");
-        window.location.href = "/login";
-      }
-      throw new Error("Session expired. Please log in again.");
-    } else {
-      // For login/register failures, just throw the error so the UI can catch it
-      throw new Error(data.message || "Invalid credentials");
-    }
+    throw new Error(data.message || "Session expired. Please log in again.");
   }
 
   if (!response.ok) {
