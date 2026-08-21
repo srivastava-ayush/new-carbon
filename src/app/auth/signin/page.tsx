@@ -1,6 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
+import Link from 'next/link';
 import { signInWithEmail } from './action';
 
 export default function SignInForm() {
@@ -36,6 +37,13 @@ export default function SignInForm() {
         className="flex w-sm justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400">
         Sign in
       </button>
+
+      <p className="text-center text-sm text-gray-400">
+        Don&apos;t have an account?{' '}
+        <Link href="/auth/signup" className="font-semibold text-indigo-400 hover:text-indigo-300">
+          Sign up
+        </Link>
+      </p>
     </form>
   );
 }
