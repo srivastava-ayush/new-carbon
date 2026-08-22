@@ -423,3 +423,37 @@ export async function createBuilding(data: any) {
 export async function deleteBuilding(id: string) {
   return fetchAPI(`/buildings/${id}`, { method: "DELETE" });
 }
+
+// ==========================================
+// DEMO AUTH API (V2 JWT backend)
+// ==========================================
+export interface AuthUser {
+  id: string;
+  username?: string;
+  email?: string;
+  role?: string;
+  organisationId?: string | null;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  data: {
+    user: AuthUser;
+    token: string;
+  };
+  message?: string;
+}
+
+export async function login(email: string, password: string): Promise<AuthResponse> {
+  return fetchAPI(`/auth/login`, {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+  });
+}
+
+export async function register(payload: { username: string; email: string; password: string }): Promise<AuthResponse> {
+  return fetchAPI(`/auth/register`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}

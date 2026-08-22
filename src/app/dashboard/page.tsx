@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Dashboard from "@/components/dashboard/Dashboard";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export const metadata: Metadata = {
   title: "Dashboard — Carbonsynq",
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage() {
-  return <Dashboard />;
+  return (
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  );
 }

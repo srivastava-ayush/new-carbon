@@ -1,5 +1,4 @@
 "use client";
-import { auth } from '@/lib/auth/server';
 
 import Link from "next/link";
 import { useEffect, useState } from "react";

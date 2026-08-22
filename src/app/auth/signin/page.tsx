@@ -1,14 +1,43 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { signInWithEmail } from './action';
+import { useRouter } from 'next/navigation';
+import { login } from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
 
 export default function SignInForm() {
-  const [state, formAction, isPending] = useActionState(signInWithEmail, null);
+  const router = useRouter();
+  const { setAuth } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    setIsPending(true);
+
+    const formData = new FormData(e.currentTarget);
+    const email = String(formData.get('email') || '');
+    const password = String(formData.get('password') || '');
+
+    try {
+      const res = await login(email, password);
+      if (!res.success || !res.data?.token) {
+        setError(res.message || 'Failed to sign in. Try again');
+        setIsPending(false);
+        return;
+      }
+      setAuth(res.data.token, res.data.user);
+      router.push('/dashboard');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to sign in. Try again');
+      setIsPending(false);
+    }
+  }
 
   return (
-    <form action={formAction}
+    <form onSubmit={handleSubmit}
       className="flex flex-col gap-5 min-h-screen items-center justify-center bg-gray-900">
 
       <div className="w-sm">
@@ -27,9 +56,9 @@ export default function SignInForm() {
           className="block rounded-md w-full bg-white/5 px-2 py-1.5 placeholder:text-gray-500 text-white outline-1 outline-white/10  focus:outline-indigo-500"/>
       </div>
 
-      {state?.error && (
+      {error && (
         <div className="rounded-md px-3 py-2 text-sm text-red-500">
-          {state.error}
+          {error}
         </div>
       )}
 

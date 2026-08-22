@@ -1,13 +1,44 @@
 'use client';
 
-import { useActionState } from 'react';
-import { signUpWithEmail } from './action';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { register } from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
 
 export default function SignUpForm() {
-  const [state, formAction, isPending] = useActionState(signUpWithEmail, null);
+  const router = useRouter();
+  const { setAuth } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    setIsPending(true);
+
+    const formData = new FormData(e.currentTarget);
+    // The existing "Full Name" input maps to the backend's username field.
+    const username = String(formData.get('name') || '').trim();
+    const email = String(formData.get('email') || '');
+    const password = String(formData.get('password') || '');
+
+    try {
+      const res = await register({ username, email, password });
+      if (!res.success || !res.data?.token) {
+        setError(res.message || 'Failed to create account');
+        setIsPending(false);
+        return;
+      }
+      setAuth(res.data.token, res.data.user);
+      router.push('/dashboard');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to create account');
+      setIsPending(false);
+    }
+  }
 
   return (
-    <form action={formAction}
+    <form onSubmit={handleSubmit}
       className="flex flex-col gap-5 min-h-screen items-center justify-center bg-gray-900">
 
       <div className="w-sm">
@@ -32,9 +63,9 @@ export default function SignUpForm() {
           className="block rounded-md w-full bg-white/5 px-2 py-1.5 placeholder:text-gray-500 text-white outline-1 outline-white/10  focus:outline-indigo-500"/>
       </div>
 
-      {state?.error && (
+      {error && (
         <div className="rounded-md px-3 py-2 text-sm text-red-500">
-          {state.error}
+          {error}
         </div>
       )}
 
