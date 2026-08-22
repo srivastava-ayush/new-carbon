@@ -79,7 +79,7 @@ export default function HowItWorks() {
         className="pointer-events-none absolute inset-x-0 top-0 h-[32px] md:h-[56px] lg:h-[72px]"
         style={{
           background:
-            "linear-gradient(to bottom, #e4f3ea 0%, rgba(228,243,234,0.6) 55%, transparent 100%)",
+            "linear-gradient(to bottom, #fbfcfa 0%, rgba(251,252,250,0.6) 55%, transparent 100%)",
         }}
       />
       <Reveal>

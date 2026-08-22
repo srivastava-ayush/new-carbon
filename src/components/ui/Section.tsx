@@ -11,7 +11,7 @@ interface SectionProps {
 
 export default function Section({ id, children, className = "", narrow = false, flush = false }: SectionProps) {
   return (
-    <section id={id} className={`${flush ? "" : "py-[80px] md:py-[120px] lg:py-[160px]"} ${className}`}>
+    <section id={id} className={`${flush ? "" : "py-[56px] md:py-[80px] lg:py-[104px]"} ${className}`}>
       <Container narrow={narrow}>{children}</Container>
     </section>
   );

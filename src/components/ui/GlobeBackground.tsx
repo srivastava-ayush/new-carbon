@@ -11,13 +11,18 @@ interface GlobeBackgroundProps {
 /** Muted premium palette mapped from the vivid source colors. */
 const PALETTE: Record<string, string> = {
   "#00f5ff": "#14b8a6",
-  "#fbbf24": "#d97706",
-  "#f59e0b": "#c2710c",
+  "#fbbf24": "#f5ebbc",
+  "#f59e0b": "#eadd94",
   "#10e7b4": "#10b981",
   "#34d399": "#059669",
 };
 
 const tint = (hex: string) => PALETTE[hex] ?? hex;
+
+/* Real coastline data, bundled locally (no runtime network fetches). */
+const TEX = {
+  water: "/textures/earth-water.png",
+};
 
 function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector3 {
   const phi = (90 - lat) * (Math.PI / 180);
@@ -29,166 +34,469 @@ function latLngToVector3(lat: number, lng: number, radius: number): THREE.Vector
   );
 }
 
-/* Procedural light "porcelain" earth texture — replaces remote NASA fetches. */
-function createEarthTexture(): THREE.CanvasTexture {
-  const w = 1024;
-  const h = 512;
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new window.Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error(`Failed to load ${src}`));
+    img.src = src;
+  });
+}
+
+/** Inverted water mask → land = opaque, ocean = fully cut out (hollow globe). */
+function processLandAlpha(waterImg: HTMLImageElement): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
+  canvas.width = waterImg.naturalWidth;
+  canvas.height = waterImg.naturalHeight;
   const ctx = canvas.getContext("2d");
   if (!ctx) return new THREE.CanvasTexture(canvas);
+  ctx.drawImage(waterImg, 0, 0, canvas.width, canvas.height);
 
-  const ocean = ctx.createLinearGradient(0, 0, 0, h);
-  ocean.addColorStop(0, "#e7f2ea");
-  ocean.addColorStop(0.5, "#dcf0e3");
-  ocean.addColorStop(1, "#e7f2ea");
-  ctx.fillStyle = ocean;
-  ctx.fillRect(0, 0, w, h);
+  ctx.globalCompositeOperation = "difference";
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = "source-over";
 
-  ctx.strokeStyle = "rgba(20, 120, 80, 0.07)";
-  ctx.lineWidth = 1;
-  for (let lat = -75; lat <= 75; lat += 15) {
-    const y = ((90 - lat) / 180) * h;
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(w, y);
-    ctx.stroke();
-  }
-  for (let lng = -180; lng < 180; lng += 20) {
-    const x = ((lng + 180) / 360) * w;
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, h);
-    ctx.stroke();
-  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.wrapS = THREE.RepeatWrapping;
+  return tex;
+}
 
-  const toX = (lng: number) => ((lng + 180) / 360) * w;
-  const toY = (lat: number) => ((90 - lat) / 180) * h;
+const RADIUS = 100;
 
-  const land = (coords: [number, number][], fill: string, stroke: string, lw = 2) => {
-    if (!coords.length) return;
-    ctx.beginPath();
-    ctx.moveTo(toX(coords[0][0]), toY(coords[0][1]));
-    for (let i = 1; i < coords.length; i++) {
-      ctx.lineTo(toX(coords[i][0]), toY(coords[i][1]));
+const GlobeBackground: React.FC<GlobeBackgroundProps> = ({ onSelectNode }) => {
+  const mountRef = useRef<HTMLDivElement>(null);
+  const onSelectRef = useRef(onSelectNode);
+
+  useEffect(() => {
+    onSelectRef.current = onSelectNode;
+  }, [onSelectNode]);
+
+  useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
+
+    let cancelled = false;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const width = container.clientWidth || 1;
+    const height = container.clientHeight || 1;
+
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(40, width / height, 1, 2000);
+    camera.position.set(0, 14, 310);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      powerPreference: "high-performance",
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.12;
+    container.appendChild(renderer.domElement);
+
+    const maxAniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+
+    const disposables: { dispose: () => void }[] = [];
+    const track = <T extends { dispose: () => void }>(item: T): T => {
+      disposables.push(item);
+      return item;
+    };
+
+    /* Globe */
+    const globe = new THREE.Group();
+    scene.add(globe);
+
+    /* Hollow earth: land-only shells in matte off-white. Back shell renders the
+       far side dimly through ocean cut-outs; front shell writes depth so near
+       land occludes correctly while arcs/nodes stay visible through the holes. */
+    const earthGeo = track(new THREE.SphereGeometry(RADIUS, 64, 64));
+
+    const earthMatFront = track(
+      new THREE.MeshLambertMaterial({
+        color: 0xf1eee6,
+        transparent: true,
+        opacity: 1,
+        depthWrite: true,
+        side: THREE.FrontSide,
+      }),
+    );
+    const earthMatBack = track(
+      new THREE.MeshLambertMaterial({
+        color: 0xb9b6aa,
+        transparent: true,
+        opacity: 0.3,
+        depthWrite: false,
+        side: THREE.BackSide,
+      }),
+    );
+
+    const earthBack = new THREE.Mesh(earthGeo, earthMatBack);
+    earthBack.renderOrder = 0;
+    const earthFront = new THREE.Mesh(earthGeo, earthMatFront);
+    earthFront.renderOrder = 1;
+    globe.add(earthBack, earthFront);
+
+    /* Geodesic skeleton shell — slowly counter-drifts for depth */
+    const skelSource = track(new THREE.IcosahedronGeometry(RADIUS * 1.045, 3));
+    const skelWire = track(new THREE.WireframeGeometry(skelSource));
+    const skelMat = track(
+      new THREE.LineBasicMaterial({
+        color: 0x16a34a,
+        transparent: true,
+        opacity: 0.18,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    );
+    const skeleton = new THREE.LineSegments(skelWire, skelMat);
+    skeleton.renderOrder = 2;
+    globe.add(skeleton);
+
+    /* Atmosphere: inner haze + soft outer halo */
+    const hazeGeo = track(new THREE.SphereGeometry(RADIUS * 1.04, 32, 32));
+    const hazeMat = track(
+      new THREE.MeshBasicMaterial({
+        color: 0x86efac,
+        transparent: true,
+        opacity: 0.15,
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    );
+    globe.add(new THREE.Mesh(hazeGeo, hazeMat));
+
+    const haloGeo = track(new THREE.SphereGeometry(RADIUS * 1.13, 32, 32));
+    const haloMat = track(
+      new THREE.MeshBasicMaterial({
+        color: 0xa7f3d0,
+        transparent: true,
+        opacity: 0.22,
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      }),
+    );
+    const halo = new THREE.Mesh(haloGeo, haloMat);
+    globe.add(halo);
+
+    /* Bright studio lighting */
+    scene.add(new THREE.AmbientLight(0xf6fffa, 1.25));
+    const key = new THREE.DirectionalLight(0xffffff, 1.75);
+    key.position.set(240, 180, 260);
+    scene.add(key);
+    const fill = new THREE.DirectionalLight(0xd9f7e5, 0.8);
+    fill.position.set(-220, -80, -160);
+    scene.add(fill);
+
+    /* Swap in the real coastline cut-outs once decoded (renders immediately with fallback). */
+    (async () => {
+      try {
+        const waterImg = await loadImage(TEX.water);
+        if (cancelled) return;
+
+        const alphaTex = track(processLandAlpha(waterImg));
+        alphaTex.anisotropy = maxAniso;
+
+        for (const mat of [earthMatFront, earthMatBack]) {
+          mat.alphaMap = alphaTex;
+          mat.needsUpdate = true;
+        }
+      } catch {
+        /* keep translucent fallback globe if the mask fails */
+      }
+    })();
+
+    /* Nodes */
+    const nodesGroup = new THREE.Group();
+    globe.add(nodesGroup);
+    const pickables: THREE.Object3D[] = [];
+
+    GLOBE_NODES.forEach((node) => {
+      const pos = latLngToVector3(node.lat, node.lng, RADIUS * 1.03);
+      const major =
+        node.id === "uk-london" || node.id === "eu-frankfurt" || node.id === "india-delhi";
+
+      const dotGeo = track(new THREE.SphereGeometry(major ? 1.9 : 1.3, 12, 12));
+      const dotMat = track(
+        new THREE.MeshBasicMaterial({ color: new THREE.Color(tint(node.color)) }),
+      );
+      const dot = new THREE.Mesh(dotGeo, dotMat);
+      dot.position.copy(pos);
+      dot.renderOrder = 2;
+      dot.userData = { type: "node", nodeData: node };
+      nodesGroup.add(dot);
+      pickables.push(dot);
+
+      const ringGeo = track(new THREE.RingGeometry(major ? 3.2 : 2.3, major ? 4.4 : 3.1, 24));
+      const ringMat = track(
+        new THREE.MeshBasicMaterial({
+          color: new THREE.Color(tint(node.color)),
+          side: THREE.DoubleSide,
+          transparent: true,
+          opacity: 0.55,
+          depthWrite: false,
+        }),
+      );
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.position.copy(pos);
+      ring.lookAt(0, 0, 0);
+      ring.renderOrder = 2;
+      ring.userData = { type: "ring" };
+      nodesGroup.add(ring);
+    });
+
+    /* Arcs + traveling pulses */
+    interface Pulse {
+      mesh: THREE.Mesh;
+      curve: THREE.QuadraticBezierCurve3;
+      progress: number;
+      speed: number;
     }
-    ctx.closePath();
-    ctx.fillStyle = fill;
-    ctx.fill();
-    ctx.strokeStyle = stroke;
-    ctx.lineWidth = lw;
-    ctx.lineJoin = "round";
-    ctx.stroke();
-  };
+    const pulses: Pulse[] = [];
+    const arcGroup = new THREE.Group();
+    globe.add(arcGroup);
 
-  const baseFill = "#c3e2cf";
-  const deepFill = "#aad8bd";
-  const edge = "rgba(22, 163, 74, 0.4)";
+    GLOBE_ARCS.forEach((arc) => {
+      const from = GLOBE_NODES.find((n) => n.id === arc.fromId);
+      const to = GLOBE_NODES.find((n) => n.id === arc.toId);
+      if (!from || !to) return;
 
-  land(
-    [
-      [-9, 36], [-8, 43], [2, 48], [4, 53], [9, 54], [10, 58], [24, 70], [30, 71],
-      [60, 72], [90, 73], [120, 73], [170, 66], [180, 60], [140, 50], [130, 42],
-      [121, 31], [110, 20], [105, 10], [98, 12], [88, 22], [80, 13], [77, 8],
-      [72, 19], [68, 25], [60, 25], [50, 30], [35, 32], [30, 31], [25, 36],
-      [15, 38], [5, 36], [-5, 36],
-    ],
-    baseFill, edge,
+      const p1 = latLngToVector3(from.lat, from.lng, RADIUS * 1.03);
+      const p2 = latLngToVector3(to.lat, to.lng, RADIUS * 1.03);
+
+      const mid = p1.clone().add(p2).multiplyScalar(0.5);
+      const distance = p1.distanceTo(p2);
+      mid.normalize().multiplyScalar(RADIUS * (1.1 + (distance / RADIUS) * 0.22));
+
+      const curve = new THREE.QuadraticBezierCurve3(p1, mid, p2);
+      const arcGeo = track(new THREE.BufferGeometry().setFromPoints(curve.getPoints(48)));
+      const arcColor = new THREE.Color(tint(arc.color));
+
+      const arcMat = track(
+        new THREE.LineBasicMaterial({
+          color: arcColor,
+          transparent: true,
+          opacity: 0.28,
+          depthWrite: false,
+        }),
+      );
+      const line = new THREE.Line(arcGeo, arcMat);
+      line.renderOrder = 2;
+      arcGroup.add(line);
+
+      const glowGeo = track(new THREE.SphereGeometry(1.6, 8, 8));
+      const pulseMesh = new THREE.Mesh(
+        glowGeo,
+        track(new THREE.MeshBasicMaterial({ color: arcColor, transparent: true, opacity: 0.9 })),
+      );
+      pulseMesh.renderOrder = 2;
+      arcGroup.add(pulseMesh);
+
+      pulses.push({
+        mesh: pulseMesh,
+        curve,
+        progress: Math.random(),
+        speed: 0.06 + Math.random() * 0.05,
+      });
+    });
+
+    /* Position the globe right-of-center on wide screens */
+    const applyLayout = () => {
+      const w = container.clientWidth || 1;
+      const h = container.clientHeight || 1;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      const worldWidth =
+        2 * Math.tan(((camera.fov / 2) * Math.PI) / 180) * camera.position.z * camera.aspect;
+      globe.position.x = w >= 1024 ? worldWidth * 0.19 : 0;
+      globe.position.y = w >= 1024 ? -6 : -14;
+    };
+    applyLayout();
+
+    const resizeObserver = new ResizeObserver(applyLayout);
+    resizeObserver.observe(container);
+
+    /* Interaction state */
+    const targetRotation = { x: 0.28, y: -0.9 };
+    const currentRotation = { x: 0.28, y: -0.9 };
+    let dragging = false;
+    let moved = false;
+    let lastX = 0;
+    let lastY = 0;
+    const raycaster = new THREE.Raycaster();
+    const pointerNdc = new THREE.Vector2();
+    let hovered: GlobeNode | null = null;
+
+    const setCursor = (value: string) => {
+      container.style.cursor = value;
+    };
+
+    const pickNode = (clientX: number, clientY: number): GlobeNode | null => {
+      const rect = container.getBoundingClientRect();
+      if (!rect.width || !rect.height) return null;
+      pointerNdc.set(
+        ((clientX - rect.left) / rect.width) * 2 - 1,
+        -((clientY - rect.top) / rect.height) * 2 + 1,
+      );
+      raycaster.setFromCamera(pointerNdc, camera);
+      const hits = raycaster.intersectObjects(pickables, false);
+      return hits.length > 0 ? ((hits[0].object.userData.nodeData as GlobeNode) ?? null) : null;
+    };
+
+    const onPointerDown = (e: PointerEvent) => {
+      dragging = true;
+      moved = false;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      setCursor("grabbing");
+    };
+
+    const onPointerMove = (e: PointerEvent) => {
+      if (dragging) {
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        if (Math.abs(dx) + Math.abs(dy) > 3) moved = true;
+        targetRotation.y += dx * 0.005;
+        targetRotation.x = Math.max(-0.9, Math.min(0.9, targetRotation.x + dy * 0.005));
+        lastX = e.clientX;
+        lastY = e.clientY;
+      } else {
+        const node = pickNode(e.clientX, e.clientY);
+        if (node !== hovered) {
+          hovered = node;
+          setCursor(node ? "pointer" : "grab");
+        }
+      }
+    };
+
+    const onPointerUp = (e: PointerEvent) => {
+      if (dragging && !moved) {
+        const node = pickNode(e.clientX, e.clientY);
+        if (node) onSelectRef.current?.(node);
+      }
+      dragging = false;
+      setCursor("grab");
+    };
+
+    container.addEventListener("pointerdown", onPointerDown);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    setCursor(reducedMotion ? "default" : "grab");
+
+    /* Render loop — paused when offscreen or tab hidden */
+    let frameId = 0;
+    let running = false;
+    let inView = true;
+    const clock = new THREE.Clock();
+
+    const renderFrame = () => {
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const elapsed = clock.elapsedTime;
+
+      if (!dragging && !reducedMotion) targetRotation.y += dt * 0.055;
+
+      currentRotation.x += (targetRotation.x - currentRotation.x) * 0.075;
+      currentRotation.y += (targetRotation.y - currentRotation.y) * 0.075;
+      globe.rotation.x = currentRotation.x;
+      globe.rotation.y = currentRotation.y;
+
+      skeleton.rotation.y = -elapsed * 0.012;
+      if (!reducedMotion) {
+        const breathe = 1 + Math.sin(elapsed * 0.9) * 0.02;
+        halo.scale.setScalar(breathe);
+      }
+
+      for (const pulse of pulses) {
+        if (!reducedMotion) {
+          pulse.progress += dt * pulse.speed;
+          if (pulse.progress > 1) pulse.progress -= 1;
+        }
+        pulse.curve.getPoint(pulse.progress, pulse.mesh.position);
+      }
+
+      nodesGroup.children.forEach((child, i) => {
+        if (child.userData.type !== "ring") return;
+        const s = 1 + Math.sin(elapsed * 2 + i) * 0.18;
+        child.scale.set(s, s, 1);
+      });
+
+      renderer.render(scene, camera);
+    };
+
+    const loop = () => {
+      frameId = requestAnimationFrame(loop);
+      renderFrame();
+    };
+
+    const start = () => {
+      if (!running && inView && !document.hidden) {
+        running = true;
+        clock.getDelta();
+        frameId = requestAnimationFrame(loop);
+      }
+    };
+
+    const stop = () => {
+      if (running) {
+        running = false;
+        cancelAnimationFrame(frameId);
+      }
+    };
+
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        if (inView) {
+          start();
+        } else {
+          stop();
+        }
+      },
+      { threshold: 0 },
+    );
+    intersectionObserver.observe(container);
+
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        stop();
+      } else {
+        start();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    start();
+
+    return () => {
+      cancelled = true;
+      stop();
+      resizeObserver.disconnect();
+      intersectionObserver.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      container.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      disposables.forEach((d) => d.dispose());
+      renderer.dispose();
+      renderer.domElement.remove();
+    };
+  }, []);
+
+  return (
+    <div
+      ref={mountRef}
+      aria-hidden
+      className="absolute inset-0 touch-pan-y select-none"
+    />
   );
+};
 
-  land(
-    [
-      [-5, 50], [-1, 50.8], [1.5, 51.5], [1.7, 52.8], [0.2, 54.2], [-2, 57.2],
-      [-4, 58.5], [-5.5, 58], [-6, 56.5], [-4.8, 54.8], [-3.2, 53.5],
-    ],
-    deepFill, edge, 2.2,
-  );
-
-  land([[-10.2, 51.5], [-6.2, 52], [-5.8, 55], [-9, 55.4], [-10.5, 53]], deepFill, edge, 1.8);
-
-  land(
-    [
-      [68, 24], [72, 32], [77, 36], [82, 30], [88, 27], [92, 25], [89, 21],
-      [85, 20], [80, 13], [77.5, 8.2], [76, 10], [73, 16], [70, 21],
-    ],
-    deepFill, edge, 2.4,
-  );
-
-  land(
-    [
-      [-17, 14], [-17, 21], [-5, 36], [10, 37], [32, 31], [43, 12], [51, 11],
-      [40, -4], [35, -20], [28, -33], [18, -34], [12, -18], [9, 4], [0, 6], [-13, 9],
-    ],
-    baseFill, edge,
-  );
-
-  land(
-    [
-      [-168, 65], [-140, 70], [-100, 75], [-60, 65], [-65, 45], [-75, 35],
-      [-80, 25], [-97, 26], [-105, 20], [-80, 8], [-95, 15], [-110, 30],
-      [-124, 40], [-125, 50], [-140, 60],
-    ],
-    baseFill, edge,
-  );
-
-  land(
-    [
-      [-80, 8], [-60, 10], [-35, -5], [-38, -15], [-50, -30], [-65, -55],
-      [-75, -50], [-70, -20], [-80, -5],
-    ],
-    baseFill, edge,
-  );
-
-  land(
-    [
-      [114, -22], [130, -12], [145, -15], [153, -28], [148, -38], [136, -35],
-      [115, -34], [113, -25],
-    ],
-    baseFill, edge,
-  );
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.anisotropy = 4;
-  return texture;
-}
-
-function createCloudTexture(): THREE.CanvasTexture {
-  const w = 640;
-  const h = 320;
-  const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return new THREE.CanvasTexture(canvas);
-
-  for (let i = 0; i < 70; i++) {
-    const latZone =
-      i % 3 === 0
-        ? Math.random() * 24 - 12
-        : i % 3 === 1
-          ? Math.random() * 30 + 38
-          : Math.random() * 30 - 52;
-    const lng = (i / 70) * 360 - 180 + (Math.random() * 28 - 14);
-    const x = ((lng + 180) / 360) * w;
-    const y = ((90 - latZone) / 180) * h;
-    const r = 26 + Math.random() * 44;
-    const a = 0.1 + Math.random() * 0.16;
-
-    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
-    g.addColorStop(0, `rgba(255,255,255,${a})`);
-    g.addColorStop(1, "rgba(255,255,255,0)");
-    ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.ellipse(x, y, r * 1.9, r * 0.6, (Math.random() - 0.5) * 0.4, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.wrapS = THREE.RepeatWrapping;
-  return texture;
-}
-
-// __PART2__
+export default GlobeBackground;

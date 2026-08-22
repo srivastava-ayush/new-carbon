@@ -28,150 +28,162 @@ export default function Header() {
   const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 });
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const link =
-    "text-black text-[14px] font-semibold tracking-[-0.14px] transition-opacity duration-200 hover:opacity-60";
-
   return (
     <>
       <motion.div
-        className="fixed top-0 right-0 left-0 z-[60] h-[3px] origin-left bg-[#16a34a]"
+        className="fixed top-0 right-0 left-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-[#16a34a] to-[#4ade80]"
         style={{ scaleX: progress }}
       />
+
       <motion.header
-        initial={reduced ? false : { y: -32, opacity: 0 }}
+        initial={reduced ? false : { y: -28, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: EASE }}
-        className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ${
-          scrolled || open ? "bg-white/85 backdrop-blur-md" : "bg-transparent"
-        }`}
+        className="fixed top-0 right-0 left-0 z-50 pt-[14px] md:pt-[20px]"
       >
-        <Container className="flex h-[70px] items-center justify-between md:h-[100px]">
-          <Link href="/" className="flex items-center gap-[10px]">
-            <Logo className="h-[24px] w-auto drop-shadow-[0_2px_6px_rgba(22,163,74,0.25)]" />
-            <span className="font-display text-[22px] font-bold tracking-[-0.3px] text-black">Carbonsynq</span>
-          </Link>
+        <Container narrow>
+          <div
+            className={`flex h-[58px] items-center justify-between rounded-full border px-[10px] pl-[22px] transition-all duration-500 md:h-[64px] ${
+              scrolled || open
+                ? "border-black/[0.06] bg-white/75 shadow-[0_12px_40px_rgba(11,59,45,0.08)] backdrop-blur-xl"
+                : "border-transparent bg-white/40 backdrop-blur-md"
+            }`}
+          >
+            <Link href="/" className="flex items-center gap-[9px]">
+              <Logo className="h-[24px] w-auto" />
+              <span className="font-display text-[21px] tracking-[-0.3px] text-[#0b1f16]">
+                Carbonsynq
+              </span>
+            </Link>
 
-          <div className="flex items-center gap-[20px]">
-            <nav className="hidden items-center gap-[20px] md:flex">
-              {NAV_LINKS.filter(item => {
-                if (item.label === "Dashboard" && !isAuthenticated) return false;
-                return true;
-              }).map((item) => (
-                <a key={item.href} href={item.href} className={link}>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
+            <div className="flex items-center gap-[8px]">
+              <nav className="mr-[6px] hidden items-center gap-[26px] lg:flex">
+                {NAV_LINKS.filter((item) => item.label !== "Dashboard" || isAuthenticated).map(
+                  (item) => (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      className="relative text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a4c] transition-colors duration-200 hover:text-[#0b1f16] after:absolute after:-bottom-[5px] after:left-0 after:h-[1.5px] after:w-0 after:bg-[#16a34a] after:transition-all after:duration-300 hover:after:w-full"
+                    >
+                      {item.label}
+                    </a>
+                  ),
+                )}
+              </nav>
 
-            {isAuthenticated ? (
-              <div className="hidden md:flex items-center gap-[16px]">
-                <span className="text-[14px] font-medium text-black">
-                  {user?.firstName} {user?.lastName}
-                </span>
-                <button
-                  onClick={logout}
-                  className="h-[40px] px-[20px] items-center justify-center rounded-full bg-black text-[14px] font-semibold tracking-[-0.14px] text-white transition-colors duration-200 hover:bg-black/80"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="hidden md:flex items-center gap-[12px]">
-                <Link href="/auth/signin" className={link}>
-                  Login
-                </Link>
-                <a
-                  href={`mailto:${CONTACT_EMAIL}`}
-                  className="h-[40px] w-[100px] flex items-center justify-center rounded-full bg-[#16a34a] text-[14px] font-semibold tracking-[-0.14px] text-white transition-colors duration-200 hover:bg-[#15803d]"
-                >
-                  Contact
-                </a>
-              </div>
-            )}
+              {isAuthenticated ? (
+                <div className="hidden items-center gap-[12px] md:flex">
+                  <span className="text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a4c]">
+                    {user?.firstName} {user?.lastName}
+                  </span>
+                  <button
+                    onClick={logout}
+                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b1f16] px-[22px] text-[13.5px] font-semibold tracking-[-0.14px] text-white transition-all duration-300 hover:bg-black"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="hidden items-center gap-[12px] md:flex">
+                  <Link
+                    href="/auth/signin"
+                    className="text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a4c] transition-colors duration-200 hover:text-[#0b1f16]"
+                  >
+                    Login
+                  </Link>
+                  <a
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b3b2d] px-[24px] text-[13.5px] font-semibold tracking-[-0.14px] text-white shadow-[0_8px_22px_rgba(11,59,45,0.22)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-[#0e4a39]"
+                  >
+                    Contact
+                  </a>
+                </div>
+              )}
 
-            <button
-              onClick={() => setOpen(true)}
-              className="flex items-center justify-center text-black md:hidden"
-              aria-label="Open menu"
-            >
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            </button>
+              <button
+                onClick={() => setOpen(true)}
+                className="flex h-[42px] w-[42px] items-center justify-center rounded-full text-[#0b1f16] transition-colors hover:bg-black/[0.05] md:hidden"
+                aria-label="Open menu"
+              >
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+                  <path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              </button>
+            </div>
           </div>
         </Container>
 
         {open && (
           <div className="fixed inset-0 z-50 md:hidden">
-            <div className="absolute inset-0 bg-[rgba(13,13,13,0.95)] backdrop-blur-[10px]" onClick={() => setOpen(false)} />
-            <div className="absolute inset-[20px] flex flex-col rounded-[10px] bg-white">
-              <button
-                onClick={() => setOpen(false)}
-                className="absolute top-[20px] left-[20px] flex h-[24px] w-[24px] items-center justify-center text-black"
-                aria-label="Close menu"
-              >
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                  <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
-              </button>
+            <div
+              className="absolute inset-0 bg-[rgba(251,252,250,0.9)] backdrop-blur-xl"
+              onClick={() => setOpen(false)}
+            />
+            <button
+              onClick={() => setOpen(false)}
+              className="absolute top-[26px] right-[26px] z-10 flex h-[44px] w-[44px] items-center justify-center rounded-full border border-black/[0.06] bg-white text-[#0b1f16]"
+              aria-label="Close menu"
+            >
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
+                <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </button>
 
-              <motion.nav
-                initial={reduced ? false : { opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE, delay: 0.08 }}
-                className="absolute top-1/2 left-[20px] flex -translate-y-1/2 flex-col gap-[25px]"
-              >
-                {NAV_LINKS.filter(item => {
-                  if (item.label === "Dashboard" && !isAuthenticated) return false;
-                  return true;
-                }).map((item) => (
+            <motion.nav
+              initial={reduced ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: EASE, delay: 0.08 }}
+              className="absolute top-1/2 left-[30px] flex -translate-y-1/2 flex-col gap-[26px]"
+            >
+              {NAV_LINKS.filter((item) => item.label !== "Dashboard" || isAuthenticated).map(
+                (item) => (
                   <a
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="pl-[20px] font-display text-[40px] leading-[0.95] text-black"
+                    className="font-display text-[42px] leading-none text-[#0b1f16]"
                   >
                     {item.label}
                   </a>
-                ))}
-                {!isAuthenticated && (
-                  <Link
-                    href="/auth/signin"
-                    onClick={() => setOpen(false)}
-                    className="pl-[20px] font-display text-[40px] leading-[0.95] text-black"
-                  >
-                    Login
-                  </Link>
-                )}
-              </motion.nav>
+                ),
+              )}
+              {!isAuthenticated && (
+                <Link
+                  href="/auth/signin"
+                  onClick={() => setOpen(false)}
+                  className="font-display text-[42px] leading-none text-[#15803d]"
+                >
+                  Login
+                </Link>
+              )}
+            </motion.nav>
 
-              <div className="absolute right-[20px] bottom-[20px] left-[20px] flex flex-col gap-[10px]">
-                {isAuthenticated ? (
-                  <button
-                    onClick={() => {
-                      setOpen(false);
-                      logout();
-                    }}
-                    className="flex h-[60px] w-full items-center justify-center rounded-[70px] bg-black text-[16px] font-semibold text-white"
-                  >
-                    Logout
-                  </button>
-                ) : (
-                  <a
-                    href={`mailto:${CONTACT_EMAIL}`}
-                    onClick={() => setOpen(false)}
-                    className="flex h-[60px] w-full items-center justify-center rounded-[70px] bg-[#16a34a] text-[16px] font-semibold text-white"
-                  >
-                    Contact
-                  </a>
-                )}
-              </div>
+            <div className="absolute right-[24px] bottom-[32px] left-[24px]">
+              {isAuthenticated ? (
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    logout();
+                  }}
+                  className="flex h-[60px] w-full items-center justify-center rounded-full bg-[#0b1f16] text-[16px] font-semibold text-white shadow-[0_16px_40px_rgba(11,31,22,0.3)]"
+                >
+                  Logout
+                </button>
+              ) : (
+                <a
+                  href={`mailto:${CONTACT_EMAIL}`}
+                  onClick={() => setOpen(false)}
+                  className="flex h-[60px] w-full items-center justify-center rounded-full bg-[#0b3b2d] text-[16px] font-semibold text-white shadow-[0_16px_40px_rgba(11,59,45,0.3)]"
+                >
+                  Contact
+                </a>
+              )}
             </div>
           </div>
         )}

@@ -27,8 +27,8 @@ export default function Footer() {
     : maskReveal;
 
   return (
-    <footer className="relative z-50 mt-[80px] bg-[#f0f0f0] md:mt-[120px]">
-      <Container className="flex h-[440px] flex-col justify-between py-[30px] md:h-[400px] md:pt-[40px] md:pb-[50px]">
+    <footer className="relative z-50 mt-[48px] border-t border-black/[0.06] bg-[#f3f6f2] md:mt-[64px]">
+      <Container className="flex h-[440px] flex-col justify-between py-[30px] md:h-[400px] md:pt-[44px] md:pb-[54px]">
         <a
           href={`mailto:${CONTACT_EMAIL}`}
           className="group flex items-center gap-[10px] md:gap-[30px]"
@@ -72,7 +72,7 @@ export default function Footer() {
           className="flex flex-col gap-[30px]"
         >
           <motion.div
-            className="h-px w-full bg-black"
+            className="h-px w-full bg-black/15"
             initial={reduced ? false : { scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}

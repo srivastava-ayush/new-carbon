@@ -1,17 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
-import { InteractiveGlobe } from "@/components/ui/HeroGlobe";
 import type { GlobeNode } from "@/components/ui/globeData";
 import Container from "@/components/ui/Container";
 import { EASE, maskReveal, stagger } from "@/lib/animations";
 
+const GlobeBackground = dynamic(() => import("@/components/ui/GlobeBackground"), {
+  ssr: false,
+  loading: () => null,
+});
+
 const HEADLINE = [
   ["Powering", "a"],
   ["Greener", "Future"],
+];
+
+const TRUST_STATS = [
+  { value: "4.2M tCO₂e", label: "Emissions tracked" },
+  { value: "128k offsets", label: "Verified & retired" },
+  { value: "GHG Protocol", label: "Fully aligned" },
 ];
 
 export default function Hero() {
@@ -23,12 +34,12 @@ export default function Hero() {
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const bgY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const gridY = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const globeY = useTransform(scrollYProgress, [0, 1], [0, 140]);
+  const globeOpacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.25]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
-  const container = reduced ? { hidden: {}, visible: {} } : stagger(0.12, 0.2);
+  const container = reduced ? { hidden: {}, visible: {} } : stagger(0.1, 0.15);
   const line: typeof maskReveal = reduced
     ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
     : maskReveal;
@@ -36,54 +47,67 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen items-center overflow-hidden"
-      style={{ minHeight: "100dvh" }}
+      className="relative flex min-h-[100dvh] items-center overflow-hidden"
     >
-      <motion.div
-        className="absolute inset-0"
-        style={{
-          background: "radial-gradient(120% 80% at 50% 10%, #ffffff 0%, #f2faf5 45%, #e4f3ea 100%)",
-          y: bgY,
-        }}
-      />
-      <motion.div
-        className="absolute inset-0 opacity-[0.55]"
+      {/* Base wash */}
+      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_18%_0%,#ffffff_0%,#f6fbf7_48%,#e9f4ec_100%)]" />
+
+      {/* Faint engineering grid */}
+      <div
+        className="absolute inset-0 opacity-50"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(22,163,74,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(22,163,74,0.06) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-          maskImage: "radial-gradient(70% 60% at 50% 40%, black, transparent)",
-          WebkitMaskImage: "radial-gradient(70% 60% at 50% 40%, black, transparent)",
-          y: gridY,
+            "linear-gradient(rgba(22,163,74,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(22,163,74,0.05) 1px, transparent 1px)",
+          backgroundSize: "88px 88px",
+          maskImage: "radial-gradient(75% 65% at 50% 38%, black, transparent)",
+          WebkitMaskImage: "radial-gradient(75% 65% at 50% 38%, black, transparent)",
         }}
       />
 
-      <Container narrow className="relative pb-[32px] pt-[110px]">
-        <motion.div
-          style={{ y: contentY, opacity: contentOpacity }}
-          className="grid grid-cols-1 items-center gap-[48px] lg:grid-cols-2 lg:gap-[80px]"
-        >
+      {/* Interactive globe — full background */}
+      <motion.div style={{ y: globeY, opacity: globeOpacity }} className="absolute inset-0">
+        <GlobeBackground onSelectNode={setSelectedNode} />
+      </motion.div>
+
+      {/* Readability overlays */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(100deg,#fbfcfa_6%,rgba(251,252,250,0.86)_30%,rgba(251,252,250,0)_58%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-[linear-gradient(to_bottom,transparent,#fbfcfa_92%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[120px] bg-[linear-gradient(to_bottom,#fbfcfa,transparent)]" />
+
+      <Container narrow className="relative z-10 pb-[96px] pt-[140px] md:pt-[160px]">
+        <motion.div style={{ y: contentY, opacity: contentOpacity }}>
           <motion.div
             variants={container}
             initial="hidden"
             animate="visible"
-            className="flex flex-col items-start text-left"
+            className="flex max-w-[640px] flex-col items-start text-left"
           >
             <motion.span
-              variants={reduced ? undefined : { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } } }}
-              className="mb-[24px] inline-flex items-center gap-[8px] rounded-full border border-[#16a34a]/25 bg-[#16a34a]/5 px-[16px] py-[8px] text-[13px] font-semibold uppercase tracking-[0.14em] text-[#15803d]"
+              variants={
+                reduced
+                  ? undefined
+                  : { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } } }
+              }
+              className="mb-[28px] inline-flex items-center gap-[10px] rounded-full border border-black/[0.06] bg-white/70 py-[8px] pr-[18px] pl-[14px] text-[11px] font-semibold uppercase tracking-[0.16em] text-[#3f5a4c] shadow-[0_2px_12px_rgba(20,60,40,0.05)] backdrop-blur-md"
             >
-              <span className="h-[6px] w-[6px] rounded-full bg-[#16a34a]" />
-              FROM CARBON ACCOUNTING TO OFFSETTING — ALL AT ONE PLATFORM
+              <span className="relative flex h-[7px] w-[7px]">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#16a34a] opacity-60" />
+                <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-[#16a34a]" />
+              </span>
+              Carbon accounting → offsetting, one platform
             </motion.span>
 
-            <h1 className="font-display text-[48px] leading-[0.92] tracking-[-1.2px] text-black md:text-[72px] lg:text-[88px]">
+            <h1 className="font-display text-[52px] leading-[0.95] tracking-[-1.5px] text-[#0b1f16] sm:text-[68px] md:text-[84px] lg:text-[96px]">
               {HEADLINE.map((words, i) => (
-                <span key={i} className="block overflow-hidden pb-[0.12em] -mb-[0.12em]">
+                <span key={i} className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
                   <motion.span variants={line} className="block">
                     {words.map((word, j) => (
-                      <span key={word} className={`inline-block ${j > 0 ? "ml-[0.18em]" : ""}`}>
-                        {word}
+                      <span key={word} className={`inline-block ${j > 0 ? "ml-[0.22em]" : ""}`}>
+                        {i === 1 && j === 0 ? (
+                          <em className="not-italic text-[#15803d]">{word}</em>
+                        ) : (
+                          word
+                        )}
                       </span>
                     ))}
                   </motion.span>
@@ -92,125 +116,123 @@ export default function Hero() {
             </h1>
 
             <motion.p
-              variants={reduced ? undefined : { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }}
-              className="mt-[24px] max-w-[520px] text-[18px] leading-[1.35] tracking-[-0.2px] text-[#848484] md:text-[20px]"
+              variants={
+                reduced
+                  ? undefined
+                  : { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }
+              }
+              className="mt-[26px] max-w-[500px] text-[17px] leading-[1.55] tracking-[-0.2px] text-[#5f6f66] md:text-[19px]"
             >
-             built for accuracy, and designed to make decarbonization measurable.
+              Measure every tonne with audit-grade precision — then cut what
+              matters. Built for accuracy, designed to make decarbonization
+              measurable.
             </motion.p>
 
             <motion.div
-              variants={reduced ? undefined : { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }}
-              className="mt-[36px] flex flex-wrap items-center gap-[16px]"
+              variants={
+                reduced
+                  ? undefined
+                  : { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } } }
+              }
+              className="mt-[36px] flex flex-wrap items-center gap-[14px]"
             >
               <Link
                 href="/book-demo"
-                className="inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full bg-[#16a34a] px-[30px] text-[16px] font-semibold tracking-[-0.16px] text-white shadow-[0_10px_30px_rgba(22,163,74,0.3)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-[#15803d] hover:shadow-[0_14px_40px_rgba(22,163,74,0.4)]"
+                className="group inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full bg-[#0b3b2d] px-[32px] text-[15px] font-semibold tracking-[-0.16px] text-white shadow-[0_14px_34px_rgba(11,59,45,0.28)] transition-all duration-300 hover:-translate-y-[2px] hover:bg-[#0e4a39] hover:shadow-[0_20px_44px_rgba(11,59,45,0.36)]"
               >
                 Book a Demo
-                <svg viewBox="0 0 24 24" fill="none" className="h-[18px] w-[18px]">
+                <svg viewBox="0 0 24 24" fill="none" className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-[3px]">
                   <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </Link>
               <a
                 href="#how-it-works"
-                className="inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full border border-black/15 bg-white px-[30px] text-[16px] font-semibold tracking-[-0.16px] text-black transition-all duration-300 hover:border-[#16a34a]/50 hover:text-[#15803d]"
+                className="inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full border border-black/10 bg-white/80 px-[32px] text-[15px] font-semibold tracking-[-0.16px] text-[#0b1f16] backdrop-blur-md transition-all duration-300 hover:border-[#16a34a]/40 hover:text-[#15803d]"
               >
                 Explore More
               </a>
             </motion.div>
-          </motion.div>
 
-          <motion.div
-            initial={reduced ? false : { opacity: 0, y: 48, scale: 0.92 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ type: "spring", stiffness: 180, damping: 24, mass: 1, delay: reduced ? 0 : 0.6 }}
-            className="relative mx-auto w-full max-w-[520px]"
-          >
             <motion.div
-              className="absolute -inset-[6px] rounded-[32px] bg-[radial-gradient(ellipse_at_center,rgba(22,163,74,0.18),transparent_70%)] blur-xl"
-              animate={{ scale: [1, 1.04, 1], opacity: [0.9, 1, 0.9] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              animate={reduced ? undefined : { y: [0, -10, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="relative h-[560px] overflow-hidden rounded-[32px] border border-[#16a34a]/15 bg-white/50 shadow-inner backdrop-blur-sm lg:h-[700px]"
+              variants={
+                reduced
+                  ? undefined
+                  : { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.9, delay: 0.5 } } }
+              }
+              className="mt-[52px] flex flex-wrap items-center gap-x-[32px] gap-y-[16px]"
             >
-              <InteractiveGlobe onSelectNode={setSelectedNode} />
-
-              <AnimatePresence>
-                {selectedNode && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 16 }}
-                    transition={{ duration: 0.25, ease: EASE }}
-                    className="absolute inset-x-3 bottom-3 z-30 rounded-2xl border border-emerald-200/90 bg-white/95 p-4 shadow-2xl backdrop-blur-xl"
-                  >
-                    <div className="flex items-center justify-between gap-3 mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="h-3 w-3 rounded-full shadow-sm" style={{ backgroundColor: selectedNode.color }} />
-                        <h4 className="text-sm font-bold text-[#0f2420]">{selectedNode.name}</h4>
-                      </div>
-                      <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
-                        {selectedNode.country}
-                      </span>
-                    </div>
-                    <p className="mb-3 text-xs leading-relaxed text-[#2d554e]">{selectedNode.keyInitiative}</p>
-                    <div className="grid grid-cols-2 gap-2 border-t border-emerald-100 pt-2 text-xs">
-                      <div>
-                        <span className="block text-[10px] font-medium text-emerald-700">Emissions Tracked</span>
-                        <span className="font-bold text-emerald-950">{selectedNode.emissionsTracked}</span>
-                      </div>
-                      <div>
-                        <span className="block text-[10px] font-medium text-emerald-700">Reduction Rate</span>
-                        <span className="font-bold text-[#007f73]">{selectedNode.reductionRate}</span>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setSelectedNode(null)}
-                      aria-label="Close details"
-                      className="absolute right-2 top-2 rounded-lg p-1 text-slate-400 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-
-            <motion.div
-              initial={reduced ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: reduced ? 0 : 1.1 }}
-              className="pointer-events-none absolute -left-[10px] top-[84px] rounded-2xl border border-[#16a34a]/15 bg-white/85 px-[16px] py-[12px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] backdrop-blur-sm"
-            >
-              <motion.div
-                animate={reduced ? undefined : { y: [0, -6, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <p className="text-[11px] uppercase tracking-[0.14em] text-[#848484]">Emissions cut</p>
-                <p className="font-display text-[24px] leading-[1] text-[#16a34a]">−42%</p>
-              </motion.div>
-            </motion.div>
-
-            <motion.div
-              initial={reduced ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE, delay: reduced ? 0 : 1.25 }}
-              className="pointer-events-none absolute -right-[10px] bottom-[24px] rounded-2xl border border-[#16a34a]/15 bg-white/85 px-[16px] py-[12px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] backdrop-blur-sm"
-            >
-              <motion.div
-                animate={reduced ? undefined : { y: [0, -6, 0] }}
-                transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-              >
-                <p className="text-[11px] uppercase tracking-[0.14em] text-[#848484]">Verified offsets</p>
-                <p className="font-display text-[24px] leading-[1] text-[#16a34a]">128k tCO₂e</p>
-              </motion.div>
+              {TRUST_STATS.map((stat) => (
+                <div key={stat.label} className="flex items-baseline gap-[10px]">
+                  <span className="font-display text-[19px] text-[#0b1f16]">{stat.value}</span>
+                  <span className="text-[11px] font-medium uppercase tracking-[0.13em] text-[#93a29a]">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
             </motion.div>
           </motion.div>
         </motion.div>
       </Container>
+
+     
+  
+      {/* Selected node card */}
+      <AnimatePresence>
+        {selectedNode && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            transition={{ duration: 0.3, ease: EASE }}
+            className="absolute right-[6vw] bottom-[110px] z-30 hidden w-[320px] rounded-[22px] border border-white/80 bg-white/90 p-[20px] shadow-[0_24px_64px_rgba(11,59,45,0.16)] backdrop-blur-2xl lg:block"
+          >
+            <button
+              onClick={() => setSelectedNode(null)}
+              aria-label="Close details"
+              className="absolute top-[14px] right-[14px] rounded-lg p-[4px] text-[#93a29a] transition-colors hover:bg-black/[0.04] hover:text-[#0b1f16]"
+            >
+              <X className="h-[15px] w-[15px]" />
+            </button>
+            <div className="mb-[10px] flex items-center gap-[10px] pr-[24px]">
+              <span className="h-[9px] w-[9px] rounded-full" style={{ backgroundColor: selectedNode.color }} />
+              <h4 className="text-[15px] font-bold tracking-[-0.2px] text-[#0b1f16]">{selectedNode.name}</h4>
+              <span className="ml-auto rounded-full border border-[#16a34a]/20 bg-[#16a34a]/[0.07] px-[10px] py-[3px] text-[9px] font-semibold uppercase tracking-[0.12em] text-[#15803d]">
+                {selectedNode.country}
+              </span>
+            </div>
+            <p className="mb-[14px] text-[12px] leading-[1.55] text-[#5f6f66]">{selectedNode.keyInitiative}</p>
+            <div className="grid grid-cols-2 gap-[10px] border-t border-black/[0.06] pt-[12px]">
+              <div>
+                <span className="block text-[9px] font-semibold uppercase tracking-[0.13em] text-[#93a29a]">Emissions tracked</span>
+                <span className="text-[13px] font-bold text-[#0b1f16]">{selectedNode.emissionsTracked}</span>
+              </div>
+              <div>
+                <span className="block text-[9px] font-semibold uppercase tracking-[0.13em] text-[#93a29a]">Reduction rate</span>
+                <span className="text-[13px] font-bold text-[#15803d]">{selectedNode.reductionRate}</span>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Scroll cue */}
+      <motion.a
+        href="#how-it-works"
+        aria-label="Scroll to content"
+        initial={reduced ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: reduced ? 0 : 1.6 }}
+        className="absolute bottom-[34px] left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-[8px] text-[#93a29a] transition-colors hover:text-[#15803d] md:flex"
+      >
+        <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Scroll</span>
+        <span className="relative h-[34px] w-[1px] overflow-hidden bg-black/10">
+          <motion.span
+            animate={reduced ? undefined : { y: [-34, 34] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute left-0 top-0 h-[14px] w-full bg-[#16a34a]"
+          />
+        </span>
+      </motion.a>
     </section>
   );
 }
