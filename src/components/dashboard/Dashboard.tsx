@@ -129,10 +129,10 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function Dashboard() {
   return (
-    <ProtectedRoute>
+
       <DashboardProvider>
         <DashboardContent />
       </DashboardProvider>
-    </ProtectedRoute>
+
   );
 }
