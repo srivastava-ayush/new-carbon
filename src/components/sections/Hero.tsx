@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import HeroGlobe from "@/components/ui/HeroGlobe";
+import { motion, useReducedMotion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import { X } from "lucide-react";
+import { InteractiveGlobe } from "@/components/ui/HeroGlobe";
+import type { GlobeNode } from "@/components/ui/globeData";
 import Container from "@/components/ui/Container";
 import { EASE, maskReveal, stagger } from "@/lib/animations";
 
@@ -14,9 +16,7 @@ const HEADLINE = [
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
-  const [hovering, setHovering] = useState(false);
-  const [globeHover, setGlobeHover] = useState(false);
+  const [selectedNode, setSelectedNode] = useState<GlobeNode | null>(null);
   const reduced = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
@@ -33,29 +33,9 @@ export default function Hero() {
     ? { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { duration: 0.6 } } }
     : maskReveal;
 
-  const handleMove = (e: React.MouseEvent<HTMLElement>) => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const nx = (e.clientX - rect.left) / rect.width - 0.5;
-    const ny = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({
-      rx: -ny * 24,
-      ry: nx * 30,
-    });
-    setHovering(true);
-  };
-
-  const handleLeave = () => {
-    setHovering(false);
-    setTilt({ rx: 0, ry: 0 });
-  };
-
   return (
     <section
       ref={sectionRef}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
       className="relative flex min-h-screen items-center overflow-hidden"
       style={{ minHeight: "100dvh" }}
     >
@@ -144,7 +124,7 @@ export default function Hero() {
             initial={reduced ? false : { opacity: 0, y: 48, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ type: "spring", stiffness: 180, damping: 24, mass: 1, delay: reduced ? 0 : 0.6 }}
-            className="relative mx-auto w-full max-w-[520px] cursor-pointer"
+            className="relative mx-auto w-full max-w-[520px]"
           >
             <motion.div
               className="absolute -inset-[6px] rounded-[32px] bg-[radial-gradient(ellipse_at_center,rgba(22,163,74,0.18),transparent_70%)] blur-xl"
@@ -154,25 +134,56 @@ export default function Hero() {
             <motion.div
               animate={reduced ? undefined : { y: [0, -10, 0] }}
               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              className="relative aspect-square overflow-hidden rounded-[32px] border border-[#16a34a]/15 bg-white/50 backdrop-blur-sm"
+              className="relative h-[560px] overflow-hidden rounded-[32px] border border-[#16a34a]/15 bg-white/50 shadow-inner backdrop-blur-sm lg:h-[700px]"
             >
-              <div className="absolute inset-[10px] rounded-[24px] border border-[#16a34a]/10" />
-              <div className="absolute inset-[20px] rounded-full border border-[#16a34a]/10" />
-              <HeroGlobe
-                rx={tilt.rx}
-                ry={tilt.ry}
-                hovering={hovering}
-                flip={globeHover}
-                onGlobeEnter={() => setGlobeHover(true)}
-                onGlobeLeave={() => setGlobeHover(false)}
-              />
+              <InteractiveGlobe onSelectNode={setSelectedNode} />
+
+              <AnimatePresence>
+                {selectedNode && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 16 }}
+                    transition={{ duration: 0.25, ease: EASE }}
+                    className="absolute inset-x-3 bottom-3 z-30 rounded-2xl border border-emerald-200/90 bg-white/95 p-4 shadow-2xl backdrop-blur-xl"
+                  >
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="h-3 w-3 rounded-full shadow-sm" style={{ backgroundColor: selectedNode.color }} />
+                        <h4 className="text-sm font-bold text-[#0f2420]">{selectedNode.name}</h4>
+                      </div>
+                      <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
+                        {selectedNode.country}
+                      </span>
+                    </div>
+                    <p className="mb-3 text-xs leading-relaxed text-[#2d554e]">{selectedNode.keyInitiative}</p>
+                    <div className="grid grid-cols-2 gap-2 border-t border-emerald-100 pt-2 text-xs">
+                      <div>
+                        <span className="block text-[10px] font-medium text-emerald-700">Emissions Tracked</span>
+                        <span className="font-bold text-emerald-950">{selectedNode.emissionsTracked}</span>
+                      </div>
+                      <div>
+                        <span className="block text-[10px] font-medium text-emerald-700">Reduction Rate</span>
+                        <span className="font-bold text-[#007f73]">{selectedNode.reductionRate}</span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => setSelectedNode(null)}
+                      aria-label="Close details"
+                      className="absolute right-2 top-2 rounded-lg p-1 text-slate-400 transition-colors hover:bg-emerald-50 hover:text-emerald-700"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
             <motion.div
               initial={reduced ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: EASE, delay: reduced ? 0 : 1.1 }}
-              className="pointer-events-none absolute -top-[14px] -left-[10px] rounded-2xl border border-[#16a34a]/15 bg-white/85 px-[16px] py-[12px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] backdrop-blur-sm"
+              className="pointer-events-none absolute -left-[10px] top-[84px] rounded-2xl border border-[#16a34a]/15 bg-white/85 px-[16px] py-[12px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] backdrop-blur-sm"
             >
               <motion.div
                 animate={reduced ? undefined : { y: [0, -6, 0] }}
