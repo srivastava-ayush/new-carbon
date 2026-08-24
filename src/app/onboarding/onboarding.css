@@ -1,0 +1,13 @@
+/* Green accent scope for the onboarding flow (overrides primary/accent tokens) */
+.onboarding-green {
+  --color-primary: #16a34a;
+  --color-primary-hover: #15803d;
+  --color-accent: #16a34a;
+  --color-accent-strong: #15803d;
+  --color-accent-soft: #ecfdf3;
+  --color-accent-softer: #f7fdf9;
+  --color-accent-muted: #ecfdf3;
+  --color-ring: #16a34a;
+  --color-ink-muted: #64748b;
+  --color-hairline: #e6e8ef;
+}
