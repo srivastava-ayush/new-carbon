@@ -10,9 +10,9 @@ export default function ProtectedRoute({ children, allowedRoles }: { children: R
   const router = useRouter();
 
   useEffect(() => {
-    // if (!loading && !user) {
-    //   router.push("/auth/signin");
-    // }
+    if (!loading && !user) {
+      router.push("/auth/signin");
+    }
   }, [user, loading, router]);
 
   if (loading) {
