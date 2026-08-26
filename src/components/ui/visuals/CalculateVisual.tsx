@@ -13,7 +13,7 @@ export default function CalculateVisual() {
 
       <rect width="480" height="360" rx="24" fill="#fafafa" />
 
-      <g fill="#16a34a" opacity="0.07">
+      <g fill="#188f8b" opacity="0.07">
         {[0, 1, 2, 3, 4].map((row) =>
           [0, 1, 2, 3, 4, 5, 6, 7, 8].map((col) => (
             <circle key={`${row}-${col}`} cx={30 + col * 52} cy={26 + row * 62} r="1.5" />
@@ -21,7 +21,7 @@ export default function CalculateVisual() {
         )}
       </g>
 
-      <circle cx="120" cy="56" r="3" fill="#16a34a" />
+      <circle cx="120" cy="56" r="3" fill="#188f8b" />
       <text x="132" y="60" fontSize="11" fontWeight="600" letterSpacing="0.14em" fill="#a1a1aa">
         03 — CALCULATE
       </text>
@@ -33,19 +33,19 @@ export default function CalculateVisual() {
         </text>
 
         <text x="136" y="134" fontSize="9" fontWeight="600" letterSpacing="0.06em" fill="#3f3f46">SCOPE 1</text>
-        <text x="222" y="134" textAnchor="end" fontSize="9" fontWeight="600" fill="#15803d">18%</text>
+        <text x="222" y="134" textAnchor="end" fontSize="9" fontWeight="600" fill="#188f8b">18%</text>
         <rect x="136" y="142" width="84" height="4" rx="2" fill="#e4e4e7" />
-        <rect x="136" y="142" width="16" height="4" rx="2" fill="#16a34a" />
+        <rect x="136" y="142" width="16" height="4" rx="2" fill="#188f8b" />
 
         <text x="136" y="162" fontSize="9" fontWeight="600" letterSpacing="0.06em" fill="#3f3f46">SCOPE 2</text>
-        <text x="222" y="162" textAnchor="end" fontSize="9" fontWeight="600" fill="#15803d">13%</text>
+        <text x="222" y="162" textAnchor="end" fontSize="9" fontWeight="600" fill="#188f8b">13%</text>
         <rect x="136" y="170" width="84" height="4" rx="2" fill="#e4e4e7" />
-        <rect x="136" y="170" width="11" height="4" rx="2" fill="#16a34a" />
+        <rect x="136" y="170" width="11" height="4" rx="2" fill="#188f8b" />
 
         <text x="136" y="190" fontSize="9" fontWeight="600" letterSpacing="0.06em" fill="#3f3f46">SCOPE 3</text>
-        <text x="222" y="190" textAnchor="end" fontSize="9" fontWeight="600" fill="#15803d">69%</text>
+        <text x="222" y="190" textAnchor="end" fontSize="9" fontWeight="600" fill="#188f8b">69%</text>
         <rect x="136" y="198" width="84" height="4" rx="2" fill="#e4e4e7" />
-        <rect x="136" y="198" width="58" height="4" rx="2" fill="#16a34a" />
+        <rect x="136" y="198" width="58" height="4" rx="2" fill="#188f8b" />
       </g>
 
       <g>
@@ -53,7 +53,7 @@ export default function CalculateVisual() {
         <text x="262" y="104" fontSize="9" fontWeight="600" letterSpacing="0.08em" fill="#a1a1aa">
           TOTAL EMISSIONS
         </text>
-        <text x="262" y="150" fontSize="32" fontWeight="700" fill="#15803d" fontFamily="DM Serif Display, serif">
+        <text x="262" y="150" fontSize="32" fontWeight="700" fill="#188f8b" fontFamily="DM Serif Display, serif">
           48.2K
         </text>
         <text x="262" y="170" fontSize="9" fontWeight="600" letterSpacing="0.08em" fill="#a1a1aa">
@@ -63,17 +63,17 @@ export default function CalculateVisual() {
         <text x="262" y="208" fontSize="9" fontWeight="600" letterSpacing="0.06em" fill="#3f3f46">
           VS BASELINE
         </text>
-        <text x="344" y="208" textAnchor="end" fontSize="9" fontWeight="600" fill="#15803d">
+        <text x="344" y="208" textAnchor="end" fontSize="9" fontWeight="600" fill="#188f8b">
           −42%
         </text>
         <rect x="262" y="216" width="80" height="4" rx="2" fill="#e4e4e7" />
-        <rect x="262" y="216" width="46" height="4" rx="2" fill="#16a34a" />
+        <rect x="262" y="216" width="46" height="4" rx="2" fill="#188f8b" />
       </g>
 
       <g>
-        <rect x="120" y="286" width="240" height="30" rx="8" fill="#0d3b2d" />
-        <circle className="vc-pulse" cx="138" cy="301" r="4" fill="#22c55e" />
-        <text x="152" y="305" fontSize="10" fontWeight="600" letterSpacing="0.12em" fill="#a7f3d0">
+        <rect x="120" y="286" width="240" height="30" rx="8" fill="#0d4f4b" />
+        <circle className="vc-pulse" cx="138" cy="301" r="4" fill="#43b0a9" />
+        <text x="152" y="305" fontSize="10" fontWeight="600" letterSpacing="0.12em" fill="#ade5df">
           CERTIFIED · ISO 14064
         </text>
       </g>

@@ -27,9 +27,9 @@ export const SCOPE2_12M = MONTHLY.reduce((acc, m) => acc + m.scope2, 0);
 export const SCOPE3_12M = MONTHLY.reduce((acc, m) => acc + m.scope3, 0);
 
 export const SCOPES = [
-  { key: "scope1", name: "Scope 1 — Direct", value: SCOPE1_12M, share: 0.12, color: "#15803d" },
-  { key: "scope2", name: "Scope 2 — Energy", value: SCOPE2_12M, share: 0.28, color: "#22c55e" },
-  { key: "scope3", name: "Scope 3 — Value chain", value: SCOPE3_12M, share: 0.6, color: "#86efac" },
+  { key: "scope1", name: "Scope 1 — Direct", value: SCOPE1_12M, share: 0.12, color: "#188f8b" },
+  { key: "scope2", name: "Scope 2 — Energy", value: SCOPE2_12M, share: 0.28, color: "#43b0a9" },
+  { key: "scope3", name: "Scope 3 — Value chain", value: SCOPE3_12M, share: 0.6, color: "#a7dcd6" },
 ];
 
 export interface Category {
@@ -179,7 +179,7 @@ export const SCOPE_DETAILS: ScopeDetail[] = [
     headline: "Sources you own or control",
     description:
       "Emissions from owned or controlled sources, including on-site fuel combustion, the company fleet and refrigerants.",
-    color: "#15803d",
+    color: "#188f8b",
     share: 0.12,
     total: SCOPE1_12M,
     delta: -4.2,
@@ -199,7 +199,7 @@ export const SCOPE_DETAILS: ScopeDetail[] = [
     headline: "Indirect emissions from energy",
     description:
       "Emissions from purchased electricity, heating and cooling that is generated upstream of your operations.",
-    color: "#22c55e",
+    color: "#43b0a9",
     share: 0.28,
     total: SCOPE2_12M,
     delta: -7.1,
@@ -218,7 +218,7 @@ export const SCOPE_DETAILS: ScopeDetail[] = [
     headline: "All other indirect emissions",
     description:
       "Emissions across the full value chain, from purchased goods and travel to how customers use your products.",
-    color: "#86efac",
+    color: "#a7dcd6",
     share: 0.6,
     total: SCOPE3_12M,
     delta: 0.6,

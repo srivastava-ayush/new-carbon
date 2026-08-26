@@ -37,7 +37,7 @@ export default function Header() {
   return (
     <>
       <motion.div
-        className="fixed top-0 right-0 left-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-[#16a34a] to-[#4ade80]"
+        className="fixed top-0 right-0 left-0 z-[60] h-[2px] origin-left bg-gradient-to-r from-[#188f8b] to-[#3faea7]"
         style={{ scaleX: progress }}
       />
 
@@ -51,13 +51,13 @@ export default function Header() {
           <div
             className={`flex h-[58px] items-center justify-between rounded-full border px-[10px] pl-[22px] transition-all duration-500 md:h-[64px] ${
               scrolled || open
-                ? "border-black/[0.06] bg-white/75 shadow-[0_12px_40px_rgba(11,59,45,0.08)] backdrop-blur-xl"
+                ? "border-black/[0.06] bg-white/75 shadow-[0_12px_40px_rgba(11,59,56,0.08)] backdrop-blur-xl"
                 : "border-transparent bg-white/40 backdrop-blur-md"
             }`}
           >
             <Link href="/" className="flex items-center gap-[9px]">
               <Logo className="h-[24px] w-auto" />
-              <span className="font-display text-[21px] tracking-[-0.3px] text-[#0b1f16]">
+              <span className="font-display text-[21px] tracking-[-0.3px] text-[#0b1f1e]">
                 Carbonsynq
               </span>
             </Link>
@@ -69,7 +69,7 @@ export default function Header() {
                     <a
                       key={item.href}
                       href={item.href}
-                      className="relative text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a4c] transition-colors duration-200 hover:text-[#0b1f16] after:absolute after:-bottom-[5px] after:left-0 after:h-[1.5px] after:w-0 after:bg-[#16a34a] after:transition-all after:duration-300 hover:after:w-full"
+                      className="relative text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a55] transition-colors duration-200 hover:text-[#0b1f1e] after:absolute after:-bottom-[5px] after:left-0 after:h-[1.5px] after:w-0 after:bg-[#188f8b] after:transition-all after:duration-300 hover:after:w-full"
                     >
                       {item.label}
                     </a>
@@ -79,12 +79,12 @@ export default function Header() {
 
               {isAuthenticated ? (
                 <div className="hidden items-center gap-[12px] md:flex">
-                  <span className="text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a4c]">
+                  <span className="text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a55]">
                     {user?.firstName} {user?.lastName}
                   </span>
                   <button
                     onClick={logout}
-                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b1f16] px-[22px] text-[13.5px] font-semibold tracking-[-0.14px] text-white transition-all duration-300 hover:bg-black"
+                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b1f1e] px-[22px] text-[13.5px] font-semibold tracking-[-0.14px] text-white transition-all duration-300 hover:bg-black"
                   >
                     Logout
                   </button>
@@ -93,13 +93,13 @@ export default function Header() {
                 <div className="hidden items-center gap-[12px] md:flex">
                   <Link
                     href="/auth/signin"
-                    className="text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a4c] transition-colors duration-200 hover:text-[#0b1f16]"
+                    className="text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a55] transition-colors duration-200 hover:text-[#0b1f1e]"
                   >
                     Login
                   </Link>
                   <a
                     href={`mailto:${CONTACT_EMAIL}`}
-                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b3b2d] px-[24px] text-[13.5px] font-semibold tracking-[-0.14px] text-white shadow-[0_8px_22px_rgba(11,59,45,0.22)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-[#0e4a39]"
+                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b3b38] px-[24px] text-[13.5px] font-semibold tracking-[-0.14px] text-white shadow-[0_8px_22px_rgba(11,59,56,0.22)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-[#0e4a47]"
                   >
                     Contact
                   </a>
@@ -108,7 +108,7 @@ export default function Header() {
 
               <button
                 onClick={() => setOpen(true)}
-                className="flex h-[42px] w-[42px] items-center justify-center rounded-full text-[#0b1f16] transition-colors hover:bg-black/[0.05] md:hidden"
+                className="flex h-[42px] w-[42px] items-center justify-center rounded-full text-[#0b1f1e] transition-colors hover:bg-black/[0.05] md:hidden"
                 aria-label="Open menu"
               >
                 <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
@@ -127,7 +127,7 @@ export default function Header() {
             />
             <button
               onClick={() => setOpen(false)}
-              className="absolute top-[26px] right-[26px] z-10 flex h-[44px] w-[44px] items-center justify-center rounded-full border border-black/[0.06] bg-white text-[#0b1f16]"
+              className="absolute top-[26px] right-[26px] z-10 flex h-[44px] w-[44px] items-center justify-center rounded-full border border-black/[0.06] bg-white text-[#0b1f1e]"
               aria-label="Close menu"
             >
               <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20">
@@ -147,7 +147,7 @@ export default function Header() {
                     key={item.href}
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    className="font-display text-[42px] leading-none text-[#0b1f16]"
+                    className="font-display text-[42px] leading-none text-[#0b1f1e]"
                   >
                     {item.label}
                   </a>
@@ -157,7 +157,7 @@ export default function Header() {
                 <Link
                   href="/auth/signin"
                   onClick={() => setOpen(false)}
-                  className="font-display text-[42px] leading-none text-[#15803d]"
+                  className="font-display text-[42px] leading-none text-[#188f8b]"
                 >
                   Login
                 </Link>
@@ -171,7 +171,7 @@ export default function Header() {
                     setOpen(false);
                     logout();
                   }}
-                  className="flex h-[60px] w-full items-center justify-center rounded-full bg-[#0b1f16] text-[16px] font-semibold text-white shadow-[0_16px_40px_rgba(11,31,22,0.3)]"
+                  className="flex h-[60px] w-full items-center justify-center rounded-full bg-[#0b1f1e] text-[16px] font-semibold text-white shadow-[0_16px_40px_rgba(11,31,30,0.3)]"
                 >
                   Logout
                 </button>
@@ -179,7 +179,7 @@ export default function Header() {
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
                   onClick={() => setOpen(false)}
-                  className="flex h-[60px] w-full items-center justify-center rounded-full bg-[#0b3b2d] text-[16px] font-semibold text-white shadow-[0_16px_40px_rgba(11,59,45,0.3)]"
+                  className="flex h-[60px] w-full items-center justify-center rounded-full bg-[#0b3b38] text-[16px] font-semibold text-white shadow-[0_16px_40px_rgba(11,59,56,0.3)]"
                 >
                   Contact
                 </a>

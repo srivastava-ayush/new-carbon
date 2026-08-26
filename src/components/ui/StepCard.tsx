@@ -25,13 +25,13 @@ export default function StepCard({ num, title, description, active = false, comp
           ? "gap-[16px] p-[16px] md:p-[18px]"
           : "gap-[24px] p-[24px] md:p-[28px]"
       } ${
-        active ? "border-[#16a34a]/30 bg-[#f2faf5]" : "border-black/10 bg-white hover:border-[#16a34a]/25 hover:bg-[#fafff8]"
+        active ? "border-[#188f8b]/30 bg-[#f2faf5]" : "border-black/10 bg-white hover:border-[#188f8b]/25 hover:bg-[#f8fcfb]"
       }`}
     >
       <span
         className={`font-display leading-none transition-colors duration-300 ${
           compact ? "text-[22px] md:text-[26px]" : "text-[30px] md:text-[38px]"
-        } ${active ? "text-[#16a34a]" : "text-black/40 group-hover:text-[#16a34a]/70"}`}
+        } ${active ? "text-[#188f8b]" : "text-black/40 group-hover:text-[#188f8b]/70"}`}
       >
         {num}
       </span>

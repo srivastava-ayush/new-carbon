@@ -29,8 +29,8 @@ export default function Scopes() {
   return (
     <Section id="scopes" narrow>
       <Reveal>
-        <div className="mb-[32px] h-px w-full bg-gradient-to-r from-[#16a34a]/60 via-[#16a34a]/20 to-transparent" />
-        <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#16a34a]">
+        <div className="mb-[32px] h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
+        <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
           Carbon scopes
         </span>
         <h2 className="mb-[20px] font-display text-[40px] leading-[0.95] tracking-[-1.28px] text-black md:mb-[24px] md:text-[64px]">
@@ -46,13 +46,13 @@ export default function Scopes() {
           {SCOPES.map((scope, i) => (
             <Reveal key={scope.num} delay={0.1 + i * 0.1} className="h-full">
             <div
-              className="group relative flex h-full flex-col overflow-hidden rounded-[16px] border border-[#16a34a]/20 bg-[#0d3b2d] px-[24px] pt-[24px] shadow-[0_18px_50px_rgba(13,59,45,0.25)] transition-all duration-300 hover:-translate-y-[2px] hover:border-[#4ade80]/40 hover:bg-[#114a39] hover:shadow-[0_24px_60px_rgba(13,59,45,0.35)] md:px-[28px] md:pt-[28px]"
+              className="group relative flex h-full flex-col overflow-hidden rounded-[16px] border border-[#188f8b]/20 bg-[#0d4f4b] px-[24px] pt-[24px] shadow-[0_18px_50px_rgba(13,79,75,0.25)] transition-all duration-300 hover:-translate-y-[2px] hover:border-[#3faea7]/40 hover:bg-[#114a47] hover:shadow-[0_24px_60px_rgba(13,79,75,0.35)] md:px-[28px] md:pt-[28px]"
             >
               <div className="flex items-baseline gap-[12px]">
-                <span className="font-display text-[18px] leading-none text-[#4ade80]">
+                <span className="font-display text-[18px] leading-none text-[#3faea7]">
                   {scope.num}
                 </span>
-                <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#a7f3d0]/60">
+                <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#ade5df]/60">
                   Scope
                 </span>
               </div>
@@ -61,7 +61,7 @@ export default function Scopes() {
                 {scope.title}
               </h3>
 
-              <p className="mt-[12px] mb-[16px] flex-1 text-[14px] leading-[1.5] tracking-[-0.14px] text-[#a7f3d0]/80">
+              <p className="mt-[12px] mb-[16px] flex-1 text-[14px] leading-[1.5] tracking-[-0.14px] text-[#ade5df]/80">
                 {scope.description}
               </p>
 
@@ -74,7 +74,7 @@ export default function Scopes() {
                 >
                   <path d="M0 28 L0 20 C 100 8 300 8 400 20 L400 28 Z" fill="#ffffff" />
                 </svg>
-                <span className="relative text-[11px] font-semibold uppercase tracking-[0.16em] text-[#16a34a]">
+                <span className="relative text-[11px] font-semibold uppercase tracking-[0.16em] text-[#188f8b]">
                   Examples
                 </span>
                 <ul className="mt-[4px]">
@@ -83,7 +83,7 @@ export default function Scopes() {
                       key={example}
                       className="flex items-center gap-[10px] border-t border-black/5 py-[10px] text-[14px] tracking-[-0.14px] text-[#52525b]"
                     >
-                      <span className="h-[4px] w-[4px] shrink-0 rounded-full bg-[#22c55e] transition-colors duration-300 group-hover:bg-[#16a34a]" />
+                      <span className="h-[4px] w-[4px] shrink-0 rounded-full bg-[#43b0a9] transition-colors duration-300 group-hover:bg-[#188f8b]" />
                       {example}
                     </li>
                   ))}
@@ -96,7 +96,7 @@ export default function Scopes() {
 
       <Reveal delay={0.2}>
         <div className="mt-[12px] flex items-center gap-[14px] rounded-[16px] border border-black/10 bg-white px-[24px] py-[18px]">
-          <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-[#16a34a]" />
+          <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-[#188f8b]" />
           <p className="text-[14px] leading-[1.4] tracking-[-0.14px] text-[#52525b] md:text-[15px]">
             For most businesses, <span className="font-semibold text-black">Scope 3</span> is
             the biggest share — typically <span className="font-semibold text-black">80–90%</span> of the footprint.

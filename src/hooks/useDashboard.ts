@@ -64,9 +64,9 @@ function mapBackendToFrontend(backendData: any) {
   const SCOPE3_12M = 0; // Update when scope 3 is available
 
   const SCOPES = [
-    { key: "scope1", name: "Scope 1 — Direct", value: SCOPE1_12M, share: TOTAL_12M ? SCOPE1_12M / TOTAL_12M : 0, color: "#15803d" },
-    { key: "scope2", name: "Scope 2 — Energy", value: SCOPE2_12M, share: TOTAL_12M ? SCOPE2_12M / TOTAL_12M : 0, color: "#22c55e" },
-    { key: "scope3", name: "Scope 3 — Value chain", value: SCOPE3_12M, share: TOTAL_12M ? SCOPE3_12M / TOTAL_12M : 0, color: "#86efac" },
+    { key: "scope1", name: "Scope 1 — Direct", value: SCOPE1_12M, share: TOTAL_12M ? SCOPE1_12M / TOTAL_12M : 0, color: "#188f8b" },
+    { key: "scope2", name: "Scope 2 — Energy", value: SCOPE2_12M, share: TOTAL_12M ? SCOPE2_12M / TOTAL_12M : 0, color: "#43b0a9" },
+    { key: "scope3", name: "Scope 3 — Value chain", value: SCOPE3_12M, share: TOTAL_12M ? SCOPE3_12M / TOTAL_12M : 0, color: "#a7dcd6" },
   ];
 
   const CATEGORIES = (b.categories || []).map((c: any) => ({
@@ -125,7 +125,7 @@ function mapBackendToFrontend(backendData: any) {
       name: "Direct emissions",
       headline: "Sources you own or control",
       description: "Emissions from owned or controlled sources, including on-site fuel combustion, the company fleet and refrigerants.",
-      color: "#15803d",
+      color: "#188f8b",
       share: TOTAL_12M ? SCOPE1_12M / TOTAL_12M : 0,
       total: SCOPE1_12M,
       delta: b.scopeBreakdown?.scope1?.delta || 0,
@@ -141,7 +141,7 @@ function mapBackendToFrontend(backendData: any) {
       name: "Energy purchases",
       headline: "Indirect emissions from energy",
       description: "Emissions from purchased electricity, heating and cooling that is generated upstream of your operations.",
-      color: "#22c55e",
+      color: "#43b0a9",
       share: TOTAL_12M ? SCOPE2_12M / TOTAL_12M : 0,
       total: SCOPE2_12M,
       delta: b.scopeBreakdown?.scope2?.delta || 0,
@@ -157,7 +157,7 @@ function mapBackendToFrontend(backendData: any) {
       name: "Value chain",
       headline: "All other indirect emissions",
       description: "Emissions across the full value chain, from purchased goods and travel to how customers use your products.",
-      color: "#86efac",
+      color: "#a7dcd6",
       share: TOTAL_12M ? SCOPE3_12M / TOTAL_12M : 0,
       total: SCOPE3_12M,
       delta: 0,

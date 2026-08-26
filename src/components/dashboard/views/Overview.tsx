@@ -4,7 +4,7 @@ import { ArrowRight } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import KpiCard from "@/components/dashboard/KpiCard";
-import AreaChart from "@/components/dashboard/AreaChart";
+import StackedScopeBars from "@/components/dashboard/StackedScopeBars";
 import Donut from "@/components/dashboard/Donut";
 import CategoryList from "@/components/dashboard/CategoryList";
 import TargetPanel from "@/components/dashboard/TargetPanel";
@@ -43,22 +43,22 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
     <div className="flex flex-col gap-[16px]">
       <ActivityStatsPanel delay={0.05} />
 
-      <div className="grid grid-cols-1 gap-[16px] sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-[16px] sm:grid-cols-2 xl:grid-cols-4 [&>*]:min-w-0">
         {KPIS.map((kpi: any, i: number) => (
           <KpiCard key={kpi.label} kpi={kpi} delay={0.05 + i * 0.08} />
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-3 [&>*]:min-w-0">
         <Section title="Emissions over time" subtitle="Total CO₂e per month, broken down by scope" className="lg:col-span-2" delay={0.2}>
-          <AreaChart delay={0.15} />
+          <StackedScopeBars delay={0.15} />
         </Section>
         <Section title="Scope breakdown" subtitle="Share of total footprint" delay={0.25}>
           <Donut segments={SCOPES} centerValue={TOTAL_12M} centerLabel="Total" centerSuffix="tCO₂e" delay={0.2} />
         </Section>
       </div>
 
-      <div className={`grid grid-cols-1 gap-[16px] ${isDataEntry ? "lg:grid-cols-1" : "lg:grid-cols-2"}`}>
+      <div className={`grid grid-cols-1 gap-[16px] ${isDataEntry ? "lg:grid-cols-1" : "lg:grid-cols-2"} [&>*]:min-w-0`}>
         <Section title="Biggest sources" subtitle="Emissions by category" delay={0.3}>
           <CategoryList delay={0.15} />
         </Section>
@@ -69,7 +69,7 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-3 [&>*]:min-w-0">
         <Section
           title="Recent activity"
           subtitle="Latest data processed from your sources"
@@ -78,7 +78,7 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
           action={
             <button
               onClick={() => onNavigate("reports")}
-              className="flex items-center gap-[4px] text-[12px] font-semibold text-[#15803d] transition-colors hover:text-[#0d3b2d]"
+              className="flex items-center gap-[4px] text-[12px] font-semibold text-[#188f8b] transition-colors hover:text-[#0d4f4b]"
             >
               View all <ArrowRight size={12} weight="bold" />
             </button>
@@ -91,16 +91,16 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: EASE, delay: 0.45 }}
-          className="flex flex-col rounded-[14px] border border-[#16a34a]/15 bg-[#f6fbf8] p-[20px]"
+          className="flex flex-col rounded-[14px] border border-[#188f8b]/15 bg-[#f2faf9] p-[20px]"
         >
           <div className="flex items-start justify-between">
             <div>
-              <p className="text-[13.5px] font-semibold tracking-[-0.1px] text-[#0d3b2d]">Footprint by group</p>
-              <p className="mt-[2px] text-[12px] text-[#4b6b5a]">Where emissions actually come from</p>
+              <p className="text-[13.5px] font-semibold tracking-[-0.1px] text-[#0d4f4b]">Footprint by group</p>
+              <p className="mt-[2px] text-[12px] text-[#78716c]">Where emissions actually come from</p>
             </div>
             <button
               onClick={() => onNavigate("footprint")}
-              className="flex items-center gap-[4px] text-[12px] font-semibold text-[#15803d] transition-colors hover:text-[#0d3b2d]"
+              className="flex items-center gap-[4px] text-[12px] font-semibold text-[#188f8b] transition-colors hover:text-[#0d4f4b]"
             >
               Details <ArrowRight size={12} weight="bold" />
             </button>
@@ -121,10 +121,10 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="mb-[4px] flex items-baseline justify-between gap-[8px]">
-                    <span className="truncate text-[12px] font-medium text-[#2c4a3a] transition-colors group-hover:text-black">
+                    <span className="truncate text-[12px] font-medium text-[#57534e] transition-colors group-hover:text-black">
                       {g.name}
                     </span>
-                    <span className="text-[11.5px] font-semibold tabular-nums text-[#0d3b2d]">
+                    <span className="text-[11.5px] font-semibold tabular-nums text-[#0d4f4b]">
                       <CountUp value={g.value} delay={0.55 + i * 0.07} />
                     </span>
                   </div>
@@ -133,7 +133,7 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
                       initial={{ width: 0 }}
                       animate={{ width: `${FOOTPRINT_GROUPS[0] ? (g.value / FOOTPRINT_GROUPS[0].value) * 100 : 0}%` }}
                       transition={{ duration: 1, ease: EASE, delay: 0.55 + i * 0.07 }}
-                      className="h-full rounded-full bg-gradient-to-r from-[#16a34a] to-[#4ade80]"
+                      className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#3faea7]"
                     />
                   </div>
                 </div>
@@ -141,16 +141,16 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
             ))}
           </div>
 
-          <div className="mt-[16px] flex items-center justify-between border-t border-[#16a34a]/15 pt-[12px]">
-            <p className="text-[11.5px] text-[#4b6b5a]">Total across groups</p>
-            <p className="text-[13px] font-semibold tabular-nums text-[#0d3b2d]">
+          <div className="mt-[16px] flex items-center justify-between border-t border-[#188f8b]/15 pt-[12px]">
+            <p className="text-[11.5px] text-[#78716c]">Total across groups</p>
+            <p className="text-[13px] font-semibold tabular-nums text-[#0d4f4b]">
               <CountUp value={TOTAL_12M} suffix=" tCO₂e" delay={0.8} />
             </p>
           </div>
         </motion.div>
       </div>
 
-      <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[16px] lg:grid-cols-3 [&>*]:min-w-0">
         <Section
           title="Top Recommendations"
           subtitle="High-impact actions to reduce emissions"
@@ -159,7 +159,7 @@ export default function Overview({ onNavigate }: { onNavigate: (tab: TabId) => v
           action={
             <button
               onClick={() => onNavigate("recommendations")}
-              className="flex items-center gap-[4px] text-[12px] font-semibold text-[#15803d] transition-colors hover:text-[#0d3b2d]"
+              className="flex items-center gap-[4px] text-[12px] font-semibold text-[#188f8b] transition-colors hover:text-[#0d4f4b]"
             >
               View all <ArrowRight size={12} weight="bold" />
             </button>

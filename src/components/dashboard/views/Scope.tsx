@@ -89,7 +89,7 @@ export default function Scope({ scope }: { scope: ScopeDetail["key"] }) {
             </p>
             <span
               className={`flex items-center gap-[3px] rounded-full px-[8px] py-[2px] text-[11px] font-semibold tabular-nums ${
-                detail.delta < 0 ? "bg-[#f0fdf4] text-[#15803d]" : "bg-[#fef2f2] text-[#dc2626]"
+                detail.delta < 0 ? "bg-[#eef8f7] text-[#188f8b]" : "bg-[#fef2f2] text-[#dc2626]"
               }`}
             >
               {detail.delta < 0 ? <ArrowDownRight size={12} weight="bold" /> : <ArrowUpRight size={12} weight="bold" />}
@@ -115,7 +115,7 @@ export default function Scope({ scope }: { scope: ScopeDetail["key"] }) {
               whileHover={{ y: -2 }}
               className="flex items-center gap-[14px] rounded-[14px] border border-black/[0.06] bg-white p-[16px]"
             >
-              <span className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[9px] bg-[#f0fdf4] text-[#15803d]">
+              <span className="flex h-[36px] w-[36px] shrink-0 items-center justify-center rounded-[9px] bg-[#eef8f7] text-[#188f8b]">
                 <MetricIcon size={17} />
               </span>
               <div className="min-w-0">
@@ -124,7 +124,7 @@ export default function Scope({ scope }: { scope: ScopeDetail["key"] }) {
                   <CountUp value={m.value} decimals={m.decimals} suffix={m.suffix} delay={0.2 + i * 0.08} />
                 </p>
                 {m.delta !== null && (
-                  <p className={`mt-[3px] text-[10.5px] font-medium ${m.good ? "text-[#16a34a]" : "text-[#dc2626]"}`}>
+                  <p className={`mt-[3px] text-[10.5px] font-medium ${m.good ? "text-[#188f8b]" : "text-[#dc2626]"}`}>
                     {m.delta < 0 ? "↓" : "↑"} {Math.abs(m.delta)}% year over year
                   </p>
                 )}

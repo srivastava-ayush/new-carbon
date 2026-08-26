@@ -84,9 +84,9 @@ const NAV_GROUPS: { label: string; items: NavEntry[] }[] = [
   {
     label: "Carbon",
     items: [
-      { id: "scope1", label: "Scope 1", Icon: Flame, tint: "#15803d" },
-      { id: "scope2", label: "Scope 2", Icon: Lightning, tint: "#22c55e" },
-      { id: "scope3", label: "Scope 3", Icon: GlobeHemisphereWest, tint: "#65a30d" },
+      { id: "scope1", label: "Scope 1", Icon: Flame, tint: "#188f8b" },
+      { id: "scope2", label: "Scope 2", Icon: Lightning, tint: "#43b0a9" },
+      { id: "scope3", label: "Scope 3", Icon: GlobeHemisphereWest, tint: "#a7dcd6" },
     ],
   },
   {
@@ -119,7 +119,7 @@ interface NavItemProps {
 
 function NavItem({ entry, active, onClick }: NavItemProps) {
   const Icon = entry.Icon;
-  const color = entry.tint ?? "#16a34a";
+  const color = entry.tint ?? "#188f8b";
   return (
     <button
       onClick={onClick}
@@ -177,7 +177,7 @@ export default function Sidebar({ open, onClose, active, onChange }: SidebarProp
             className="flex w-full items-center justify-between rounded-[8px] border border-black/[0.06] bg-[#fafafa] px-[10px] py-[8px] text-left transition-colors hover:border-black/10"
           >
             <div className="flex items-center gap-[8px]">
-              <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[6px] bg-[#16a34a] text-[10px] font-bold text-white">
+              <span className="flex h-[22px] w-[22px] items-center justify-center rounded-[6px] bg-[#188f8b] text-[10px] font-bold text-white">
                 {WORKSPACES[workspace].slice(0, 1)}
               </span>
               <span className="text-[13px] font-medium text-black">{WORKSPACES[workspace]}</span>
@@ -256,17 +256,17 @@ export default function Sidebar({ open, onClose, active, onChange }: SidebarProp
           );
         })}
 
-        <div className="mt-[2px] rounded-[10px] border border-[#16a34a]/15 bg-[#f6fbf8] p-[12px]">
+        <div className="mt-[2px] rounded-[10px] border border-[#188f8b]/15 bg-[#f2faf9] p-[12px]">
           <div className="flex items-center justify-between">
-            <p className="text-[12px] font-semibold text-[#15803d]">2030 target</p>
-            <span className="text-[10.5px] font-semibold text-[#15803d]">−42%</span>
+            <p className="text-[12px] font-semibold text-[#188f8b]">2030 target</p>
+            <span className="text-[10.5px] font-semibold text-[#188f8b]">−42%</span>
           </div>
-          <div className="mt-[8px] h-[4px] w-full overflow-hidden rounded-full bg-[#d9efe2]">
+          <div className="mt-[8px] h-[4px] w-full overflow-hidden rounded-full bg-[#d7eeec]">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: "44%" }}
               transition={{ duration: 1.2, ease: EASE, delay: 0.4 }}
-              className="h-full rounded-full bg-gradient-to-r from-[#16a34a] to-[#22c55e]"
+              className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
             />
           </div>
           <p className="mt-[8px] text-[11px] leading-snug text-[#71717a]">−18.6% of −42% target met</p>
@@ -282,7 +282,7 @@ export default function Sidebar({ open, onClose, active, onChange }: SidebarProp
           <ArrowUpRight size={14} className="text-[#a1a1aa]" />
         </Link>
         <div className="flex items-center gap-[10px] rounded-[8px] px-[10px] py-[8px]">
-          <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#0d3b2d] text-[11px] font-semibold text-white uppercase">
+          <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#0d4f4b] text-[11px] font-semibold text-white uppercase">
             {user?.firstName?.slice(0, 1) || "U"}
             {user?.lastName?.slice(0, 1) || ""}
           </span>

@@ -68,7 +68,7 @@ export default function Stats() {
     <section className="py-[40px] md:py-[56px]">
       <Container narrow>
         <Reveal>
-          <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-[#fafff8] to-white p-[24px] md:rounded-[28px] md:p-[40px]">
+          <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-[#f8fcfb] to-white p-[24px] md:rounded-[28px] md:p-[40px]">
             <div className="grid grid-cols-1 divide-y divide-black/10 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4">
               {STATS.map((stat) => (
                 <div key={stat.label} className="flex flex-col gap-[12px] px-[24px] py-[28px] lg:py-[8px]">

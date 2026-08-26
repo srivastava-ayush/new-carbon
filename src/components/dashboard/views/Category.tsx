@@ -19,9 +19,9 @@ export default function Category() {
     const s3 = CATEGORIES.filter((c: any) => c.scope === "S3").reduce((a: number, c: any) => a + c.value, 0);
     const total = s1 + s2 + s3 || 1; // avoid division by zero
     return [
-      { key: "scope1", name: "Scope 1 — Direct", value: s1, share: s1 / total, color: "#15803d" },
-      { key: "scope2", name: "Scope 2 — Energy", value: s2, share: s2 / total, color: "#22c55e" },
-      { key: "scope3", name: "Scope 3 — Value chain", value: s3, share: s3 / total, color: "#86efac" },
+      { key: "scope1", name: "Scope 1 — Direct", value: s1, share: s1 / total, color: "#188f8b" },
+      { key: "scope2", name: "Scope 2 — Energy", value: s2, share: s2 / total, color: "#43b0a9" },
+      { key: "scope3", name: "Scope 3 — Value chain", value: s3, share: s3 / total, color: "#a7dcd6" },
     ];
   })();
 
@@ -78,7 +78,7 @@ export default function Category() {
             >
               <div className="flex items-center justify-between gap-[8px]">
                 <p className="text-[12.5px] font-medium text-[#71717a]">{s.label}</p>
-                <span className="flex h-[26px] w-[26px] items-center justify-center rounded-[8px] bg-[#f0fdf4] text-[#15803d]">
+                <span className="flex h-[26px] w-[26px] items-center justify-center rounded-[8px] bg-[#eef8f7] text-[#188f8b]">
                   <Icon size={14} />
                 </span>
               </div>
@@ -88,7 +88,7 @@ export default function Category() {
               <div className="mt-[8px] flex items-center gap-[6px]">
                 <span
                   className={`flex items-center gap-[2px] rounded-full px-[6px] py-[2px] text-[10.5px] font-semibold tabular-nums ${
-                    s.good ? "bg-[#f0fdf4] text-[#15803d]" : "bg-[#fef2f2] text-[#dc2626]"
+                    s.good ? "bg-[#eef8f7] text-[#188f8b]" : "bg-[#fef2f2] text-[#dc2626]"
                   }`}
                 >
                   {s.delta < 0 ? <ArrowDownRight size={11} weight="bold" /> : <ArrowUpRight size={11} weight="bold" />}
@@ -137,7 +137,7 @@ export default function Category() {
           <div className="flex items-center gap-[10px] text-[11px] font-medium text-[#a1a1aa]">
             {["S1", "S2", "S3"].map((s, i) => (
               <span key={s} className="flex items-center gap-[5px]">
-                <span className="h-[7px] w-[7px] rounded-full" style={{ backgroundColor: ["#15803d", "#22c55e", "#86efac"][i] }} />
+                <span className="h-[7px] w-[7px] rounded-full" style={{ backgroundColor: ["#188f8b", "#43b0a9", "#a7dcd6"][i] }} />
                 {s}
               </span>
             ))}
@@ -148,7 +148,7 @@ export default function Category() {
           data={CATEGORIES.map((c: any, i: number) => ({
             label: ["Goods & services", "Electricity", "Other S3", "Business travel", "Transport", "On-site fuel", "Heating"][i] || c.name,
             value: c.value,
-            color: c.scope === "S1" ? "#15803d" : c.scope === "S2" ? "#22c55e" : "#86efac",
+            color: c.scope === "S1" ? "#188f8b" : c.scope === "S2" ? "#43b0a9" : "#a7dcd6",
           }))}
           delay={0.2}
           height={240}

@@ -9,18 +9,18 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.replace("/auth/signin");
-    }
+    // if (!loading && !isAuthenticated) {
+    //   router.replace("/auth/signin");
+    // }
   }, [isAuthenticated, loading, router]);
 
-  if (loading || !isAuthenticated) {
-    return (
-      <div className="flex min-h-dvh items-center justify-center bg-[#fafafa]">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-black/10 border-t-[#16a34a]" />
-      </div>
-    );
-  }
+  // if (loading || !isAuthenticated) {
+  //   return (
+  //     <div className="flex min-h-dvh items-center justify-center bg-[#fafafa]">
+  //       <div className="h-8 w-8 animate-spin rounded-full border-4 border-black/10 border-t-[#188f8b]" />
+  //     </div>
+  //   );
+  // }
 
   return <>{children}</>;
 }

@@ -11,7 +11,7 @@ interface SparklineProps {
   strokeWidth?: number;
 }
 
-export default function Sparkline({ data, width = 96, height = 32, color = "#16a34a", strokeWidth = 1.5 }: SparklineProps) {
+export default function Sparkline({ data, width = 96, height = 32, color = "#188f8b", strokeWidth = 1.5 }: SparklineProps) {
   const max = Math.max(...data);
   const min = Math.min(...data);
   const range = max - min || 1;

@@ -83,8 +83,8 @@ export default function HowItWorks() {
         }}
       />
       <Reveal>
-        <div className="mb-[32px]` h-px w-full bg-gradient-to-r from-[#16a34a]/60 via-[#16a34a]/20 to-transparent" />
-        <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#16a34a]">
+        <div className="mb-[32px]` h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
+        <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
           How it works
         </span>
         <h2 className="mb-[48px] font-display text-[40px] leading-[0.95] tracking-[-1.28px] text-black md:mb-[64px] md:text-[64px]">
@@ -104,20 +104,20 @@ export default function HowItWorks() {
                   {!isLast && (
                     <div
                       className={`absolute top-[26px] left-[13px] w-[2px] rounded-full transition-colors duration-500 ${
-                        isComplete ? "bg-[#16a34a]/50" : "bg-[#e4e4e7]"
+                        isComplete ? "bg-[#188f8b]/50" : "bg-[#e4e4e7]"
                       }`}
                       style={{ height: "calc(100% - 20px)" }}
                     />
                   )}
                   {isActive && (
-                    <span className="absolute top-[12px] left-[6px] h-[18px] w-[18px] animate-ping rounded-full bg-[#16a34a]/25" />
+                    <span className="absolute top-[12px] left-[6px] h-[18px] w-[18px] animate-ping rounded-full bg-[#188f8b]/25" />
                   )}
                   <span
                     className={`absolute top-[14px] left-[7px] flex h-[14px] w-[14px] items-center justify-center rounded-full border transition-colors duration-500 ${
                       isActive
-                        ? "border-[#16a34a] bg-[#16a34a]"
+                        ? "border-[#188f8b] bg-[#188f8b]"
                         : isComplete
-                          ? "border-[#16a34a]/60 bg-[#e4f3ea]"
+                          ? "border-[#188f8b]/60 bg-[#dff0ee]"
                           : "border-[#d4d4d8] bg-white"
                     }`}
                   >
@@ -125,7 +125,7 @@ export default function HowItWorks() {
                       <svg viewBox="0 0 12 12" className="h-[8px] w-[8px]" fill="none">
                         <path
                           d="M2.5 6l2.5 2.5L9.5 3.5"
-                          stroke={isActive ? "#ffffff" : "#16a34a"}
+                          stroke={isActive ? "#ffffff" : "#188f8b"}
                           strokeWidth="1.8"
                           strokeLinecap="round"
                           strokeLinejoin="round"

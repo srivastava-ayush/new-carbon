@@ -78,7 +78,7 @@ export default function Topbar({ onMenu, title, subtitle }: TopbarProps) {
           <MagnifyingGlass size={15} className="pointer-events-none absolute top-1/2 left-[10px] -translate-y-1/2 text-[#a1a1aa]" />
           <input
             placeholder="Search…"
-            className="h-[34px] w-[190px] rounded-[8px] border border-black/[0.06] bg-white pr-[10px] pl-[32px] text-[13px] text-black placeholder:text-[#a1a1aa] focus:border-[#16a34a]/40 focus:outline-none"
+            className="h-[34px] w-[190px] rounded-[8px] border border-black/[0.06] bg-white pr-[10px] pl-[32px] text-[13px] text-black placeholder:text-[#a1a1aa] focus:border-[#188f8b]/40 focus:outline-none"
           />
         </div>
 
@@ -143,7 +143,7 @@ export default function Topbar({ onMenu, title, subtitle }: TopbarProps) {
               const t = toast.loading("Preparing export...");
               setTimeout(() => toast.success("Export successful", { id: t }), 1500);
             }}
-            className="hidden h-[34px] items-center gap-[6px] rounded-[8px] bg-[#16a34a] px-[12px] text-[13px] font-semibold text-white transition-colors hover:bg-[#15803d] md:flex"
+            className="hidden h-[34px] items-center gap-[6px] rounded-[8px] bg-[#188f8b] px-[12px] text-[13px] font-semibold text-white transition-colors hover:bg-[#188f8b] md:flex"
           >
             <DownloadSimple size={14} />
             Export
@@ -174,7 +174,7 @@ export default function Topbar({ onMenu, title, subtitle }: TopbarProps) {
               >
                 <div className="flex items-center justify-between border-b border-black/[0.06] px-[16px] py-[12px] bg-[#fafafa]">
                   <h3 className="text-[13px] font-semibold text-black">Notifications</h3>
-                  <a href="/notifications" className="text-[11px] font-medium text-[#15803d] hover:underline">View All</a>
+                  <a href="/notifications" className="text-[11px] font-medium text-[#188f8b] hover:underline">View All</a>
                 </div>
                 
                 <div className="flex max-h-[300px] flex-col overflow-y-auto">
@@ -196,7 +196,7 @@ export default function Topbar({ onMenu, title, subtitle }: TopbarProps) {
                               {new Date(n.createdAt).toLocaleDateString()}
                             </span>
                             {!n.isRead && (
-                              <button onClick={() => handleRead(n.id)} className="flex items-center gap-[4px] text-[10px] font-semibold text-[#15803d] hover:text-[#16a34a]">
+                              <button onClick={() => handleRead(n.id)} className="flex items-center gap-[4px] text-[10px] font-semibold text-[#188f8b] hover:text-[#188f8b]">
                                 <CheckCircle size={12} weight="fill" /> Mark Read
                               </button>
                             )}

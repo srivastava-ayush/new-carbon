@@ -95,8 +95,8 @@ function CapCard({ item, delay }: { item: Capability; delay: number }) {
   const { num, title, Icon, points, tint, trace, report } = item;
 
   const card = tint
-    ? "border-[#16a34a]/15 bg-[#f6fbf8] hover:border-[#16a34a]/25"
-    : "border-black/10 bg-white hover:border-[#16a34a]/20";
+    ? "border-[#188f8b]/15 bg-[#f2faf9] hover:border-[#188f8b]/25"
+    : "border-black/10 bg-white hover:border-[#188f8b]/20";
 
   return (
     <Reveal delay={delay} className={`${item.span} h-full`}>
@@ -104,13 +104,13 @@ function CapCard({ item, delay }: { item: Capability; delay: number }) {
         className={`group relative flex h-full flex-col rounded-[24px] border p-[28px] transition-all duration-300 hover:-translate-y-[1px] ${card} md:p-[32px]`}
       >
         <div className="flex items-center justify-between">
-          <Icon size={20} weight="regular" className="text-[#16a34a]" />
+          <Icon size={20} weight="regular" className="text-[#188f8b]" />
           <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c9c9cf]">
             {num}
           </span>
         </div>
 
-        <h3 className={`mt-[20px] font-display text-[22px] leading-[1.15] tracking-[-0.3px] md:text-[24px] ${tint ? "text-[#15803d]" : "text-black"}`}>
+        <h3 className={`mt-[20px] font-display text-[22px] leading-[1.15] tracking-[-0.3px] md:text-[24px] ${tint ? "text-[#188f8b]" : "text-black"}`}>
           {title}
         </h3>
 
@@ -120,7 +120,7 @@ function CapCard({ item, delay }: { item: Capability; delay: number }) {
               key={point}
               className="flex items-start gap-[10px] text-[13px] leading-[1.5] tracking-[-0.12px] text-[#848484]"
             >
-              <span className={`mt-[6px] h-[4px] w-[4px] shrink-0 rounded-full ${tint ? "bg-[#16a34a]/50" : "bg-[#16a34a]/40"}`} />
+              <span className={`mt-[6px] h-[4px] w-[4px] shrink-0 rounded-full ${tint ? "bg-[#188f8b]/50" : "bg-[#188f8b]/40"}`} />
               {point}
             </li>
           ))}
@@ -147,20 +147,20 @@ function CapCard({ item, delay }: { item: Capability; delay: number }) {
                   Scope 1 · 2 · 3
                 </span>
                 <span className="flex gap-[4px]">
-                  <span className="h-[6px] w-[6px] rounded-full bg-[#16a34a]/70" />
-                  <span className="h-[6px] w-[6px] rounded-full bg-[#16a34a]/30" />
-                  <span className="h-[6px] w-[6px] rounded-full bg-[#16a34a]/15" />
+                  <span className="h-[6px] w-[6px] rounded-full bg-[#188f8b]/70" />
+                  <span className="h-[6px] w-[6px] rounded-full bg-[#188f8b]/30" />
+                  <span className="h-[6px] w-[6px] rounded-full bg-[#188f8b]/15" />
                 </span>
               </div>
               <div className="mt-[12px] flex gap-[8px]">
-                <div className="h-[32px] flex-1 rounded-[6px] bg-[#16a34a]/10" />
-                <div className="h-[32px] flex-1 rounded-[6px] bg-[#16a34a]/25" />
-                <div className="h-[32px] flex-1 rounded-[6px] bg-[#16a34a]/60" />
-                <div className="h-[32px] flex-1 rounded-[6px] bg-[#15803d]" />
+                <div className="h-[32px] flex-1 rounded-[6px] bg-[#188f8b]/10" />
+                <div className="h-[32px] flex-1 rounded-[6px] bg-[#188f8b]/25" />
+                <div className="h-[32px] flex-1 rounded-[6px] bg-[#188f8b]/60" />
+                <div className="h-[32px] flex-1 rounded-[6px] bg-[#188f8b]" />
               </div>
               <div className="mt-[8px] flex items-center justify-between">
                 <span className="text-[9px] font-medium tracking-[-0.1px] text-[#a1a1aa]">2023 → 2025</span>
-                <span className="text-[10px] font-semibold text-[#16a34a]">−42%</span>
+                <span className="text-[10px] font-semibold text-[#188f8b]">−42%</span>
               </div>
             </div>
           </div>
@@ -174,8 +174,8 @@ export default function Capabilities() {
   return (
     <Section id="capabilities" narrow>
       <Reveal>
-        <div className="mb-[32px] h-px w-full bg-gradient-to-r from-[#16a34a]/60 via-[#16a34a]/20 to-transparent" />
-        <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#16a34a]">
+        <div className="mb-[32px] h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
+        <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
           What we help companies with
         </span>
         <h2 className="mb-[20px] max-w-[720px] font-display text-[40px] leading-[0.95] tracking-[-1.28px] text-black md:mb-[24px] md:text-[64px]">
@@ -193,9 +193,9 @@ export default function Capabilities() {
         ))}
 
         <Reveal delay={0.1} className="md:col-span-2 lg:col-span-7">
-          <div className="group flex h-full flex-col rounded-[24px] border border-black/10 bg-white p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#16a34a]/20 md:p-[32px]">
+          <div className="group flex h-full flex-col rounded-[24px] border border-black/10 bg-white p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/20 md:p-[32px]">
             <div className="flex items-center justify-between">
-              <ChartPieSlice size={20} weight="regular" className="text-[#16a34a]" />
+              <ChartPieSlice size={20} weight="regular" className="text-[#188f8b]" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c9c9cf]">07</span>
             </div>
 
@@ -209,19 +209,19 @@ export default function Capabilities() {
             <div className="mt-[28px] grid grid-cols-1 gap-[24px] lg:grid-cols-2">
               <div>
                 <div className="flex h-[24px] w-full overflow-hidden rounded-full bg-[#f0f0f0]">
-                  <div className="bg-[#15803d]" style={{ width: "12%" }} />
-                  <div className="bg-[#16a34a]" style={{ width: "28%" }} />
-                  <div className="bg-[#a7e3b8]" style={{ width: "60%" }} />
+                  <div className="bg-[#188f8b]" style={{ width: "12%" }} />
+                  <div className="bg-[#188f8b]" style={{ width: "28%" }} />
+                  <div className="bg-[#a7dcd6]" style={{ width: "60%" }} />
                 </div>
                 <div className="mt-[12px] flex flex-wrap gap-x-[16px] gap-y-[6px] text-[12px] font-medium tracking-[-0.12px] text-[#4b5563]">
                   <span className="flex items-center gap-[6px]">
-                    <span className="h-[8px] w-[8px] rounded-full bg-[#15803d]" /> Scope 1 · 12%
+                    <span className="h-[8px] w-[8px] rounded-full bg-[#188f8b]" /> Scope 1 · 12%
                   </span>
                   <span className="flex items-center gap-[6px]">
-                    <span className="h-[8px] w-[8px] rounded-full bg-[#16a34a]" /> Scope 2 · 28%
+                    <span className="h-[8px] w-[8px] rounded-full bg-[#188f8b]" /> Scope 2 · 28%
                   </span>
                   <span className="flex items-center gap-[6px]">
-                    <span className="h-[8px] w-[8px] rounded-full bg-[#a7e3b8]" /> Scope 3 · 60%
+                    <span className="h-[8px] w-[8px] rounded-full bg-[#a7dcd6]" /> Scope 3 · 60%
                   </span>
                 </div>
               </div>
@@ -238,7 +238,7 @@ export default function Capabilities() {
                       </span>
                       <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-[#f0f0f0]">
                         <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#16a34a] to-[#22c55e]"
+                          className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
                           style={{ width: source.value }}
                         />
                       </div>
@@ -254,9 +254,9 @@ export default function Capabilities() {
         </Reveal>
 
         <Reveal delay={0.18} className="md:col-span-2 lg:col-span-5">
-          <div className="group flex h-full flex-col rounded-[24px] border border-[#16a34a]/15 bg-[#f6fbf8] p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#16a34a]/25 md:p-[32px]">
+          <div className="group flex h-full flex-col rounded-[24px] border border-[#188f8b]/15 bg-[#f2faf9] p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/25 md:p-[32px]">
             <div className="flex items-center justify-between">
-              <Target size={20} weight="regular" className="text-[#16a34a]" />
+              <Target size={20} weight="regular" className="text-[#188f8b]" />
               <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c9c9cf]">08</span>
             </div>
 
@@ -271,11 +271,11 @@ export default function Capabilities() {
             <div className="mt-[28px]">
               <div className="mb-[8px] flex items-center justify-between text-[12px] font-medium tracking-[-0.12px]">
                 <span className="text-[#848484]">Progress to 2030 target</span>
-                <span className="text-[#16a34a]">−42%</span>
+                <span className="text-[#188f8b]">−42%</span>
               </div>
               <div className="h-[8px] w-full overflow-hidden rounded-full bg-white">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#16a34a] to-[#22c55e]"
+                  className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
                   style={{ width: "42%" }}
                 />
               </div>

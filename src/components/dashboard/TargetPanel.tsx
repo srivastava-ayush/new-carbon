@@ -42,12 +42,7 @@ export default function TargetPanel({ delay = 0 }: { delay?: number }) {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-[13.5px] font-semibold tracking-[-0.1px] text-black">{target.label.split(" ")[0]} reduction target</p>
-          <p className="mt-[2px] text-[12px] text-[#71717a]">Science-based aligned to 1.5°C</p>
-        </div>
-        <div className="flex items-center gap-[8px]">
+      <div className="flex items-center justify-end gap-[8px]">
           {isAdmin && (
             <a
               href="/targets"
@@ -57,10 +52,9 @@ export default function TargetPanel({ delay = 0 }: { delay?: number }) {
               Edit target
             </a>
           )}
-          <span className={`rounded-full px-[8px] py-[2px] text-[11px] font-semibold ${reductionProgress >= 100 ? "bg-green-100 text-green-700" : "bg-[#f0fdf4] text-[#15803d]"}`}>
+          <span className={`rounded-full px-[8px] py-[2px] text-[11px] font-semibold ${reductionProgress >= 100 ? "bg-green-100 text-green-700" : "bg-[#eef8f7] text-[#188f8b]"}`}>
             {reductionProgress >= 100 ? "Target Achieved" : "On track"}
           </span>
-        </div>
       </div>
 
       <div className="mt-[22px] flex items-baseline gap-[8px]">
@@ -76,7 +70,7 @@ export default function TargetPanel({ delay = 0 }: { delay?: number }) {
             initial={{ width: 0 }}
             animate={{ width: `${reductionProgress}%` }}
             transition={{ duration: 1.4, ease: EASE, delay: delay + 0.3 }}
-            className="h-full rounded-full bg-gradient-to-r from-[#16a34a] to-[#4ade80]"
+            className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#3faea7]"
           />
         </div>
 
@@ -89,7 +83,7 @@ export default function TargetPanel({ delay = 0 }: { delay?: number }) {
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", stiffness: 400, damping: 22, delay: delay + 0.4 + i * 0.15 }}
-                  className={`h-[10px] w-[10px] rounded-full ${isComplete ? "bg-[#16a34a]" : "bg-[#d4d4d8]"}`}
+                  className={`h-[10px] w-[10px] rounded-full ${isComplete ? "bg-[#188f8b]" : "bg-[#d4d4d8]"}`}
                 />
                 <p className="mt-[8px] text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#a1a1aa]">{tgt.label}</p>
                 <p className="text-[12.5px] font-medium tabular-nums text-black">
@@ -101,18 +95,6 @@ export default function TargetPanel({ delay = 0 }: { delay?: number }) {
           })}
         </div>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: EASE, delay: delay + 0.5 }}
-        className="mt-auto flex items-center gap-[8px] rounded-[10px] border border-[#16a34a]/15 bg-[#f6fbf8] px-[12px] py-[10px]"
-      >
-        <span className="h-[8px] w-[8px] shrink-0 rounded-full bg-[#16a34a]" />
-        <p className="text-[12px] leading-snug text-[#15803d]">
-          Current pace puts you <span className="font-semibold">{reductionProgress >= 100 ? "beyond" : reductionProgress > 0 ? "ahead of" : "behind"}</span> the baseline.
-        </p>
-      </motion.div>
     </div>
   );
 }

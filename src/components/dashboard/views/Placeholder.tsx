@@ -14,7 +14,7 @@ export default function Placeholder({ tab }: { tab: "reports" | "settings" }) {
       transition={{ duration: 0.5, ease: EASE }}
       className="flex min-h-[50dvh] flex-col items-center justify-center rounded-[14px] border border-black/[0.06] bg-white p-[32px] text-center"
     >
-      <span className="flex h-[48px] w-[48px] items-center justify-center rounded-[12px] bg-[#f0fdf4] text-[#15803d]">
+      <span className="flex h-[48px] w-[48px] items-center justify-center rounded-[12px] bg-[#eef8f7] text-[#188f8b]">
         <Icon size={22} />
       </span>
       <h2 className="mt-[16px] text-[17px] font-semibold tracking-[-0.3px] text-black">

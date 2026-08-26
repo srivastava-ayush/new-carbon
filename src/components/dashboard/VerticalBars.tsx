@@ -41,7 +41,7 @@ export default function VerticalBars({ data, height = 220, delay = 0, suffix = "
           );
         })}
 
-        <div className="absolute inset-0 flex items-end gap-[8px] md:gap-[14px]">
+        <div className="absolute inset-0 flex items-end gap-[8px] pl-[52px] md:gap-[14px]">
           {data.map((d, i) => {
             const pct = (d.value / niceMax) * 100;
             const active = hover === i;
@@ -69,8 +69,8 @@ export default function VerticalBars({ data, height = 220, delay = 0, suffix = "
                     className="relative w-full overflow-hidden rounded-t-[6px]"
                     style={{
                       background: active
-                        ? d.color ?? "#15803d"
-                        : `linear-gradient(180deg, ${d.color ?? "#22c55e"}, ${d.color ?? "#16a34a"}90)`,
+                        ? d.color ?? "#188f8b"
+                        : `linear-gradient(180deg, ${d.color ?? "#43b0a9"}, ${d.color ?? "#188f8b"}90)`,
                       opacity: active ? 1 : 0.85,
                       transition: "opacity 0.2s",
                     }}
@@ -81,7 +81,7 @@ export default function VerticalBars({ data, height = 220, delay = 0, suffix = "
 
                 <p
                   className={`mt-[8px] truncate text-center text-[10.5px] font-medium transition-colors duration-200 ${
-                    active ? "text-[#15803d]" : "text-[#a1a1aa]"
+                    active ? "text-[#188f8b]" : "text-[#a1a1aa]"
                   }`}
                 >
                   {d.label}

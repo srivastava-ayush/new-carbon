@@ -19,7 +19,7 @@ interface BarListProps {
   color?: string;
 }
 
-export default function BarList({ rows, valueLabel = "tCO₂e", delay = 0, color = "#16a34a" }: BarListProps) {
+export default function BarList({ rows, valueLabel = "tCO₂e", delay = 0, color = "#188f8b" }: BarListProps) {
   const [hover, setHover] = useState<number | null>(null);
   const max = Math.max(...rows.map((r) => r.value));
 
@@ -56,7 +56,7 @@ export default function BarList({ rows, valueLabel = "tCO₂e", delay = 0, color
               )}
               {row.sublabel && <span className="hidden truncate text-[11px] text-[#a1a1aa] sm:inline">{row.sublabel}</span>}
             </div>
-            <span className={`shrink-0 text-[12.5px] font-semibold tabular-nums transition-colors duration-200 ${hover === i ? "text-[#15803d]" : "text-black"}`}>
+            <span className={`shrink-0 text-[12.5px] font-semibold tabular-nums transition-colors duration-200 ${hover === i ? "text-[#188f8b]" : "text-black"}`}>
               <CountUp value={row.value} delay={delay + i * 0.07} /> <span className="text-[10.5px] font-medium text-[#a1a1aa]">{valueLabel}</span>
             </span>
           </div>
@@ -67,7 +67,7 @@ export default function BarList({ rows, valueLabel = "tCO₂e", delay = 0, color
               transition={{ duration: 1.1, ease: EASE, delay: delay + 0.1 + i * 0.07 }}
               className={`h-full rounded-full transition-colors duration-300 ${hover === i ? "" : ""}`}
               style={{
-                background: hover === i ? "#15803d" : `linear-gradient(90deg, ${color}, #4ade80)`,
+                background: hover === i ? "#188f8b" : `linear-gradient(90deg, ${color}, #3faea7)`,
               }}
             />
           </div>

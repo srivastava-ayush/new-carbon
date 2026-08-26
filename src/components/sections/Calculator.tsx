@@ -38,7 +38,7 @@ export default function Calculator() {
               <div className="relative flex overflow-hidden rounded-[10px]">
                 <div className="pointer-events-none absolute inset-0 z-20 rounded-[10px] border border-[#3b3b3b]" />
                 <div
-                  className="pointer-events-none absolute top-0 left-0 z-30 h-full rounded-l-[10px] rounded-r-none bg-[#16a34a] transition-all duration-500 ease-[cubic-bezier(0.6,0.040,0.015,1)]"
+                  className="pointer-events-none absolute top-0 left-0 z-30 h-full rounded-l-[10px] rounded-r-none bg-[#188f8b] transition-all duration-500 ease-[cubic-bezier(0.6,0.040,0.015,1)]"
                   style={{ width: `${(100 / 3) * (XPU_OPTIONS.indexOf(xpus) + 1)}%` }}
                 />
                 {XPU_OPTIONS.map((size, i) => (
@@ -75,9 +75,9 @@ export default function Calculator() {
                   className="absolute top-1/2 left-0 z-10 h-[44px] w-full -translate-y-1/2 cursor-pointer appearance-none bg-transparent"
                 />
                 <div className="pointer-events-none absolute inset-0 rounded-full bg-[#e2e8f0]" />
-                <div className="pointer-events-none absolute top-0 left-0 h-full rounded-full bg-[#16a34a]" style={{ width: `${fillPct}%` }} />
+                <div className="pointer-events-none absolute top-0 left-0 h-full rounded-full bg-[#188f8b]" style={{ width: `${fillPct}%` }} />
                 <div
-                  className="pointer-events-none absolute top-1/2 h-[16px] w-[16px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[4px] border-[#16a34a] bg-white"
+                  className="pointer-events-none absolute top-1/2 h-[16px] w-[16px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[4px] border-[#188f8b] bg-white"
                   style={{ left: `${fillPct}%` }}
                 />
               </div>
@@ -85,8 +85,8 @@ export default function Calculator() {
           </div>
 
           <div className="flex flex-col gap-[20px]">
-            <div className="flex h-[260px] flex-col justify-between gap-[20px] rounded-[10px] bg-[#0d3b2d] p-[20px] md:h-[300px] md:p-[24px]">
-              <span className="block text-[14px] font-medium uppercase tracking-[1.68px] text-[#a7f3d0]">
+            <div className="flex h-[260px] flex-col justify-between gap-[20px] rounded-[10px] bg-[#0d4f4b] p-[20px] md:h-[300px] md:p-[24px]">
+              <span className="block text-[14px] font-medium uppercase tracking-[1.68px] text-[#ade5df]">
                 Reclaimed annual revenue
               </span>
               <div className="flex items-baseline gap-[10px] whitespace-nowrap font-display text-[72px] leading-[0.95] tracking-[-1px] text-white md:text-[100px] md:gap-[20px]">

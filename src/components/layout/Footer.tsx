@@ -27,7 +27,7 @@ export default function Footer() {
     : maskReveal;
 
   return (
-    <footer className="relative z-50 mt-[48px] border-t border-black/[0.06] bg-[#f3f6f2] md:mt-[64px]">
+    <footer className="relative z-50 mt-[48px] border-t border-black/[0.06] bg-[#f2f5f4] md:mt-[64px]">
       <Container className="flex h-[440px] flex-col justify-between py-[30px] md:h-[400px] md:pt-[44px] md:pb-[54px]">
         <a
           href={`mailto:${CONTACT_EMAIL}`}

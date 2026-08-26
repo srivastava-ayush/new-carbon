@@ -2,30 +2,30 @@
 
 :root {
   --background: #fbfcfa;
-  --foreground: #0b1f16;
-  --ink: #0b1f16;
-  --muted: #5f6f66;
-  --accent: #16a34a;
-  --accent-deep: #14532d;
+  --foreground: #0b1f1e;
+  --ink: #0b1f1e;
+  --muted: #5f706e;
+  --accent: #188f8b;
+  --accent-deep: #0d4f4b;
   --hairline: rgba(11, 31, 22, 0.08);
 
   --card: #ffffff;
-  --card-foreground: #0b1f16;
+  --card-foreground: #0b1f1e;
   --popover: #ffffff;
-  --popover-foreground: #0b1f16;
-  --primary: #16a34a;
+  --popover-foreground: #0b1f1e;
+  --primary: #188f8b;
   --primary-foreground: #ffffff;
   --secondary: #eef4ef;
-  --secondary-foreground: #0b1f16;
+  --secondary-foreground: #0b1f1e;
   --muted-bg: #eff3ef;
-  --muted-foreground: #5f6f66;
+  --muted-foreground: #5f706e;
   --accent-muted: #e7f6ec;
   --destructive: #dc2626;
   --border: rgba(11, 31, 22, 0.12);
   --input: rgba(11, 31, 22, 0.16);
-  --ring: #16a34a;
-  --eco-green: #16a34a;
-  --eco-hover: #15803d;
+  --ring: #188f8b;
+  --eco-green: #188f8b;
+  --eco-hover: #188f8b;
 }
 
 @theme inline {
@@ -67,12 +67,12 @@ body {
 }
 
 ::selection {
-  background: rgba(22, 163, 74, 0.18);
+  background: rgba(24, 143, 139, 0.18);
   color: var(--accent-deep);
 }
 
 :focus-visible {
-  outline: 2px solid rgba(22, 163, 74, 0.55);
+  outline: 2px solid rgba(24, 143, 139, 0.55);
   outline-offset: 3px;
   border-radius: 4px;
 }

@@ -7,7 +7,7 @@ interface LogoProps {
 export default function Logo({ className }: LogoProps) {
   return (
     <Image
-      src="/cr.webp"
+      src="/cr.png"
       alt="Carbonsynq logo"
       width={105}
       height={113}

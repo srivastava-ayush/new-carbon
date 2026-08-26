@@ -20,7 +20,7 @@ export default function KpiCard({ kpi, delay }: { kpi: Kpi; delay: number }) {
         <p className="text-[12.5px] font-medium text-[#71717a]">{kpi.label}</p>
         <span
           className={`flex shrink-0 items-center gap-[2px] rounded-full px-[6px] py-[2px] text-[10.5px] font-semibold tabular-nums ${
-            kpi.good ? "bg-[#f0fdf4] text-[#15803d]" : "bg-[#fef2f2] text-[#dc2626]"
+            kpi.good ? "bg-[#eef8f7] text-[#188f8b]" : "bg-[#fef2f2] text-[#dc2626]"
           }`}
         >
           {kpi.delta >= 0 ? <ArrowUpRight size={11} weight="bold" /> : <ArrowDownRight size={11} weight="bold" />}
@@ -32,7 +32,7 @@ export default function KpiCard({ kpi, delay }: { kpi: Kpi; delay: number }) {
         <p className="text-[25px] font-semibold leading-none tracking-[-0.8px] tabular-nums text-black">
           <CountUp value={kpi.value} decimals={kpi.decimals ?? 0} suffix={kpi.suffix} delay={delay + 0.15} />
         </p>
-        <Sparkline data={kpi.spark} color={kpi.good ? "#16a34a" : "#dc2626"} />
+        <Sparkline data={kpi.spark} color={kpi.good ? "#188f8b" : "#dc2626"} />
       </div>
 
       <p className="mt-[10px] text-[11.5px] text-[#a1a1aa]">{kpi.deltaLabel}</p>

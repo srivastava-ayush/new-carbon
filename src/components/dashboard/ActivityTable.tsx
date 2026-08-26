@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowRight, CheckCircle, Clock, DotsThree, WarningCircle } from "@phosphor-icons/react";
+import { CheckCircle, Clock, DotsThree, WarningCircle } from "@phosphor-icons/react";
 import { EASE } from "@/lib/animations";
 import { useDashboardContext } from "@/hooks/useDashboardContext";
 import { useAuth } from "@/context/AuthContext";
@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 const STATUS = {
-  Synced: { icon: CheckCircle, cls: "text-[#16a34a] bg-[#f0fdf4] border-[#16a34a]/20" },
+  Synced: { icon: CheckCircle, cls: "text-[#188f8b] bg-[#eef8f7] border-[#188f8b]/20" },
   Processed: { icon: Clock, cls: "text-[#0891b2] bg-[#ecfeff] border-[#06b6d4]/20" },
   "Needs review": { icon: WarningCircle, cls: "text-[#d97706] bg-[#fffbeb] border-[#f59e0b]/20" },
 } as const;
@@ -26,28 +26,19 @@ export default function ActivityTable({ delay = 0 }: { delay?: number }) {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-[13.5px] font-semibold tracking-[-0.1px] text-black">Recent activity</p>
-          <p className="mt-[2px] text-[12px] text-[#71717a]">Latest data processed from your sources</p>
-        </div>
-        <div className="flex items-center gap-[12px]">
-          {canAddData && (
-            <button 
-              onClick={() => toast.success("Data entry form will be opened")}
-              className="flex items-center gap-[4px] rounded-full bg-[#16a34a] px-[12px] py-[4px] text-[11px] font-semibold text-white transition-colors hover:bg-[#15803d]"
-            >
-              <Plus size={12} weight="bold" />
-              Add data
-            </button>
-          )}
-          <button className="flex items-center gap-[4px] text-[12px] font-semibold text-[#15803d] transition-colors hover:text-[#0d3b2d]">
-            View all <ArrowRight size={12} weight="bold" />
+      {canAddData && (
+        <div className="mb-[12px] flex justify-end">
+          <button 
+            onClick={() => toast.success("Data entry form will be opened")}
+            className="flex items-center gap-[4px] rounded-full bg-[#188f8b] px-[12px] py-[4px] text-[11px] font-semibold text-white transition-colors hover:bg-[#188f8b]"
+          >
+            <Plus size={12} weight="bold" />
+            Add data
           </button>
         </div>
-      </div>
+      )}
 
-      <div className="mt-[14px] flex-1 overflow-x-auto min-h-[250px]">
+      <div className="mt-[14px] overflow-x-auto">
         {hasData ? (
           <table className="w-full min-w-[560px] border-collapse relative">
             <thead>
@@ -110,7 +101,7 @@ export default function ActivityTable({ delay = 0 }: { delay?: number }) {
                             <>
                               <button 
                                 onClick={() => { setActiveMenu(null); toast.success("Activity approved"); }}
-                                className="w-full rounded-[6px] px-[8px] py-[6px] text-left text-[12px] font-medium text-[#16a34a] hover:bg-black/[0.04]"
+                                className="w-full rounded-[6px] px-[8px] py-[6px] text-left text-[12px] font-medium text-[#188f8b] hover:bg-black/[0.04]"
                               >
                                 Approve
                               </button>
@@ -152,11 +143,11 @@ export default function ActivityTable({ delay = 0 }: { delay?: number }) {
       </div>
 
       {hasData && (
-        <div className="mt-[12px] flex items-center justify-between border-t border-black/[0.05] pt-[10px]">
+        <div className="mt-[14px] flex items-center justify-between border-t border-black/[0.05] pt-[12px] pb-[2px]">
           <p className="text-[11.5px] text-[#a1a1aa]">Showing {ACTIVITY.length} records</p>
           <div className="flex items-center gap-[2px]">
             <button className="flex h-[26px] items-center justify-center rounded-[6px] border border-black/[0.08] bg-white px-[8px] text-[11.5px] font-medium text-[#a1a1aa]">Prev</button>
-            <button className="flex h-[26px] items-center justify-center rounded-[6px] bg-[#16a34a] px-[9px] text-[11.5px] font-semibold text-white">1</button>
+            <button className="flex h-[26px] items-center justify-center rounded-[6px] bg-[#188f8b] px-[9px] text-[11.5px] font-semibold text-white">1</button>
             <button className="flex h-[26px] items-center justify-center rounded-[6px] border border-black/[0.08] bg-white px-[8px] text-[11.5px] font-medium text-[#71717a]">Next</button>
           </div>
         </div>
