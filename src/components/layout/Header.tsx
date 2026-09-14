@@ -9,14 +9,9 @@ import { EASE } from "@/lib/animations";
 import { useAuth } from "@/context/AuthContext";
 
 const NAV_LINKS = [
-  { label: "Product", href: "/product" },
-  { label: "Dashboard", href: "/dashboard" },
-  { label: "Company", href: "/company" },
-  { label: "Resources", href: "/resources" },
-  { label: "News", href: "/news" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact Us", href: "/contact" },
 ];
-
-const CONTACT_EMAIL = "sales@arianetworks.com";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -64,7 +59,7 @@ export default function Header() {
 
             <div className="flex items-center gap-[8px]">
               <nav className="mr-[6px] hidden items-center gap-[26px] lg:flex">
-                {NAV_LINKS.filter((item) => item.label !== "Dashboard" || isAuthenticated).map(
+                {NAV_LINKS.map(
                   (item) => (
                     <a
                       key={item.href}
@@ -95,14 +90,14 @@ export default function Header() {
                     href="/auth/signin"
                     className="text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a55] transition-colors duration-200 hover:text-[#0b1f1e]"
                   >
-                    Login
+                    Log in
                   </Link>
-                  <a
-                    href={`mailto:${CONTACT_EMAIL}`}
-                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b3b38] px-[24px] text-[13.5px] font-semibold tracking-[-0.14px] text-white shadow-[0_8px_22px_rgba(11,59,56,0.22)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-[#0e4a47]"
+                  <Link
+                    href="/auth/signup"
+                    className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b3b38] px-[22px] text-[13.5px] font-semibold tracking-[-0.14px] text-white shadow-[0_8px_22px_rgba(11,59,56,0.22)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-[#0e4a47]"
                   >
-                    Contact
-                  </a>
+                    Sign Up
+                  </Link>
                 </div>
               )}
 
@@ -141,7 +136,7 @@ export default function Header() {
               transition={{ duration: 0.5, ease: EASE, delay: 0.08 }}
               className="absolute top-1/2 left-[30px] flex -translate-y-1/2 flex-col gap-[26px]"
             >
-              {NAV_LINKS.filter((item) => item.label !== "Dashboard" || isAuthenticated).map(
+              {NAV_LINKS.map(
                 (item) => (
                   <a
                     key={item.href}
@@ -159,7 +154,7 @@ export default function Header() {
                   onClick={() => setOpen(false)}
                   className="font-display text-[42px] leading-none text-[#188f8b]"
                 >
-                  Login
+                  Log in
                 </Link>
               )}
             </motion.nav>
@@ -176,13 +171,13 @@ export default function Header() {
                   Logout
                 </button>
               ) : (
-                <a
-                  href={`mailto:${CONTACT_EMAIL}`}
+                <Link
+                  href="/auth/signup"
                   onClick={() => setOpen(false)}
                   className="flex h-[60px] w-full items-center justify-center rounded-full bg-[#0b3b38] text-[16px] font-semibold text-white shadow-[0_16px_40px_rgba(11,59,56,0.3)]"
                 >
-                  Contact
-                </a>
+                  Sign Up
+                </Link>
               )}
             </div>
           </div>
