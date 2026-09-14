@@ -5,9 +5,8 @@ import Container from "@/components/ui/Container";
 import Logo from "@/components/ui/Logo";
 import { EASE, maskReveal } from "@/lib/animations";
 
-const CONTACT_EMAIL = "sales@Carbonsynqnetworks.com";
-
 const LEGAL_LINKS = [
+  { label: "Pricing", href: "/contact" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
   { label: "EULA", href: "/eula" },
@@ -30,7 +29,7 @@ export default function Footer() {
     <footer className="relative z-50 mt-[48px] border-t border-black/[0.06] bg-[#f2f5f4] md:mt-[64px]">
       <Container className="flex h-[440px] flex-col justify-between py-[30px] md:h-[400px] md:pt-[44px] md:pb-[54px]">
         <a
-          href={`mailto:${CONTACT_EMAIL}`}
+          href="/contact"
           className="group flex items-center gap-[10px] md:gap-[30px]"
         >
           <motion.span
