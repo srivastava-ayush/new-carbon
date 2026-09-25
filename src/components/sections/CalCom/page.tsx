@@ -14,7 +14,7 @@ export default function BookDemo() {
     <Cal
       namespace="book-a-demo"
       calLink="https://cal.com/carbonsynq/book-a-demo"
-      style={{ width: "100%" }}   // no height, no overflow: the embed sizes itself
+      style={{ width: "100%" }}
       config={{ layout: "month_view" }}
     />
   );

@@ -2,28 +2,17 @@
 
 import Reveal from "@/components/shared/Reveal";
 import Container from "@/components/ui/Container";
-import Cal, { getCalApi } from "@calcom/embed-react";
-import { useEffect } from "react";
 import BookDemo from "@/components/sections/CalCom/page";
 
-const CALCOM_URL =
-  "https://cal.com/carbonsynq/book-a-demo";
-
 export default function ContactSection() {
-   useEffect(() => {
-    (async () => {
-      const cal = await getCalApi({ namespace: "book-a-demo" });
-      cal("ui", { hideEventTypeDetails: true, layout: "month_view" });
-    })();
-  }, []);
   return (
     <section id="contact" className="relative bg-white py-[56px] md:py-[80px] lg:py-[104px]">
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#fbfcfa_0%,#ffffff_40%,#fbfcfa_100%)]" />
 
-      <Container narrow className="relative z-10">
-        <div className="grid grid-cols-1 gap-[48px] lg:grid-cols-[1fr_1.3fr] lg:gap-[64px]">
+      <Container className="relative z-10">
+        <div className="grid grid-cols-1 gap-[48px] xl:grid-cols-[minmax(260px,0.6fr)_minmax(0,1.9fr)] xl:gap-[48px]">
           {/* Left — Info */}
-          <Reveal>
+          <Reveal className="min-w-0">
             <div className="flex flex-col gap-[40px]">
               <div>
                 <div className="mb-[32px] h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
@@ -87,7 +76,7 @@ export default function ContactSection() {
           </Reveal>
 
           {/* Right — CALCOM */}
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} className="min-w-0">
             <div className="relative overflow-hidden rounded-[24px] border border-black/[0.06] bg-white shadow-[0_24px_64px_rgba(11,59,56,0.06)]">
               <div className="absolute inset-x-0 top-0 z-10 h-[2px] bg-gradient-to-r from-[#188f8b] to-[#43b0a9]" />
 
