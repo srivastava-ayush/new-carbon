@@ -9,7 +9,6 @@ export default function ContactPage() {
       <Header />
 
       <main>
-        <ContactHero />
         <ContactSection />
       </main>
 
