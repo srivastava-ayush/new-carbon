@@ -56,6 +56,26 @@ html {
   scroll-behavior: smooth;
 }
 
+/*
+ * Cal.com's inline embed sets the iframe height in px from a `__dimensionChanged`
+ * postMessage, so the frame is 0px until the booker boots and then jumps (it
+ * also resizes when a date is picked). Reserving the height up front keeps the
+ * card from collapsing and reflowing the section; Cal can still grow past it.
+ */
+.cal-booker,
+.cal-booker .cal-inline-container,
+.cal-booker cal-inline {
+  min-height: 600px;
+}
+
+@media (max-width: 640px) {
+  .cal-booker,
+  .cal-booker .cal-inline-container,
+  .cal-booker cal-inline {
+    min-height: 720px;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
