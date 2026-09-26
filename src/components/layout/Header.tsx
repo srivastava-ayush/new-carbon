@@ -47,8 +47,8 @@ export default function Header() {
           <div
             className={`flex h-[58px] items-center justify-between rounded-full border px-[10px] pl-[22px] transition-all duration-500 md:h-[64px] ${
               scrolled || open
-                ? "border-black/[0.06] bg-white/75 shadow-[0_12px_40px_rgba(11,59,56,0.08)] backdrop-blur-xl"
-                : "border-transparent bg-white/40 backdrop-blur-md"
+                ? "border-black/[0.06] bg-gray-100 shadow-[0_12px_40px_rgba(11,59,56,0.08)] backdrop-blur-xl"
+                : "border-transparent bg-gradient-to-r from-[#188f8b] to-gray-100 backdrop-blur-md"
             }`}
           >
             <Link href="/" className="flex items-center gap-[9px]">
@@ -89,15 +89,9 @@ export default function Header() {
                 <div className="hidden items-center gap-[12px] md:flex">
                   <Link
                     href="/auth/signin"
-                    className="text-[13.5px] font-medium tracking-[-0.13px] text-[#3f5a55] transition-colors duration-200 hover:text-[#0b1f1e]"
-                  >
-                    Log in
-                  </Link>
-                  <Link
-                    href="/auth/signup"
                     className="inline-flex h-[42px] items-center justify-center rounded-full bg-[#0b3b38] px-[22px] text-[13.5px] font-semibold tracking-[-0.14px] text-white shadow-[0_8px_22px_rgba(11,59,56,0.22)] transition-all duration-300 hover:-translate-y-[1px] hover:bg-[#0e4a47]"
                   >
-                    Sign Up
+                    Log in
                   </Link>
                 </div>
               )}

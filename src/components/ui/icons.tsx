@@ -22,6 +22,9 @@ import {
   Cookie,
   ListChecks,
   ClockCounterClockwise,
+  ArrowUpRight,
+  XLogo,
+  LinkedinLogo,
 } from "@phosphor-icons/react/dist/ssr";
 
 export const HandshakeIcon = Handshake;
@@ -41,3 +44,6 @@ export const TruckIcon = Truck;
 export const CookieIcon = Cookie;
 export const ListChecksIcon = ListChecks;
 export const ClockCounterClockwiseIcon = ClockCounterClockwise;
+export const ArrowUpRightIcon = ArrowUpRight;
+export const XLogoIcon = XLogo;
+export const LinkedinLogoIcon = LinkedinLogo;

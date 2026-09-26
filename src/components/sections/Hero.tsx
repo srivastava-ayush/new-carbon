@@ -137,7 +137,7 @@ export default function Hero() {
               className="mt-[36px] flex flex-wrap items-center gap-[14px]"
             >
               <Link
-                href="/book-demo"
+                href="/contact"
                 className="group inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full bg-[#0b3b38] px-[32px] text-[15px] font-semibold tracking-[-0.16px] text-white shadow-[0_14px_34px_rgba(11,59,56,0.28)] transition-all duration-300 hover:-translate-y-[2px] hover:bg-[#0e4a47] hover:shadow-[0_20px_44px_rgba(11,59,56,0.36)]"
               >
                 Book a Demo
