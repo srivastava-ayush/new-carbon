@@ -25,6 +25,7 @@ import {
   ArrowUpRight,
   XLogo,
   LinkedinLogo,
+  ChatCircleDots,
 } from "@phosphor-icons/react/dist/ssr";
 
 export const HandshakeIcon = Handshake;
@@ -47,3 +48,4 @@ export const ClockCounterClockwiseIcon = ClockCounterClockwise;
 export const ArrowUpRightIcon = ArrowUpRight;
 export const XLogoIcon = XLogo;
 export const LinkedinLogoIcon = LinkedinLogo;
+export const ChatCircleDotsIcon = ChatCircleDots;

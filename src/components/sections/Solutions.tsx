@@ -1,37 +1,17 @@
-import { Bank, Buildings, ChartPieSlice, Factory, Handshake, Heartbeat, Lightning, ShoppingCart, Vault } from "@phosphor-icons/react/dist/ssr";
+import { Bank, Factory, Heartbeat, Lightning, ShoppingCart } from "@phosphor-icons/react/dist/ssr";
 import Reveal from "@/components/shared/Reveal";
 import Section from "@/components/ui/Section";
 
 const SOLUTIONS = [
   {
-    name: "Asset managers",
-    blurb: "Fund-level footprints across every portfolio company.",
-    Icon: ChartPieSlice,
-  },
-  {
-    name: "Asset owners",
-    blurb: "Building and estate emissions, audit-ready.",
-    Icon: Buildings,
-  },
-  {
-    name: "Private markets",
-    blurb: "ESG-line reporting from diligence to exit.",
-    Icon: Vault,
-  },
-  {
-    name: "Banks",
-    blurb: "Financed emissions without the spreadsheet sprawl.",
+    name: "Financial services",
+    blurb: "Fund-level footprints, financed emissions, and ESG reporting from diligence to exit.",
     Icon: Bank,
   },
   {
-    name: "Healthcare",
-    blurb: "Scope 3 clarity across suppliers and estates.",
+    name: "Healthcare & services",
+    blurb: "Scope 3 clarity across suppliers and estates — lean teams, enterprise-grade reporting.",
     Icon: Heartbeat,
-  },
-  {
-    name: "Services",
-    blurb: "Lean teams, enterprise-grade reporting.",
-    Icon: Handshake,
   },
   {
     name: "Manufacturing",

@@ -87,14 +87,14 @@ export default function HowItWorks() {
         <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
           How it works
         </span>
-        <h2 className="mb-[48px] font-display text-[40px] leading-[0.95] tracking-[-1.28px] text-black md:mb-[64px] md:text-[64px]">
+        <h2 className="mb-[64px] font-display text-[40px] leading-[0.95] tracking-[-1.28px] text-black md:mb-[150px] md:text-[64px]">
           How we make it happen
         </h2>
       </Reveal>
 
       <div className="grid grid-cols-1 gap-[40px] md:grid-cols-12 md:gap-[60px]">
         <div className="md:col-span-5">
-          <div className="relative flex flex-col md:sticky md:top-[120px] md:h-[calc(100dvh-240px)] md:justify-center">
+          <div className="relative flex flex-col md:sticky md:top-[140px] md:h-[calc(100dvh-280px)] md:justify-center">
             {STEPS.map((step, i) => {
               const isActive = active === i;
               const isComplete = i < active;
@@ -148,7 +148,7 @@ export default function HowItWorks() {
         </div>
 
         <div className="md:col-span-7">
-          <div className="mb-[60px] md:sticky md:top-[120px] md:mb-0 md:flex md:h-[calc(100dvh-240px)] md:items-stretch">
+          <div className="mb-[60px] md:sticky md:top-[140px] md:mb-0 md:flex md:h-[calc(100dvh-280px)] md:items-stretch">
             <StepVisualPanel index={active} Visual={Visual} />
           </div>
 

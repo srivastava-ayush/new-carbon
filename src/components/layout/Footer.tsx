@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import Container from "@/components/ui/Container";
 import Logo from "@/components/ui/Logo";
 import { EASE, maskReveal } from "@/lib/animations";
-import { XLogoIcon, ArrowUpRightIcon, LinkedinLogoIcon } from "@/components/ui/icons";
+import { XLogoIcon, ChatCircleDotsIcon, LinkedinLogoIcon } from "@/components/ui/icons";
 
 const LEGAL_LINKS = [
   { label: "Privacy", href: "/privacy" },
@@ -13,8 +13,8 @@ const LEGAL_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { label: "", href: "https://www.linkedin.com/company/carbonsynq-networks-inc", Icon: LinkedinLogoIcon },
-  { label: "X", href: "https://x.com/CarbonsynqNetworks", Icon: XLogoIcon },
+  { label: "", href: "https://www.linkedin.com/company/carbonsynqearth-india", Icon: LinkedinLogoIcon },
+  { label: "X", href: "https://x.com/CarbonSynqEarth", Icon: XLogoIcon },
 ];
 
 const WORD_REVEAL = { hidden: {}, visible: { transition: { staggerChildren: 0.09, delayChildren: 0.1 } } };
@@ -31,26 +31,53 @@ export default function Footer() {
         {/* CTA */}
         <a
           href="/contact"
-          className="group mb-[48px] flex items-center gap-[16px] md:mb-[64px] md:gap-[24px]"
+          className="group mb-[48px] flex flex-col gap-[20px] md:mb-[64px] md:flex-row md:items-center md:gap-[24px]"
         >
-          <motion.span
-            variants={WORD_REVEAL}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.6 }}
-            className="font-display text-[40px] leading-[0.95] tracking-[-0.88px] text-[#0b1f1e] sm:text-[56px] md:text-[72px] lg:text-[88px]"
-          >
-            {"Get In Touch".split(" ").map((word, i) => (
-              <span key={i} className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em]">
-                <motion.span variants={line} className="inline-block">
-                  {word}
-                  {i < 2 ? "\u00A0" : ""}
-                </motion.span>
-              </span>
-            ))}
-          </motion.span>
-          <span className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-[#0b1f1e] text-white transition-all duration-300 group-hover:translate-x-[4px] group-hover:bg-[#0d4f4b] md:h-[56px] md:w-[56px]">
-            <ArrowUpRightIcon size={22} weight="bold" className="transition-transform duration-300 group-hover:rotate-45" />
+          <div className="flex flex-col gap-[12px]">
+            <motion.span
+              variants={WORD_REVEAL}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.6 }}
+              className="font-display text-[40px] leading-[0.95] tracking-[-0.88px] text-[#188f8b] sm:text-[56px] md:text-[72px] lg:text-[88px]"
+            >
+              {"The planet won't audit itself!".split(" ").map((word, i) => (
+                <span key={i} className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em]">
+                  <motion.span variants={line} className="inline-block">
+                    {word}
+                    {i < 4 ? "\u00A0" : ""}
+                  </motion.span>
+                </span>
+              ))}
+            </motion.span>
+            <motion.span
+              variants={WORD_REVEAL}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.6 }}
+              className="font-display text-[40px] leading-[0.95] tracking-[-0.88px] text-black sm:text-[28px] md:text-[36px] lg:text-[44px]"
+            >
+              {"Let's have a talk on our own.".split(" ").map((word, i) => (
+                <span key={i} className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em]">
+                  <motion.span variants={line} className="inline-block">
+                    {word}
+                    {i < 7 ? "\u00A0" : ""}
+                  </motion.span>
+                </span>
+              ))}
+            </motion.span>
+            <motion.p
+              initial={reduced ? false : { opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.3 }}
+              className="max-w-[420px] text-[15px] leading-[1.5] tracking-[-0.14px] text-[#848484] md:text-[16px]"
+            >
+              No jargon, no pressure — just a straight conversation about your carbon data.
+            </motion.p>
+          </div>
+          <span className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-full bg-black text-white transition-all duration-300 group-hover:translate-x-[4px] hover:bg-[#188f8b] md:h-[56px] md:w-[56px]">
+            <ChatCircleDotsIcon size={22} weight="bold" className="transition-transform duration-300 group-hover:rotate-12" />
           </span>
         </a>
 

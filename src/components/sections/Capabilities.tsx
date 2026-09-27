@@ -1,4 +1,4 @@
-import { Calculator, ChartPieSlice, Database, FileText, Robot, ShieldCheck, StackSimple, Target } from "@phosphor-icons/react/dist/ssr";
+import { Calculator, ChartPieSlice, Database, FileText, Robot, ShieldCheck, StackSimple } from "@phosphor-icons/react/dist/ssr";
 import type { IconProps } from "@phosphor-icons/react";
 import type { ComponentType } from "react";
 import Reveal from "@/components/shared/Reveal";
@@ -9,52 +9,45 @@ interface Capability {
   title: string;
   Icon: ComponentType<IconProps>;
   span: string;
-  points: string[];
+  points?: string[];
   tint?: boolean;
   trace?: string[];
   report?: boolean;
+  custom?: "analyze-track";
 }
 
 const CAPABILITIES: Capability[] = [
   {
     num: "01",
-    title: "Collect carbon data",
+    title: "Collect & automate data",
     Icon: Database,
-    span: "md:col-span-2 lg:col-span-4",
+    span: "md:col-span-2 lg:col-span-8",
     points: [
       "Electricity and fuel bills",
       "Travel and commuting",
       "Procurement, waste & refrigerants",
       "Supplier and other operational data",
-    ],
-  },
-  {
-    num: "02",
-    title: "Automate data extraction",
-    Icon: Robot,
-    span: "md:col-span-2 lg:col-span-4",
-    tint: true,
-    points: [
       "Upload invoices, bills & spreadsheets",
       "Extract relevant activity data",
       "Reduce manual data entry",
     ],
   },
   {
-    num: "03",
+    num: "02",
     title: "Centralize carbon data",
     Icon: StackSimple,
     span: "md:col-span-2 lg:col-span-4",
+    tint: true,
     points: [
       "One place for all facilities & periods",
       "Replace spreadsheets and scattered documents",
     ],
   },
   {
-    num: "04",
+    num: "03",
     title: "Calculate Scope 1, 2 & 3",
     Icon: Calculator,
-    span: "md:col-span-1 lg:col-span-3",
+    span: "md:col-span-2 lg:col-span-3",
     points: [
       "Convert activity data into CO₂e",
       "Apply appropriate emission factors",
@@ -62,16 +55,16 @@ const CAPABILITIES: Capability[] = [
     ],
   },
   {
-    num: "05",
+    num: "04",
     title: "Make emissions auditable",
     Icon: ShieldCheck,
-    span: "md:col-span-1 lg:col-span-3",
+    span: "md:col-span-2 lg:col-span-3",
     tint: true,
     points: ["Every number traces back to a source"],
     trace: ["Report", "Emission", "Factor", "Activity", "Source"],
   },
   {
-    num: "06",
+    num: "05",
     title: "Generate sustainability reports",
     Icon: FileText,
     span: "md:col-span-2 lg:col-span-6",
@@ -81,6 +74,13 @@ const CAPABILITIES: Capability[] = [
       "Exportable PDF/Excel",
     ],
     report: true,
+  },
+  {
+    num: "06",
+    title: "Analyze & track emissions",
+    Icon: ChartPieSlice,
+    span: "md:col-span-2 lg:col-span-12",
+    custom: "analyze-track",
   },
 ];
 
@@ -92,7 +92,106 @@ const BIGGEST_SOURCES = [
 ];
 
 function CapCard({ item, delay }: { item: Capability; delay: number }) {
-  const { num, title, Icon, points, tint, trace, report } = item;
+  const { num, title, Icon, points, tint, trace, report, custom } = item;
+
+  if (custom === "analyze-track") {
+    return (
+      <Reveal delay={delay} className={`${item.span} h-full`}>
+        <div className="group relative flex h-full flex-col rounded-[24px] border border-black/10 bg-white p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/20 md:p-[32px]">
+          <div className="flex items-center justify-between">
+            <Icon size={20} weight="regular" className="text-[#188f8b]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c9c9cf]">
+              {num}
+            </span>
+          </div>
+
+          <h3 className="mt-[20px] font-display text-[22px] leading-[1.15] tracking-[-0.3px] text-black md:text-[24px]">
+            {title}
+          </h3>
+          <p className="mt-[10px] max-w-[560px] text-[13px] leading-[1.5] tracking-[-0.12px] text-[#848484]">
+            Understand where emissions come from and track progress toward reduction targets.
+          </p>
+
+          <div className="mt-[28px] grid grid-cols-1 gap-[24px] lg:grid-cols-2">
+            <div>
+              <div className="flex h-[24px] w-full overflow-hidden rounded-full bg-[#f0f0f0]">
+                <div className="bg-[#188f8b]" style={{ width: "12%" }} />
+                <div className="bg-[#188f8b]" style={{ width: "28%" }} />
+                <div className="bg-[#a7dcd6]" style={{ width: "60%" }} />
+              </div>
+              <div className="mt-[12px] flex flex-wrap gap-x-[16px] gap-y-[6px] text-[12px] font-medium tracking-[-0.12px] text-[#4b5563]">
+                <span className="flex items-center gap-[6px]">
+                  <span className="h-[8px] w-[8px] rounded-full bg-[#188f8b]" /> Scope 1 · 12%
+                </span>
+                <span className="flex items-center gap-[6px]">
+                  <span className="h-[8px] w-[8px] rounded-full bg-[#188f8b]" /> Scope 2 · 28%
+                </span>
+                <span className="flex items-center gap-[6px]">
+                  <span className="h-[8px] w-[8px] rounded-full bg-[#a7dcd6]" /> Scope 3 · 60%
+                </span>
+              </div>
+
+              <p className="mt-[24px] text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
+                Biggest sources
+              </p>
+              <div className="mt-[12px] flex flex-col gap-[10px]">
+                {BIGGEST_SOURCES.map((source) => (
+                  <div key={source.name} className="flex items-center gap-[12px]">
+                    <span className="w-[140px] shrink-0 text-[13px] tracking-[-0.12px] text-[#4b5563]">
+                      {source.name}
+                    </span>
+                    <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-[#f0f0f0]">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
+                        style={{ width: source.value }}
+                      />
+                    </div>
+                    <span className="w-[38px] shrink-0 text-right text-[13px] font-semibold tracking-[-0.12px] text-black">
+                      {source.value}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
+                Progress to target
+              </p>
+              <div className="mt-[16px]">
+                <div className="mb-[8px] flex items-center justify-between text-[12px] font-medium tracking-[-0.12px]">
+                  <span className="text-[#848484]">Progress to 2030 target</span>
+                  <span className="text-[#188f8b]">−42%</span>
+                </div>
+                <div className="h-[8px] w-full overflow-hidden rounded-full bg-[#f0f0f0]">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
+                    style={{ width: "42%" }}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-[24px] flex flex-col gap-[12px]">
+                {[
+                  { label: "Baseline 2023", value: "8,420 tCO₂e" },
+                  { label: "Current 2025", value: "4,880 tCO₂e" },
+                  { label: "Target 2030", value: "−50%" },
+                ].map((row) => (
+                  <div
+                    key={row.label}
+                    className="flex items-center justify-between border-b border-black/5 pb-[12px] last:border-0 last:pb-0"
+                  >
+                    <span className="text-[13px] tracking-[-0.12px] text-[#848484]">{row.label}</span>
+                    <span className="text-[13px] font-semibold tracking-[-0.12px] text-black">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    );
+  }
 
   const card = tint
     ? "border-[#188f8b]/15 bg-[#f2faf9] hover:border-[#188f8b]/25"
@@ -115,7 +214,7 @@ function CapCard({ item, delay }: { item: Capability; delay: number }) {
         </h3>
 
         <ul className={`mt-[14px] flex flex-col gap-[8px] ${report ? "mb-[130px]" : ""}`}>
-          {points.map((point) => (
+          {points!.map((point) => (
             <li
               key={point}
               className="flex items-start gap-[10px] text-[13px] leading-[1.5] tracking-[-0.12px] text-[#848484]"
@@ -191,113 +290,6 @@ export default function Capabilities() {
         {CAPABILITIES.map((item, i) => (
           <CapCard key={item.num} item={item} delay={0.1 + (i % 3) * 0.08} />
         ))}
-
-        <Reveal delay={0.1} className="md:col-span-2 lg:col-span-7">
-          <div className="group flex h-full flex-col rounded-[24px] border border-black/10 bg-white p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/20 md:p-[32px]">
-            <div className="flex items-center justify-between">
-              <ChartPieSlice size={20} weight="regular" className="text-[#188f8b]" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c9c9cf]">07</span>
-            </div>
-
-            <h3 className="mt-[20px] max-w-[420px] font-display text-[22px] leading-[1.15] tracking-[-0.3px] text-black md:text-[24px]">
-              Identify where emissions are coming from
-            </h3>
-            <p className="mt-[10px] max-w-[420px] text-[13px] leading-[1.5] tracking-[-0.12px] text-[#848484]">
-              Instead of just “Your company emitted 8,420 tCO₂e.”
-            </p>
-
-            <div className="mt-[28px] grid grid-cols-1 gap-[24px] lg:grid-cols-2">
-              <div>
-                <div className="flex h-[24px] w-full overflow-hidden rounded-full bg-[#f0f0f0]">
-                  <div className="bg-[#188f8b]" style={{ width: "12%" }} />
-                  <div className="bg-[#188f8b]" style={{ width: "28%" }} />
-                  <div className="bg-[#a7dcd6]" style={{ width: "60%" }} />
-                </div>
-                <div className="mt-[12px] flex flex-wrap gap-x-[16px] gap-y-[6px] text-[12px] font-medium tracking-[-0.12px] text-[#4b5563]">
-                  <span className="flex items-center gap-[6px]">
-                    <span className="h-[8px] w-[8px] rounded-full bg-[#188f8b]" /> Scope 1 · 12%
-                  </span>
-                  <span className="flex items-center gap-[6px]">
-                    <span className="h-[8px] w-[8px] rounded-full bg-[#188f8b]" /> Scope 2 · 28%
-                  </span>
-                  <span className="flex items-center gap-[6px]">
-                    <span className="h-[8px] w-[8px] rounded-full bg-[#a7dcd6]" /> Scope 3 · 60%
-                  </span>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
-                  Biggest sources
-                </p>
-                <div className="mt-[12px] flex flex-col gap-[10px]">
-                  {BIGGEST_SOURCES.map((source) => (
-                    <div key={source.name} className="flex items-center gap-[12px]">
-                      <span className="w-[140px] shrink-0 text-[13px] tracking-[-0.12px] text-[#4b5563]">
-                        {source.name}
-                      </span>
-                      <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-[#f0f0f0]">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
-                          style={{ width: source.value }}
-                        />
-                      </div>
-                      <span className="w-[38px] shrink-0 text-right text-[13px] font-semibold tracking-[-0.12px] text-black">
-                        {source.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.18} className="md:col-span-2 lg:col-span-5">
-          <div className="group flex h-full flex-col rounded-[24px] border border-[#188f8b]/15 bg-[#f2faf9] p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/25 md:p-[32px]">
-            <div className="flex items-center justify-between">
-              <Target size={20} weight="regular" className="text-[#188f8b]" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c9c9cf]">08</span>
-            </div>
-
-            <h3 className="mt-[20px] max-w-[320px] font-display text-[22px] leading-[1.15] tracking-[-0.3px] text-black md:text-[24px]">
-              Track progress toward targets
-            </h3>
-            <p className="mt-[10px] max-w-[320px] text-[13px] leading-[1.5] tracking-[-0.12px] text-[#848484]">
-              Set a baseline, define reduction targets, and watch intensity fall
-              year over year.
-            </p>
-
-            <div className="mt-[28px]">
-              <div className="mb-[8px] flex items-center justify-between text-[12px] font-medium tracking-[-0.12px]">
-                <span className="text-[#848484]">Progress to 2030 target</span>
-                <span className="text-[#188f8b]">−42%</span>
-              </div>
-              <div className="h-[8px] w-full overflow-hidden rounded-full bg-white">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
-                  style={{ width: "42%" }}
-                />
-              </div>
-            </div>
-
-            <div className="mt-[24px] flex flex-col gap-[12px]">
-              {[
-                { label: "Baseline 2023", value: "8,420 tCO₂e" },
-                { label: "Current 2025", value: "4,880 tCO₂e" },
-                { label: "Target 2030", value: "−50%" },
-              ].map((row) => (
-                <div
-                  key={row.label}
-                  className="flex items-center justify-between border-b border-black/5 pb-[12px] last:border-0 last:pb-0"
-                >
-                  <span className="text-[13px] tracking-[-0.12px] text-[#848484]">{row.label}</span>
-                  <span className="text-[13px] font-semibold tracking-[-0.12px] text-black">{row.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
       </div>
     </Section>
   );
