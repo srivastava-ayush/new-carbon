@@ -218,17 +218,6 @@ export default function SignInPage() {
                 {isPending ? 'Signing in…' : 'Sign in'}
               </Button>
             </form>
-
-            {/* Signup link */}
-            <p className="mt-[24px] text-center text-[13.5px] text-[#5f706e]">
-              Don&apos;t have an account?{' '}
-              <Link
-                href="/auth/signup"
-                className="font-semibold text-[#188f8b] transition-colors hover:text-[#0d4f4b]"
-              >
-                Sign up
-              </Link>
-            </p>
           </motion.div>
         </motion.div>
       </div>
