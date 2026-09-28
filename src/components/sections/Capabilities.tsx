@@ -22,6 +22,7 @@ const CAPABILITIES: Capability[] = [
     title: "Collect & automate data",
     Icon: Database,
     span: "md:col-span-2 lg:col-span-8",
+    tint: true,
     points: [
       "Electricity and fuel bills",
       "Travel and commuting",
@@ -37,7 +38,6 @@ const CAPABILITIES: Capability[] = [
     title: "Centralize carbon data",
     Icon: StackSimple,
     span: "md:col-span-2 lg:col-span-4",
-    tint: true,
     points: [
       "One place for all facilities & periods",
       "Replace spreadsheets and scattered documents",
@@ -59,7 +59,6 @@ const CAPABILITIES: Capability[] = [
     title: "Make emissions auditable",
     Icon: ShieldCheck,
     span: "md:col-span-2 lg:col-span-3",
-    tint: true,
     points: ["Every number traces back to a source"],
     trace: ["Report", "Emission", "Factor", "Activity", "Source"],
   },
@@ -68,6 +67,7 @@ const CAPABILITIES: Capability[] = [
     title: "Generate sustainability reports",
     Icon: FileText,
     span: "md:col-span-2 lg:col-span-6",
+    tint: true,
     points: [
       "Full Scope 1/2/3 inventory",
       "By facility, category & year-over-year",
@@ -226,13 +226,15 @@ function CapCard({ item, delay }: { item: Capability; delay: number }) {
         </ul>
 
         {trace && (
-          <div className="mt-[16px] flex flex-wrap items-center gap-[6px]">
+          <div className="mt-[16px] flex flex-col items-center gap-[6px]">
             {trace.map((step, i) => (
-              <span key={step} className="flex items-center gap-[6px]">
+              <span key={step} className="flex flex-col items-center gap-[6px]">
                 <span className="rounded-full border border-black/10 px-[10px] py-[5px] text-[11px] font-medium tracking-[-0.1px] text-[#52525b]">
                   {step}
                 </span>
-                {i < trace.length - 1 && <span className="text-[10px] text-[#a1a1aa]">→</span>}
+                {i < trace.length - 1 && (
+                  <span className="ml-[14px] text-[10px] text-[#a1a1aa]">↓</span>
+                )}
               </span>
             ))}
           </div>
@@ -278,10 +280,10 @@ export default function Capabilities() {
           What we help companies with
         </span>
         <h2 className="mb-[20px] max-w-[720px] font-display text-[40px] leading-[0.95] tracking-[-1.28px] text-black md:mb-[24px] md:text-[64px]">
-          We automate carbon accounting.
+          We automate carbon accounting
         </h2>
         <p className="mb-[48px] max-w-[560px] text-[16px] leading-[1.5] tracking-[-0.14px] text-[#848484] md:mb-[64px] md:text-[18px]">
-          From raw business data to audit-ready emissions reports — collected,
+          From raw business data to audit-ready emissions reports - collected,
           validated, calculated, and reported automatically.
         </p>
       </Reveal>

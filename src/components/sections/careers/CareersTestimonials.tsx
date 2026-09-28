@@ -9,28 +9,32 @@ const TESTIMONIALS = [
   {
     quote: "What sets CarbonSynq apart isn't just the scale of our ambition, it's the operational rigor we apply to get there. We are building the foundational infrastructure for global carbon markets, and every decision we make here has a tangible impact.",
     name: "Ayush Chaudhary",
-    role: "Chief Operation Officer",
+    designation: "Chief Operation Officer",
+    src: "",
     joined: "1 year ago",
     initials: "AC",
   },
   {
     quote: "Our vision was never to build just another compliance tool. We set out to engineer an absolute source of truth for carbon accountability. The depth of scientific integrity our team brings to the table every single day is what makes this mission possible.",
     name: "Pushkar Singh Raghuvanshi",
-    role: "Chief Executive Officer",
+    designation: "Chief Executive Officer",
+    src: "",
     joined: "1 year ago",
     initials: "PR",
   },
   {
     quote: "Translating complex, high-density climate data into intuitive, lightning-fast dashboards is an incredible engineering challenge. The autonomy here is real—you aren't just writing UI code; you are architecting the lens through which enterprises view their impact.",
     name: "Sarwang Agarwal",
-    role: "Full Stack Developer",
+    designation: "Full Stack Developer",
+    src: "",
     joined: "8 months ago",
     initials: "SA",
   },
   {
     quote: "The sheer volume of real-time emissions data we process requires backend architecture that is both relentlessly resilient and highly scalable. It's a rare opportunity to tackle complex distributed systems problems while directly contributing to global climate action.",
     name: "Priyanshu Barai",
-    role: "Backend Engineer",
+    designation: "Backend Engineer",
+    src: "",
     joined: "8 months ago",
     initials: "PB",
   },
@@ -100,7 +104,7 @@ export default function CareersTestimonials() {
                         {t.name}
                       </p>
                       <p className="text-[12px] text-[#848484]">
-                        {t.role}
+                        {t.designation}
                       </p>
                       <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-[#188f8b]/60">
                         Joined {t.joined}

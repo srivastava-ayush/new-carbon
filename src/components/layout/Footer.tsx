@@ -9,7 +9,6 @@ import { XLogoIcon, ChatCircleDotsIcon, LinkedinLogoIcon } from "@/components/ui
 const LEGAL_LINKS = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
-  { label: "EULA", href: "/eula" },
 ];
 
 const SOCIAL_LINKS = [

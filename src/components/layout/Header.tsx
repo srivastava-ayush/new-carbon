@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
-import Container from "@/components/ui/Container";
 import Logo from "@/components/ui/Logo";
 import { EASE } from "@/lib/animations";
 import { useAuth } from "@/context/AuthContext";
@@ -43,18 +42,18 @@ export default function Header() {
         transition={{ duration: 0.7, ease: EASE }}
         className="fixed top-0 right-0 left-0 z-50 pt-[14px] md:pt-[20px]"
       >
-        <Container narrow>
+        <div className="px-[16px] sm:px-[20px] lg:px-[32px]">
           <div
-            className={`flex h-[58px] items-center justify-between rounded-full border px-[10px] pl-[22px] transition-all duration-500 md:h-[64px] ${
+            className={`flex h-[58px] items-center justify-between border transition-all duration-500 md:h-[64px] ${
               scrolled || open
                 ? "border-black/[0.06] bg-gray-100 shadow-[0_12px_40px_rgba(11,59,56,0.08)] backdrop-blur-xl"
-                : "border-transparent bg-gradient-to-r from-[#188f8b] to-gray-100 backdrop-blur-md"
+                : "border-transparent backdrop-blur-md"
             }`}
           >
             <Link href="/" className="flex items-center gap-[9px]">
               <Logo className="h-[24px] w-auto" />
               <span className="font-display text-[21px] tracking-[-0.3px] text-[#0b1f1e]">
-                Carbonsynq
+                CarbonSynq
               </span>
             </Link>
 
@@ -107,7 +106,7 @@ export default function Header() {
               </button>
             </div>
           </div>
-        </Container>
+        </div>
 
         {open && (
           <div className="fixed inset-0 z-50 md:hidden">

@@ -1,8 +1,19 @@
 import { Bank, Factory, Heartbeat, Lightning, ShoppingCart } from "@phosphor-icons/react/dist/ssr";
 import Reveal from "@/components/shared/Reveal";
 import Section from "@/components/ui/Section";
+import { School } from "lucide-react";
 
 const SOLUTIONS = [
+  {
+    name: "Manufacturing",
+    blurb: "Shop floor to Scope 1 in one ledger.",
+    Icon: Factory,
+  },
+  {
+    name: "Universities",
+    blurb: "Campus-wide carbon accounting and reporting for Scope 1, 2 & 3.",
+    Icon: School,
+  },
   {
     name: "Financial services",
     blurb: "Fund-level footprints, financed emissions, and ESG reporting from diligence to exit.",
@@ -12,22 +23,7 @@ const SOLUTIONS = [
     name: "Healthcare & services",
     blurb: "Scope 3 clarity across suppliers and estates — lean teams, enterprise-grade reporting.",
     Icon: Heartbeat,
-  },
-  {
-    name: "Manufacturing",
-    blurb: "Shop floor to Scope 1 in one ledger.",
-    Icon: Factory,
-  },
-  {
-    name: "Grocery",
-    blurb: "Supply chains traced from farm to shelf.",
-    Icon: ShoppingCart,
-  },
-  {
-    name: "Energy, oil and gas",
-    blurb: "Methane to market — measured precisely.",
-    Icon: Lightning,
-  },
+  }
 ];
 
 export default function Solutions() {
@@ -43,13 +39,14 @@ export default function Solutions() {
         </h2>
       </Reveal>
 
-      <div className="grid grid-cols-1 gap-[14px] sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[14px] sm:grid-cols-2 lg:grid-cols-2">
         {SOLUTIONS.map((solution, i) => {
           const { name, blurb, Icon } = solution;
           return (
             <Reveal key={name} delay={(i % 3) * 0.08} className="h-full">
               <a
-                href={`/solutions/${name.toLowerCase().replace(/[,\s]+/g, "-")}`}
+                // href={`/solutions/${name.toLowerCase().replace(/[,\s]+/g, "-")}`}
+                href="/contact"
                 className="group relative flex h-full flex-col overflow-hidden rounded-[20px] border border-black/[0.07] bg-white p-[26px] transition-all duration-500 hover:-translate-y-[3px] hover:border-[#0b3b38]/30 hover:shadow-[0_24px_56px_rgba(11,59,56,0.12)] md:p-[30px]"
               >
                 {/* dark green top rule */}

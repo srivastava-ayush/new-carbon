@@ -41,7 +41,7 @@ const STEPS: Step[] = [
     num: "04",
     title: "Get Reports & Act",
     description:
-      "Receive audit-ready reports and actionable AI recommendations to reduce carbon risk.",
+      "Receive audit-ready reports and AI based decarbonization strategies to reduce carbon risk.",
     Visual: ReportsVisual,
   },
 ];

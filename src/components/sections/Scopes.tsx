@@ -37,8 +37,7 @@ export default function Scopes() {
           Know where your emissions live
         </h2>
         <p className="mb-[56px] max-w-[560px] text-[16px] leading-[1.5] tracking-[-0.14px] text-[#848484] md:mb-[80px] md:text-[18px]">
-          The GHG Protocol splits emissions into three scopes. Knowing which is
-          which is the first step to reducing them.
+          The GHG Protocol splits emissions into three scopes. Knowing the difference between them is critical to understanding your carbon footprint and how to reduce it.
         </p>
       </Reveal>
 
