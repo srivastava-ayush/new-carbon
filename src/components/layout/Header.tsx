@@ -40,11 +40,11 @@ export default function Header() {
         initial={reduced ? false : { y: -28, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: EASE }}
-        className="fixed top-0 right-0 left-0 z-50 pt-[14px] md:pt-[20px]"
+        className="fixed top-0 right-0 left-0 z-50"
       >
-        <div className="px-[16px] sm:px-[20px] lg:px-[32px]">
+        <div>
           <div
-            className={`flex h-[58px] items-center justify-between border transition-all duration-500 md:h-[64px] ${
+            className={`flex h-[58px] items-center justify-between border transition-all duration-500 md:h-[80px] p-4 ${
               scrolled || open
                 ? "border-black/[0.06] bg-gray-100 shadow-[0_12px_40px_rgba(11,59,56,0.08)] backdrop-blur-xl"
                 : "border-transparent backdrop-blur-md"

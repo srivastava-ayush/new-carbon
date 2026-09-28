@@ -10,7 +10,7 @@ export default function ContactSection() {
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#fbfcfa_0%,#ffffff_40%,#fbfcfa_100%)]" />
 
       <Container className="relative z-10">
-        <div className="grid grid-cols-1 gap-[48px] xl:grid-cols-[minmax(260px,0.6fr)_minmax(0,1.9fr)] xl:gap-[48px]">
+        <div className="grid grid-cols-1 gap-[48px] xl:grid-cols-[minmax(300px,0.6fr)_minmax(0,1.9fr)] xl:gap-[48px]">
           {/* Left — Info */}
           <Reveal className="min-w-0">
             <div className="flex flex-col gap-[40px]">
@@ -34,7 +34,7 @@ export default function ContactSection() {
                 {[
                   {
                     icon: (
-                      <svg viewBox="0 0 24 24" fill="none" className="h-[18px] w-[18px]">
+                      <svg viewBox="0 0 24 24" fill="none" className="h-[18px] w-[28px]">
                         <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     ),

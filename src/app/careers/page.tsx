@@ -19,10 +19,7 @@ export default function CareersPage() {
         <CareersMission />
         <CareersMandate />
         <CareersWorkspace />
-        <CareersJobs />
-        <CareersInterns />
         <CareersValues />
-        <CareersTestimonials />
       </main>
 
       <Footer />

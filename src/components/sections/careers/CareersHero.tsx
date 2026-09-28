@@ -17,7 +17,7 @@ export default function CareersHero() {
 
   return (
     <section className="relative overflow-hidden bg-[#fbfcfa]">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_18%_0%,#ffffff_0%,#f4faf9_48%,#e6f3f2_100%)]" />
+      <div className="absolute inset-0" />
       <div
         className="absolute inset-0 opacity-50"
         style={{

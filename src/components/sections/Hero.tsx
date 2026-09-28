@@ -94,7 +94,7 @@ export default function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#188f8b] opacity-60" />
                 <span className="relative inline-flex h-[7px] w-[7px] rounded-full bg-[#188f8b]" />
               </span>
-              Carbon accounting → offsetting, one platform
+              Measure → Verify → Offset
             </motion.span>
 
             <h1 className="font-display text-[52px] leading-[0.95] tracking-[-1.5px] text-[#0b1f1e] sm:text-[68px] md:text-[84px] lg:text-[96px]">
