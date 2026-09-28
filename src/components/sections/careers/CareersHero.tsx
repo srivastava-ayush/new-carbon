@@ -29,7 +29,7 @@ export default function CareersHero() {
         }}
       />
 
-      <Container narrow className="relative z-10 pt-[160px] pb-[100px] md:pt-[180px] md:pb-[120px]">
+      <Container narrow className="relative z-10 pt-[80px] pb-[48px] md:pt-[96px] md:pb-[56px]">
         <div className="grid grid-cols-1 gap-[48px] lg:grid-cols-2 lg:items-center">
           <motion.div
             initial={reduced ? false : { opacity: 0, y: 32 }}
@@ -61,24 +61,18 @@ export default function CareersHero() {
             </h1>
 
             <p className="mt-[28px] max-w-[520px] text-[17px] leading-[1.55] tracking-[-0.2px] text-[#5f706e] md:text-[19px]">
-              We are defining the standard for global carbon accountability—engineering the verified infrastructure that will support every major climate decision this decade.
+              We are defining the standard for global carbon accountability - engineering the verified infrastructure that will support every major climate decision this decade.
             </p>
 
             <div className="mt-[40px] flex flex-wrap items-center gap-[14px]">
               <a
-                href="#open-roles"
+                href="#mission"
                 className="group inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full bg-[#0b3b38] px-[32px] text-[15px] font-semibold tracking-[-0.16px] text-white shadow-[0_14px_34px_rgba(11,59,56,0.28)] transition-all duration-300 hover:-translate-y-[2px] hover:bg-[#0e4a47] hover:shadow-[0_20px_44px_rgba(11,59,56,0.36)]"
               >
-                Explore Open Positions
+                Our Mandate
                 <svg viewBox="0 0 24 24" fill="none" className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-[3px]">
                   <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </a>
-              <a
-                href="#mission"
-                className="inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full border border-black/10 bg-white/80 px-[32px] text-[15px] font-semibold tracking-[-0.16px] text-[#0b1f1e] backdrop-blur-md transition-all duration-300 hover:border-[#188f8b]/40 hover:text-[#188f8b]"
-              >
-                Our Mandate
               </a>
             </div>
           </motion.div>

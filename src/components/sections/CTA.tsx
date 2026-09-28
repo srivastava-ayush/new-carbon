@@ -4,7 +4,7 @@ import Container from "@/components/ui/Container";
 
 export default function CTA() {
   return (
-    <section className="py-[64px] md:py-[88px]">
+    <section className="py-[32px] md:py-[40px]">
       <Container narrow>
         <Reveal>
           <div className="relative overflow-hidden rounded-[28px] bg-[#0d4f4b] px-[24px] py-[56px] text-center md:rounded-[36px] md:px-[64px] md:py-[88px]">

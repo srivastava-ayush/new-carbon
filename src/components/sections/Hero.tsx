@@ -74,7 +74,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[180px] bg-[linear-gradient(to_bottom,transparent,#fbfcfa_92%)]" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[120px] bg-[linear-gradient(to_bottom,#fbfcfa,transparent)]" />
 
-      <Container narrow className="relative z-10 pb-[96px] pt-[140px] md:pt-[160px]">
+      <Container narrow className="relative z-10 pb-[48px] pt-[80px] md:pt-[96px]">
         <motion.div style={{ y: contentY, opacity: contentOpacity }}>
           <motion.div
             variants={container}

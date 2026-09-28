@@ -65,7 +65,7 @@ function Counter({ value, decimals = 0, prefix = "", suffix = "" }: CounterProps
 
 export default function Stats() {
   return (
-    <section className="py-[40px] md:py-[56px]">
+    <section className="py-[20px] md:py-[28px]">
       <Container narrow>
         <Reveal>
           <div className="rounded-[24px] border border-black/10 bg-gradient-to-br from-[#f8fcfb] to-white p-[24px] md:rounded-[28px] md:p-[40px]">
