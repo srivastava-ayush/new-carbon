@@ -6,7 +6,7 @@ import BookDemo from "@/components/sections/CalCom/page";
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="relative bg-white py-[56px] md:py-[80px] lg:py-[104px]">
+    <section id="contact" className="relative pt-[50px]! md:pt-[80px]! lg:pt-[100px]!">
       <div className="absolute inset-0 bg-[linear-gradient(180deg,#fbfcfa_0%,#ffffff_40%,#fbfcfa_100%)]" />
 
       <Container className="relative z-10">

@@ -12,7 +12,7 @@ const LOGOS = [
 
 export default function Logos() {
   return (
-    <section className="py-[40px] md:py-[56px]">
+    <section className="py-[20px] md:py-[28px]">
       <Container narrow>
         <Reveal>
           <p className="mb-[28px] text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[#a1a1aa]">
