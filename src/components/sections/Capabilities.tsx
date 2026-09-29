@@ -1,28 +1,37 @@
-import { Calculator, ChartPieSlice, Database, FileText, Robot, ShieldCheck, StackSimple } from "@phosphor-icons/react/dist/ssr";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import {
+  Calculator,
+  ChartPieSlice,
+  Database,
+  FileText,
+  ShieldCheck,
+  StackSimple,
+  Target,
+} from "@phosphor-icons/react/dist/ssr";
 import type { IconProps } from "@phosphor-icons/react";
-import type { ComponentType } from "react";
+import type { ComponentType, CSSProperties } from "react";
 import Reveal from "@/components/shared/Reveal";
 import Section from "@/components/ui/Section";
 
+// Types
 interface Capability {
   num: string;
   title: string;
   Icon: ComponentType<IconProps>;
-  span: string;
   points?: string[];
-  tint?: boolean;
   trace?: string[];
   report?: boolean;
-  custom?: "analyze-track";
+  chart?: "sources" | "target";
 }
 
+// Data — 7 uniform cards (content density matched to Card 1)
 const CAPABILITIES: Capability[] = [
   {
     num: "01",
     title: "Collect & automate data",
     Icon: Database,
-    span: "md:col-span-2 lg:col-span-8",
-    tint: true,
     points: [
       "Electricity and fuel bills",
       "Travel and commuting",
@@ -37,50 +46,76 @@ const CAPABILITIES: Capability[] = [
     num: "02",
     title: "Centralize carbon data",
     Icon: StackSimple,
-    span: "md:col-span-2 lg:col-span-4",
     points: [
       "One place for all facilities & periods",
       "Replace spreadsheets and scattered documents",
+      "Track data quality and completeness",
+      "Automate data collection workflows",
+      "Integrate with existing systems",
+      "Ensure data security and compliance",
     ],
   },
   {
     num: "03",
     title: "Calculate Scope 1, 2 & 3",
     Icon: Calculator,
-    span: "md:col-span-2 lg:col-span-3",
     points: [
       "Convert activity data into CO₂e",
       "Apply appropriate emission factors",
       "Location & market-based Scope 2",
+      "Support multiple emission factors",
+      "Handle complex calculations",
+      "Provide audit trail for all calculations",
     ],
   },
   {
     num: "04",
     title: "Make emissions auditable",
     Icon: ShieldCheck,
-    span: "md:col-span-2 lg:col-span-3",
-    points: ["Every number traces back to a source"],
+    points: [
+      "Every number traces back to a source",
+      "Maintain data lineage",
+      "Support third-party audits",
+      "Ensure data integrity",
+      "Provide transparent methodology",
+    ],
     trace: ["Report", "Emission", "Factor", "Activity", "Source"],
   },
   {
     num: "05",
     title: "Generate sustainability reports",
     Icon: FileText,
-    span: "md:col-span-2 lg:col-span-6",
-    tint: true,
     points: [
       "Full Scope 1/2/3 inventory",
       "By facility, category & year-over-year",
       "Exportable PDF/Excel",
+      "Customizable report templates",
     ],
     report: true,
   },
   {
     num: "06",
-    title: "Analyze & track emissions",
+    title: "Biggest emission sources",
     Icon: ChartPieSlice,
-    span: "md:col-span-2 lg:col-span-12",
-    custom: "analyze-track",
+    points: [
+      "Identify top emission sources",
+      "Compare across facilities and periods",
+      "Track changes over time",
+      "Prioritize reduction efforts",
+    ],
+    chart: "sources",
+  },
+  {
+    num: "07",
+    title: "Track progress to target",
+    Icon: Target,
+    points: [
+      "Set science-based targets",
+      "Monitor reduction progress",
+      "Forecast future emissions",
+      "Adjust strategies as needed",
+    ],
+    chart: "target",
   },
 ];
 
@@ -91,149 +126,51 @@ const BIGGEST_SOURCES = [
   { name: "Transport", value: "8%" },
 ];
 
-function CapCard({ item, delay }: { item: Capability; delay: number }) {
-  const { num, title, Icon, points, tint, trace, report, custom } = item;
+// ─── Uniform Card ────────────────────────────────────────────────────────────
 
-  if (custom === "analyze-track") {
-    return (
-      <Reveal delay={delay} className={`${item.span} h-full`}>
-        <div className="group relative flex h-full flex-col rounded-[24px] border border-black/10 bg-white p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/20 md:p-[32px]">
-          <div className="flex items-center justify-between">
-            <Icon size={20} weight="regular" className="text-[#188f8b]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c9c9cf]">
-              {num}
-            </span>
-          </div>
-
-          <h3 className="mt-[20px] font-display text-[22px] leading-[1.15] tracking-[-0.3px] text-black md:text-[24px]">
-            {title}
-          </h3>
-          <p className="mt-[10px] max-w-[560px] text-[13px] leading-[1.5] tracking-[-0.12px] text-[#848484]">
-            Understand where emissions come from and track progress toward reduction targets.
-          </p>
-
-          <div className="mt-[28px] grid grid-cols-1 gap-[24px] lg:grid-cols-2">
-            <div>
-              <div className="flex h-[24px] w-full overflow-hidden rounded-full bg-[#f0f0f0]">
-                <div className="bg-[#188f8b]" style={{ width: "12%" }} />
-                <div className="bg-[#188f8b]" style={{ width: "28%" }} />
-                <div className="bg-[#a7dcd6]" style={{ width: "60%" }} />
-              </div>
-              <div className="mt-[12px] flex flex-wrap gap-x-[16px] gap-y-[6px] text-[12px] font-medium tracking-[-0.12px] text-[#4b5563]">
-                <span className="flex items-center gap-[6px]">
-                  <span className="h-[8px] w-[8px] rounded-full bg-[#188f8b]" /> Scope 1 · 12%
-                </span>
-                <span className="flex items-center gap-[6px]">
-                  <span className="h-[8px] w-[8px] rounded-full bg-[#188f8b]" /> Scope 2 · 28%
-                </span>
-                <span className="flex items-center gap-[6px]">
-                  <span className="h-[8px] w-[8px] rounded-full bg-[#a7dcd6]" /> Scope 3 · 60%
-                </span>
-              </div>
-
-              <p className="mt-[24px] text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
-                Biggest sources
-              </p>
-              <div className="mt-[12px] flex flex-col gap-[10px]">
-                {BIGGEST_SOURCES.map((source) => (
-                  <div key={source.name} className="flex items-center gap-[12px]">
-                    <span className="w-[140px] shrink-0 text-[13px] tracking-[-0.12px] text-[#4b5563]">
-                      {source.name}
-                    </span>
-                    <div className="h-[5px] flex-1 overflow-hidden rounded-full bg-[#f0f0f0]">
-                      <div
-                        className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
-                        style={{ width: source.value }}
-                      />
-                    </div>
-                    <span className="w-[38px] shrink-0 text-right text-[13px] font-semibold tracking-[-0.12px] text-black">
-                      {source.value}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
-                Progress to target
-              </p>
-              <div className="mt-[16px]">
-                <div className="mb-[8px] flex items-center justify-between text-[12px] font-medium tracking-[-0.12px]">
-                  <span className="text-[#848484]">Progress to 2030 target</span>
-                  <span className="text-[#188f8b]">−42%</span>
-                </div>
-                <div className="h-[8px] w-full overflow-hidden rounded-full bg-[#f0f0f0]">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
-                    style={{ width: "42%" }}
-                  />
-                </div>
-              </div>
-
-              <div className="mt-[24px] flex flex-col gap-[12px]">
-                {[
-                  { label: "Baseline 2023", value: "8,420 tCO₂e" },
-                  { label: "Current 2025", value: "4,880 tCO₂e" },
-                  { label: "Target 2030", value: "−50%" },
-                ].map((row) => (
-                  <div
-                    key={row.label}
-                    className="flex items-center justify-between border-b border-black/5 pb-[12px] last:border-0 last:pb-0"
-                  >
-                    <span className="text-[13px] tracking-[-0.12px] text-[#848484]">{row.label}</span>
-                    <span className="text-[13px] font-semibold tracking-[-0.12px] text-black">{row.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Reveal>
-    );
-  }
-
-  const card = tint
-    ? "border-[#188f8b]/15 bg-[#f2faf9] hover:border-[#188f8b]/25"
-    : "border-black/10 bg-white hover:border-[#188f8b]/20";
+function CapCard({ item }: { item: Capability }) {
+  const { num, title, Icon, points, trace, report, chart } = item;
 
   return (
-    <Reveal delay={delay} className={`${item.span} h-full`}>
-      <div
-        className={`group relative flex h-full flex-col rounded-[24px] border p-[28px] transition-all duration-300 hover:-translate-y-[1px] ${card} md:p-[32px]`}
-      >
-        <div className="flex items-center justify-between">
-          <Icon size={20} weight="regular" className="text-[#188f8b]" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c9c9cf]">
-            {num}
-          </span>
-        </div>
+    <div className="flex h-full min-h-full flex-col items-center rounded-[24px] border border-[#188f8b]/15 bg-[#188f8b] p-[20px] text-center">
+      {/* Header */}
+      <div className="flex w-full items-center justify-center gap-[10px]">
+        <Icon size={18} weight="regular" className="text-[#f2faf9]" />
+        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f2faf9]">
+          {num}
+        </span>
+      </div>
 
-        <h3 className={`mt-[20px] font-display text-[22px] leading-[1.15] tracking-[-0.3px] md:text-[24px] ${tint ? "text-[#188f8b]" : "text-black"}`}>
-          {title}
-        </h3>
+      {/* Title */}
+      <h3 className="mt-[12px] font-display text-[18px] leading-[1.15] tracking-[-0.3px] text-[#f2faf9]">
+        {title}
+      </h3>
 
-        <ul className={`mt-[14px] flex flex-col gap-[8px] ${report ? "mb-[130px]" : ""}`}>
-          {points!.map((point) => (
-            <li
-              key={point}
-              className="flex items-start gap-[10px] text-[13px] leading-[1.5] tracking-[-0.12px] text-[#848484]"
-            >
-              <span className={`mt-[6px] h-[4px] w-[4px] shrink-0 rounded-full ${tint ? "bg-[#188f8b]/50" : "bg-[#188f8b]/40"}`} />
-              {point}
-            </li>
-          ))}
-        </ul>
+      {/* Content */}
+      <div className="mt-[12px] flex w-full flex-1 flex-col items-center">
+        {points && (
+          <ul className="flex flex-col gap-[6px]">
+            {points.map((point) => (
+              <li
+                key={point}
+                className="flex items-center gap-[6px] text-[12px] leading-[1.4] text-[#f2faf9]"
+              >
+                <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-[#f2faf9]/50" />
+                {point}
+              </li>
+            ))}
+          </ul>
+        )}
 
         {trace && (
-          <div className="mt-[16px] flex flex-col items-center gap-[6px]">
+          <div className="mt-[10px] flex flex-wrap items-center justify-center gap-[4px]">
             {trace.map((step, i) => (
-              <span key={step} className="flex flex-col items-center gap-[6px]">
-                <span className="rounded-full border border-black/10 px-[10px] py-[5px] text-[11px] font-medium tracking-[-0.1px] text-[#52525b]">
+              <span key={step} className="flex items-center gap-[4px]">
+                <span className="rounded-full border border-black/10 px-[8px] py-[4px] text-[10px] font-medium text-[#f2faf9]">
                   {step}
                 </span>
                 {i < trace.length - 1 && (
-                  <span className="ml-[14px] text-[10px] text-[#a1a1aa]">↓</span>
+                  <span className="text-[9px] text-[#f2faf9]">→</span>
                 )}
               </span>
             ))}
@@ -241,37 +178,203 @@ function CapCard({ item, delay }: { item: Capability; delay: number }) {
         )}
 
         {report && (
-          <div className="pointer-events-none absolute right-[28px] bottom-[28px] left-[28px] md:right-[32px] md:bottom-[32px] md:left-[32px]">
-            <div className="rounded-[14px] border border-black/8 bg-white p-[16px]">
-              <div className="flex items-center justify-between">
-                <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#a1a1aa]">
-                  Scope 1 · 2 · 3
-                </span>
-                <span className="flex gap-[4px]">
-                  <span className="h-[6px] w-[6px] rounded-full bg-[#188f8b]/70" />
-                  <span className="h-[6px] w-[6px] rounded-full bg-[#188f8b]/30" />
-                  <span className="h-[6px] w-[6px] rounded-full bg-[#188f8b]/15" />
-                </span>
-              </div>
-              <div className="mt-[12px] flex gap-[8px]">
-                <div className="h-[32px] flex-1 rounded-[6px] bg-[#188f8b]/10" />
-                <div className="h-[32px] flex-1 rounded-[6px] bg-[#188f8b]/25" />
-                <div className="h-[32px] flex-1 rounded-[6px] bg-[#188f8b]/60" />
-                <div className="h-[32px] flex-1 rounded-[6px] bg-[#188f8b]" />
-              </div>
-              <div className="mt-[8px] flex items-center justify-between">
-                <span className="text-[9px] font-medium tracking-[-0.1px] text-[#a1a1aa]">2023 → 2025</span>
-                <span className="text-[10px] font-semibold text-[#188f8b]">−42%</span>
-              </div>
+          <div className="mt-[10px] w-full max-w-[180px] rounded-[12px] border border-black/8 bg-white p-[10px]">
+            <div className="flex items-center justify-between">
+              <span className="text-[8px] font-semibold uppercase tracking-[0.12em] text-[#f2faf9]">
+                Scope 1 · 2 · 3
+              </span>
+            </div>
+            <div className="mt-[6px] flex gap-[4px]">
+              <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/10" />
+              <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/25" />
+              <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/60" />
+              <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]" />
+            </div>
+            <div className="mt-[4px] flex items-center justify-between">
+              <span className="text-[8px] font-medium text-[#a1a1aa]">2023 → 2025</span>
+              <span className="text-[9px] font-semibold text-[#188f8b]">−42%</span>
+            </div>
+          </div>
+        )}
+
+        {chart === "sources" && (
+          <div className="mt-[10px] w-full max-w-[200px]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f2faf9]/40">
+              Biggest sources
+            </p>
+            <div className="mt-[8px] flex flex-col gap-[6px]">
+              {BIGGEST_SOURCES.map((source) => (
+                <div key={source.name} className="flex items-center gap-[6px]">
+                  <span className="w-[80px] shrink-0 text-left text-[10px] text-[#f2faf9]">
+                    {source.name}
+                  </span>
+                  <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-[#f0f0f0]">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
+                      style={{ width: source.value }}
+                    />
+                  </div>
+                  <span className="w-[24px] shrink-0 text-right text-[10px] font-semibold text-[#f2faf9]/50">
+                    {source.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {chart === "target" && (
+          <div className="mt-[10px] w-full max-w-[200px]">
+            <div className="mb-[4px] flex items-center justify-between text-[10px] font-medium">
+              <span className="text-[#f2faf9]">Progress to 2030 target</span>
+              <span className="text-[#f2faf9]/50">−42%</span>
+            </div>
+            <div className="h-[5px] w-full overflow-hidden rounded-full bg-[#f0f0f0]">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
+                style={{ width: "42%" }}
+              />
+            </div>
+            <div className="mt-[10px] flex flex-col gap-[6px]">
+              {[
+                { label: "Baseline 2023", value: "8,420 tCO₂e" },
+                { label: "Current 2025", value: "4,880 tCO₂e" },
+                { label: "Target 2030", value: "−50%" },
+              ].map((row) => (
+                <div
+                  key={row.label}
+                  className="flex items-center justify-between border-b border-black/5 pb-[6px] last:border-0 last:pb-0"
+                >
+                  <span className="text-[10px] text-[#f2faf9]">{row.label}</span>
+                  <span className="text-[10px] font-semibold text-[#f2faf9]/50">{row.value}</span>
+                </div>
+              ))}
             </div>
           </div>
         )}
       </div>
-    </Reveal>
+    </div>
   );
 }
 
+// ─── Carousel ────────────────────────────────────────────────────────────────
+
 export default function Capabilities() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const totalCards = CAPABILITIES.length;
+
+  // Detect mobile viewport
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Auto-advance every 5 seconds (pauses on hover / drag)
+  useEffect(() => {
+    if (isPaused || isDragging) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % totalCards);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPaused, isDragging, totalCards]);
+
+  // Navigation
+  const goToPrev = useCallback(() => {
+    setCurrentIndex((prev) => (prev - 1 + totalCards) % totalCards);
+  }, [totalCards]);
+
+  const goToNext = useCallback(() => {
+    setCurrentIndex((prev) => (prev + 1) % totalCards);
+  }, [totalCards]);
+
+  // Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setIsDragging(true);
+    setDragStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return;
+    setDragOffset(e.touches[0].clientX - dragStartX);
+  };
+
+  const handleTouchEnd = () => {
+    if (dragOffset > 50) {
+      goToPrev();
+    } else if (dragOffset < -50) {
+      goToNext();
+    }
+    setIsDragging(false);
+    setDragOffset(0);
+  };
+
+  // Mouse drag handlers (desktop)
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    setDragStartX(e.clientX);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    setDragOffset(e.clientX - dragStartX);
+  };
+
+  const handleMouseUp = () => {
+    if (dragOffset > 50) {
+      goToPrev();
+    } else if (dragOffset < -50) {
+      goToNext();
+    }
+    setIsDragging(false);
+    setDragOffset(0);
+  };
+
+  // Determine card position relative to current index
+  const getCardPosition = (index: number): "left" | "center" | "right" | "hidden" => {
+    let diff = index - currentIndex;
+    if (diff > totalCards / 2) diff -= totalCards;
+    if (diff < -totalCards / 2) diff += totalCards;
+
+    if (diff === -1) return "left";
+    if (diff === 0) return "center";
+    if (diff === 1) return "right";
+    return "hidden";
+  };
+
+  // Positioning styles per card role — center 40%, sides 30%
+  const getCardStyles = (position: string): CSSProperties => {
+    const base: CSSProperties = {
+      transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+      minHeight: isMobile ? "240px" : "300px",
+    };
+
+    if (isMobile) {
+      return position === "center"
+        ? { ...base, width: "85%", left: "7.5%", top: "0%", zIndex: 10, opacity: 1, transform: "scale(1)" }
+        : { ...base, width: "85%", left: "7.5%", top: "0%", zIndex: 0, opacity: 0, transform: "scale(0.95)" };
+    }
+
+    switch (position) {
+      case "center":
+        return { ...base, width: "40%", left: "30%", top: "0%", zIndex: 10, opacity: 1, transform: "scale(1)" };
+      case "left":
+        return { ...base, width: "30%", left: "0%", top: "18%", zIndex: 5, opacity: 0.5, transform: "scale(0.8)" };
+      case "right":
+        return { ...base, width: "30%", left: "70%", top: "18%", zIndex: 5, opacity: 0.5, transform: "scale(0.8)" };
+      default:
+        return { ...base, width: "30%", left: "-100%", top: "18%", zIndex: 0, opacity: 0, transform: "scale(0.8)" };
+    }
+  };
+
   return (
     <Section id="capabilities" narrow>
       <Reveal>
@@ -288,9 +391,67 @@ export default function Capabilities() {
         </p>
       </Reveal>
 
-      <div className="grid grid-cols-1 gap-[12px] md:grid-cols-2 lg:grid-cols-12">
+      {/* Carousel window */}
+      <div
+        className="relative"
+        style={{ minHeight: isMobile ? "300px" : "380px" }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => {
+          setIsPaused(false);
+          setIsDragging(false);
+          setDragOffset(0);
+        }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         {CAPABILITIES.map((item, i) => (
-          <CapCard key={item.num} item={item} delay={0.1 + (i % 3) * 0.08} />
+          <div key={item.num} className="absolute" style={getCardStyles(getCardPosition(i))}>
+            <CapCard item={item} />
+          </div>
+        ))}
+
+        {/* Desktop prev / next buttons */}
+        {!isMobile && (
+          <>
+            <button
+              onClick={goToPrev}
+              className="absolute left-[2%] top-[35%] z-20 flex h-[44px] w-[44px] items-center justify-center rounded-full border border-black/10 bg-white/80 text-black/60 backdrop-blur-sm transition-all hover:border-[#188f8b]/30 hover:text-[#188f8b]"
+              aria-label="Previous"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              onClick={goToNext}
+              className="absolute right-[2%] top-[35%] z-20 flex h-[44px] w-[44px] items-center justify-center rounded-full border border-black/10 bg-white/80 text-black/60 backdrop-blur-sm transition-all hover:border-[#188f8b]/30 hover:text-[#188f8b]"
+              aria-label="Next"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Dot indicators */}
+      <div className="mt-[20px] flex items-center justify-center gap-[6px]">
+        {CAPABILITIES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`h-[6px] rounded-full transition-all duration-300 ${
+              i === currentIndex
+                ? "w-[20px] bg-[#188f8b]"
+                : "w-[6px] bg-black/20 hover:bg-black/40"
+            }`}
+            aria-label={`Go to slide ${i + 1}`}
+          />
         ))}
       </div>
     </Section>
