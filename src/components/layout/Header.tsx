@@ -154,7 +154,7 @@ export default function Header() {
             </motion.nav>
 
             <div className="absolute right-[24px] bottom-[32px] left-[24px]">
-              {isAuthenticated ? (
+              {isAuthenticated && (
                 <button
                   onClick={() => {
                     setOpen(false);
@@ -164,14 +164,6 @@ export default function Header() {
                 >
                   Logout
                 </button>
-              ) : (
-                <Link
-                  href="/auth/signup"
-                  onClick={() => setOpen(false)}
-                  className="flex h-[60px] w-full items-center justify-center rounded-full bg-[#0b3b38] text-[16px] font-semibold text-white shadow-[0_16px_40px_rgba(11,59,56,0.3)]"
-                >
-                  Sign Up
-                </Link>
               )}
             </div>
           </div>
