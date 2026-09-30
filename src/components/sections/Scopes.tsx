@@ -27,79 +27,101 @@ const SCOPES = [
 
 export default function Scopes() {
   return (
-    <Section id="scopes" narrow className="relative pt-[32px]! md:pt-[56px]! lg:pt-[72px]!">
+    <Section id="scopes" narrow>
       <Reveal>
-        <div className="mb-[32px] h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
-        <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
-          Carbon scopes
-        </span>
-        <h2 className="mb-[20px] font-display text-[40px] leading-[0.95] tracking-[-1.28px] text-black md:mb-[24px] md:text-[64px]">
-          Know where your emissions live
-        </h2>
-        <p className="mb-[56px] max-w-[560px] text-[16px] leading-[1.5] tracking-[-0.14px] text-[#848484] md:mb-[80px] md:text-[18px]">
-          The GHG Protocol splits emissions into three scopes. Knowing the difference between them is critical to understanding your carbon footprint and how to reduce it.
-        </p>
+        <div className="mb-[28px] h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
+
+        <div className="flex flex-col gap-[24px] lg:flex-row lg:items-end lg:justify-between lg:gap-[64px]">
+          <div className="lg:max-w-[560px]">
+            <span className="mb-[18px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
+              Carbon scopes
+            </span>
+            <h2 className="font-display text-[40px] leading-[0.95] tracking-[-1.28px] text-black md:text-[56px] lg:text-[64px]">
+              Know where your emissions live
+            </h2>
+          </div>
+
+          <p className="max-w-[380px] text-[16px] leading-[1.55] tracking-[-0.14px] text-[#848484] md:text-[18px] lg:pb-[8px]">
+            The GHG Protocol splits emissions into three scopes. Knowing which
+            is which is the first step to reducing them.
+          </p>
+        </div>
       </Reveal>
 
-        <div className="grid grid-cols-1 gap-[12px] md:grid-cols-3">
-          {SCOPES.map((scope, i) => (
-            <Reveal key={scope.num} delay={0.1 + i * 0.1} className="h-full">
-            <div
-              className="group relative flex h-full flex-col overflow-hidden rounded-[16px] border border-[#188f8b]/20 bg-[#0d4f4b] px-[24px] pt-[24px] shadow-[0_18px_50px_rgba(13,79,75,0.25)] transition-all duration-300 hover:-translate-y-[2px] hover:border-[#3faea7]/40 hover:bg-[#114a47] hover:shadow-[0_24px_60px_rgba(13,79,75,0.35)] md:px-[28px] md:pt-[28px]"
-            >
-              <div className="flex items-baseline gap-[12px]">
-                <span className="font-display text-[18px] leading-none text-[#3faea7]">
-                  {scope.num}
-                </span>
-                <span className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#ade5df]/60">
-                  Scope
+      <div className="mt-[44px] grid grid-cols-1 gap-[18px] md:mt-[68px] md:grid-cols-3 md:gap-[20px]">
+        {SCOPES.map((scope, i) => (
+          <Reveal key={scope.num} delay={0.1 + i * 0.1} className="h-full">
+            <article className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#188f8b]/15 bg-white p-[24px] transition-all duration-300 hover:-translate-y-[4px] hover:border-[#188f8b]/40 hover:shadow-[0_36px_70px_-34px_rgba(13,79,75,0.45)] md:p-[28px]">
+           
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -top-[26px] right-[14px] font-display text-[128px] leading-none text-[#188f8b]/[0.07] transition-colors duration-500 group-hover:text-[#188f8b]/[0.14]"
+              >
+                {scope.num}
+              </span>
+
+              <span className="absolute top-0 left-0 h-[3px] w-[34px] rounded-full bg-gradient-to-r from-[#188f8b] to-[#3faea7]/40 transition-all duration-500 ease-out group-hover:w-[calc(100%-0px)]" />
+
+              <div className="relative flex items-center gap-[10px]">
+                <span className="rounded-full border border-[#188f8b]/25 bg-[#188f8b]/[0.06] px-[11px] py-[5px] text-[10px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
+                  Scope {scope.num}
                 </span>
               </div>
 
-              <h3 className="mt-[16px] font-display text-[24px] leading-[1.1] tracking-[-0.4px] text-white md:text-[26px]">
+              <h3 className="relative mt-[22px] font-display text-[26px] leading-[1.05] tracking-[-0.5px] text-black md:text-[28px]">
                 {scope.title}
               </h3>
 
-              <p className="mt-[12px] mb-[16px] flex-1 text-[14px] leading-[1.5] tracking-[-0.14px] text-[#ade5df]/80">
+              <p className="relative mt-[12px] flex-1 text-[14px] leading-[1.55] tracking-[-0.14px] text-[#848484]">
                 {scope.description}
               </p>
 
-              <div className="relative mx-[-24px] mt-[24px] bg-white px-[24px] pt-[28px] pb-[24px] md:mx-[-28px] md:px-[28px] md:pt-[28px] md:pb-[28px]">
-                <svg
-                  viewBox="0 0 400 28"
-                  preserveAspectRatio="none"
-                  aria-hidden
-                  className="pointer-events-none absolute -top-[28px] right-0 left-0 h-[28px] w-full"
-                >
-                  <path d="M0 28 L0 20 C 100 8 300 8 400 20 L400 28 Z" fill="#ffffff" />
-                </svg>
-                <span className="relative text-[11px] font-semibold uppercase tracking-[0.16em] text-[#188f8b]">
+              <div className="relative mt-[26px] border-t border-black/[0.07] pt-[20px]">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#188f8b]">
                   Examples
                 </span>
-                <ul className="mt-[4px]">
+
+                <div className="mt-[12px] flex flex-wrap gap-[8px]">
                   {scope.examples.map((example) => (
-                    <li
+                    <span
                       key={example}
-                      className="flex items-center gap-[10px] border-t border-black/5 py-[10px] text-[14px] tracking-[-0.14px] text-[#52525b]"
+                      className="rounded-full bg-[#188f8b]/[0.07] px-[12px] py-[6px] text-[12.5px] leading-none tracking-[-0.14px] text-[#0f5c58] transition-colors duration-300 group-hover:bg-[#188f8b]/[0.13]"
                     >
-                      <span className="h-[4px] w-[4px] shrink-0 rounded-full bg-[#43b0a9] transition-colors duration-300 group-hover:bg-[#188f8b]" />
                       {example}
-                    </li>
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
-            </div>
-            </Reveal>
-          ))}
-        </div>
+            </article>
+          </Reveal>
+        ))}
+      </div>
 
       <Reveal delay={0.2}>
-        <div className="mt-[12px] flex items-center gap-[14px] rounded-[16px] border border-black/10 bg-white px-[24px] py-[18px]">
-          <span className="h-[6px] w-[6px] shrink-0 rounded-full bg-[#188f8b]" />
-          <p className="text-[14px] leading-[1.4] tracking-[-0.14px] text-[#52525b] md:text-[15px]">
-            For most businesses, <span className="font-semibold text-black">Scope 3</span> is
-            the biggest share — typically <span className="font-semibold text-black">80–90%</span> of the footprint.
-          </p>
+        <div className="mt-[20px] rounded-[24px] border border-[#188f8b]/15 bg-gradient-to-br from-white to-[#188f8b]/[0.04] p-[20px] md:p-[24px]">
+          <div className="flex flex-col gap-[22px] lg:flex-row lg:items-center lg:justify-between lg:gap-[56px]">
+            <div className="flex items-start gap-[14px] lg:items-center">
+              <span className="mt-[6px] h-[7px] w-[7px] shrink-0 rounded-full bg-[#188f8b] lg:mt-0" />
+              <p className="text-[14px] leading-[1.45] tracking-[-0.14px] text-[#52525b] md:text-[15px]">
+                For most businesses,{" "}
+                <span className="font-semibold text-black">Scope 3</span> is
+                the biggest share — typically{" "}
+                <span className="font-semibold text-black">80–90%</span> of the
+                footprint.
+              </p>
+            </div>
+
+            <div className="w-full shrink-0 lg:w-[260px]">
+              <div className="flex h-[6px] w-full overflow-hidden rounded-full bg-[#188f8b]/10">
+                <div className="h-full w-[15%] bg-[#188f8b]/25" />
+                <div className="h-full flex-1 bg-gradient-to-r from-[#3faea7] to-[#188f8b]" />
+              </div>
+              <div className="mt-[8px] flex justify-between text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
+                <span>Scopes 1–2</span>
+                <span className="text-[#188f8b]">Scope 3</span>
+              </div>
+            </div>
+          </div>
         </div>
       </Reveal>
     </Section>
