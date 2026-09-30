@@ -1,6 +1,7 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
+import ProductShowcase from "@/components/sections/ProductShowcase";
 import HowItWorks from "@/components/sections/HowItWorks";
 import Scopes from "@/components/sections/Scopes";
 import Capabilities from "@/components/sections/Capabilities";
@@ -13,6 +14,7 @@ export default function Landing() {
 
       <main>
         <Hero />
+        <ProductShowcase />
         <HowItWorks />
         <Scopes />
         <Capabilities />

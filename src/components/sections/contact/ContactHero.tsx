@@ -13,7 +13,7 @@ export default function ContactHero() {
 
   return (
     <section className="relative overflow-hidden bg-[#fbfcfa] pt-[80px] pb-[40px] md:pt-[96px] md:pb-[48px]">
-      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_0%,#ffffff_0%,#f4faf9_48%,#e6f3f2_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(120%_90%_at_18%_0%,#ffffff_0%,#f4faf9_48%,#e6f3f2_100%)]" />
       <div
         className="absolute inset-0 opacity-50"
         style={{

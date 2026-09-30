@@ -8,7 +8,7 @@ import { EASE } from "@/lib/animations";
 import { useAuth } from "@/context/AuthContext";
 
 const NAV_LINKS = [
-  { label: "Pricing", href: "/contact" },
+  { label: "Pricing", href: "/platform/pricing" },
   { label: "Careers", href: "/careers" },
   { label: "Contact Us", href: "/contact" },
 ];

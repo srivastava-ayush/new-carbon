@@ -64,13 +64,13 @@ export default function PricingCards() {
               <div
                 className={`group relative flex h-full flex-col overflow-hidden rounded-[24px] border p-[32px] transition-all duration-300 ${
                   plan.popular
-                    ? "border-[#188f8b] bg-[#0b3b38] text-white shadow-[0_32px_80px_rgba(11,59,56,0.28)] lg:-my-[16px] lg:py-[48px]"
+                    ? "border-[#188f8b] bg-[#188f8b] text-white shadow-[0_32px_80px_rgba(11,59,56,0.28)] lg:-my-[16px] lg:py-[48px]"
                     : "border-black/[0.07] bg-white hover:-translate-y-[2px] hover:border-[#188f8b]/25 hover:shadow-[0_24px_48px_rgba(11,59,56,0.06)]"
                 }`}
               >
                 {plan.popular && (
                   <div className="absolute inset-x-0 top-0 flex justify-center">
-                    <span className="rounded-b-full bg-[#43b0a9] px-[20px] py-[6px] text-[10px] font-bold uppercase tracking-[0.16em] text-white">
+                    <span className="rounded-b-full bg-[#0b3b38] px-[20px] py-[6px] text-[10px] font-bold uppercase tracking-[0.16em] text-white">
                       Most Popular
                     </span>
                   </div>
@@ -101,7 +101,7 @@ export default function PricingCards() {
                   href="/contact"
                   className={`inline-flex h-[50px] items-center justify-center rounded-full px-[28px] text-[14px] font-semibold tracking-[-0.14px] transition-all duration-300 ${
                     plan.popular
-                      ? "bg-[#43b0a9] text-white shadow-[0_12px_28px_rgba(67,176,169,0.3)] hover:-translate-y-[1px] hover:bg-[#4fbbb4]"
+                      ? "bg-[#0b3b38] text-white shadow-[0_12px_28px_rgba(67,176,169,0.3)] hover:-translate-y-[1px] hover:bg-[#43b0a9]"
                       : "border border-[#188f8b]/20 bg-white text-[#188f8b] hover:border-[#188f8b] hover:bg-[#188f8b] hover:text-white"
                   }`}
                 >
