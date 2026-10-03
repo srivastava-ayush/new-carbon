@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Building2, GitMerge, Landmark, Network } from "lucide-react";
+import { Building, GitMerge, Bank, Network } from "@phosphor-icons/react";
 
 import { Combobox } from "../combobox";
 import { SelectableCards } from "../controls";
@@ -34,7 +34,7 @@ const ORG_STRUCTURES = [
     value: "single",
     label: "Single legal entity",
     description: "One company accounts for the entire footprint",
-    icon: Building2,
+    icon: Building,
   },
   {
     value: "multi",
@@ -49,7 +49,7 @@ const CONSOLIDATION = [
     value: "operational",
     label: "Operational control",
     description: "All operations where you have full control",
-    icon: Landmark,
+    icon: Bank,
   },
   {
     value: "financial",
@@ -61,7 +61,7 @@ const CONSOLIDATION = [
     value: "equity",
     label: "Equity share",
     description: "Ownership percentage across the group",
-    icon: Building2,
+    icon: Building,
   },
 ];
 

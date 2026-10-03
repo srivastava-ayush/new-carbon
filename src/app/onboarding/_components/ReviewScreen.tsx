@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, PencilLine, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, PencilLine, Sparkle } from "@phosphor-icons/react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -106,7 +106,7 @@ export function ReviewScreen({
                             )}
                           >
                             {isComplete ? (
-                              <Check className="size-4" strokeWidth={3} />
+                              <Check size={16} strokeWidth={3} />
                             ) : (
                               page.substepIndex + 1
                             )}
@@ -127,7 +127,7 @@ export function ReviewScreen({
                           size="sm"
                           onClick={() => onEdit(page.key)}
                         >
-                          <PencilLine className="size-3.5" />
+                          <PencilLine size={14} />
                           Edit
                         </Button>
                       </div>
@@ -165,7 +165,7 @@ export function ReviewScreen({
 
       <div className="mt-10 flex items-center justify-between gap-3">
         <Button variant="ghost" size="lg" onClick={onBack}>
-          <ArrowLeft className="size-4" />
+          <ArrowLeft size={16} />
           Back
         </Button>
         <motion.div whileTap={{ scale: 0.98 }}>
@@ -177,9 +177,9 @@ export function ReviewScreen({
               </>
             ) : (
               <>
-                <Sparkles className="size-4" />
+                <Sparkle size={16} />
                 Create workspace
-                <ArrowRight className="size-4" />
+                <ArrowRight size={16} />
               </>
             )}
           </Button>

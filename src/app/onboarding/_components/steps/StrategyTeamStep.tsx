@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Award, Leaf, Target, TreePine } from "lucide-react";
+import { Medal, Leaf, Target, TreeEvergreen } from "@phosphor-icons/react";
 
 import { ChipMultiSelect } from "../chips";
 import { SelectableCards } from "../controls";
@@ -60,9 +60,9 @@ export function StrategyTeamStep({
                 })
               }
               options={[
-                { ...TARGET_OPTIONS[0], icon: TreePine },
+                { ...TARGET_OPTIONS[0], icon: TreeEvergreen },
                 { ...TARGET_OPTIONS[1], icon: Target },
-                { ...TARGET_OPTIONS[2], icon: Award },
+                { ...TARGET_OPTIONS[2], icon: Medal },
               ]}
               error={err("targets")}
             />

@@ -4,12 +4,12 @@ import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Check,
-  ChevronDown,
-  ChevronsUpDown,
-  CloudUpload,
+  CaretDown,
+  CaretUpDown,
+  CloudArrowUp,
   Lock,
   X,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -51,9 +51,9 @@ function SavedBadge({ state }: { state: SavedState }) {
       className="inline-flex items-center gap-1.5 rounded-full border border-border bg-secondary/80 px-2.5 py-1 text-xs font-medium text-muted-foreground"
     >
       {state === "saving" ? (
-        <CloudUpload className="size-3.5 animate-pulse" />
+        <CloudArrowUp size={14} className="animate-pulse" />
       ) : (
-        <Check className="size-3.5 text-primary" strokeWidth={3} />
+        <Check size={14} className="text-primary" strokeWidth={3} />
       )}
       {state === "saving" ? "Saving…" : "Saved"}
     </motion.span>
@@ -132,7 +132,7 @@ function SubstepRow({
           )}
         >
           {isCompleted ? (
-            <Check className="size-3" strokeWidth={3} />
+            <Check size={12} strokeWidth={3} />
           ) : (
             <span
               className={cn(
@@ -155,7 +155,7 @@ function SubstepRow({
           {page.title}
         </span>
         {isLocked && (
-          <Lock className="ml-auto size-3 shrink-0 text-muted-foreground/40" />
+          <Lock size={12} className="ml-auto shrink-0 text-muted-foreground/40" />
         )}
       </button>
     </li>
@@ -202,7 +202,7 @@ function StageRow({
             )}
           >
             {pagesComplete ? (
-              <Check className="size-3.5" strokeWidth={3} />
+              <Check size={14} strokeWidth={3} />
             ) : (
               <span className="text-[0.6875rem] font-semibold leading-none">
                 {stage.stageIndex}
@@ -290,10 +290,10 @@ function StageRow({
                   {stage.pages.length} step{stage.pages.length > 1 ? "s" : ""}
                 </span>
                 {isStageLocked && (
-                  <Lock className="ml-auto size-3 shrink-0 text-muted-foreground/40" />
+                  <Lock size={12} className="ml-auto shrink-0 text-muted-foreground/40" />
                 )}
                 {!isStageLocked && !pagesComplete && (
-                  <ChevronDown className="ml-auto size-3.5 shrink-0 text-muted-foreground/50" />
+                  <CaretDown size={14} className="ml-auto shrink-0 text-muted-foreground/50" />
                 )}
               </button>
             )}
@@ -339,7 +339,7 @@ function StageTimeline({
                 : "border-border text-muted-foreground"
             )}
           >
-            <Check className="size-3.5" strokeWidth={3} />
+            <Check size={14} strokeWidth={3} />
           </span>
         </div>
         <div className="min-w-0 flex-1 pb-1">
@@ -475,7 +475,7 @@ function MobileExperience(props: StepSidebarProps) {
                 {stepSub}
               </span>
             </span>
-            <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground" />
+            <CaretUpDown size={16} className="shrink-0 text-muted-foreground" />
           </button>
           <div className="mt-2.5 h-1 w-full overflow-hidden rounded-full bg-muted">
             <motion.div
@@ -524,7 +524,7 @@ function MobileExperience(props: StepSidebarProps) {
                   aria-label="Close progress"
                   className="flex size-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
-                  <X className="size-4" />
+                  <X size={16} />
                 </button>
               </div>
               <div className="custom-scrollbar flex-1 overflow-y-auto px-3 py-4">

@@ -1,6 +1,6 @@
 export default function ProcessVisual() {
   return (
-    <svg viewBox="0 0 480 360" preserveAspectRatio="xMidYMid slice" className="h-full w-full" role="img" aria-label="Processing data visual">
+    <svg viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" className="h-full w-full" role="img" aria-label="Processing data visual">
       <style>{`
         @keyframes vc-flow {
           to { stroke-dashoffset: -24; }

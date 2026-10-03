@@ -1,7 +1,6 @@
-import { Bank, Factory, Heartbeat, Lightning, ShoppingCart } from "@phosphor-icons/react/dist/ssr";
+import { Bank, Factory, Heartbeat, Lightning, ShoppingCart, GraduationCap } from "@phosphor-icons/react/dist/ssr";
 import Reveal from "@/components/shared/Reveal";
 import Section from "@/components/ui/Section";
-import { School } from "lucide-react";
 
 const SOLUTIONS = [
   {
@@ -12,7 +11,7 @@ const SOLUTIONS = [
   {
     name: "Universities",
     blurb: "Campus-wide carbon accounting and reporting for Scope 1, 2 & 3.",
-    Icon: School,
+    Icon: GraduationCap,
   },
   {
     name: "Financial services",

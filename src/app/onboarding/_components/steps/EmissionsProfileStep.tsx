@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Flame, Leaf, Thermometer, Zap } from "lucide-react";
+import { Flame, Leaf, Thermometer, Lightning } from "@phosphor-icons/react";
 
 import { ChipMultiSelect } from "../chips";
 import { SelectableCards } from "../controls";
@@ -93,10 +93,10 @@ export function EmissionsProfileStep({
                 })
               }
               options={[
-                { ...ELECTRICITY_SOURCES[0], icon: Zap },
+                { ...ELECTRICITY_SOURCES[0], icon: Lightning },
                 { ...ELECTRICITY_SOURCES[1], icon: Leaf },
                 { ...ELECTRICITY_SOURCES[2], icon: Flame },
-                { ...ELECTRICITY_SOURCES[3], icon: Zap },
+                { ...ELECTRICITY_SOURCES[3], icon: Lightning },
               ]}
               error={err("electricitySource")}
             />

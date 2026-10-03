@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import {
-  Award,
-  CalendarClock,
-  CircleCheck,
-  FileSearch,
-  Scale,
+  Medal,
+  CalendarBlank,
+  CheckCircle,
+  FileMagnifyingGlass,
+  Scales,
   Target,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 
 import { ChipMultiSelect } from "../chips";
 import { SelectableCards } from "../controls";
@@ -36,7 +36,7 @@ interface StepProps {
   section?: string;
 }
 
-const REASON_ICONS = [Target, Award, CircleCheck, Scale, FileSearch, CalendarClock];
+const REASON_ICONS = [Target, Medal, CheckCircle, Scales, FileMagnifyingGlass, CalendarBlank];
 
 const DEADLINES = [
   { value: "3-months", label: "Within 3 months" },

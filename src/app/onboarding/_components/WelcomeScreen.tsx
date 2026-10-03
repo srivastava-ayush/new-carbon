@@ -4,11 +4,11 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Building2,
-  ChevronRight,
-  FileCheck2,
+  Building,
+  CaretRight,
+  FileText,
   Plug,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -27,7 +27,7 @@ interface StepCard {
 
 const STEPS: StepCard[] = [
   {
-    icon: Building2,
+    icon: Building,
     step: "01",
     title: "Tell us about your company",
     description: "Legal entity, size and industry. This anchors every report.",
@@ -39,7 +39,7 @@ const STEPS: StepCard[] = [
     description: "Locations, fleet and the systems where your data already lives.",
   },
   {
-    icon: FileCheck2,
+    icon: FileText,
     step: "03",
     title: "Configure reporting",
     description: "Frameworks, deadlines and targets for your stakeholders.",
@@ -121,7 +121,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
                 className="group flex cursor-default items-center gap-4 rounded-xl border border-border bg-card p-4 outline-none transition-all duration-200 hover:-translate-y-0.5 hover:border-eco-green/50 hover:shadow-[0_10px_32px_rgba(22,163,74,0.08)] focus-visible:ring-2 focus-visible:ring-eco-green/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-eco-green/10 text-eco-green transition-colors duration-200 group-hover:bg-eco-green group-hover:text-white">
-                  <Icon className="size-4.5" />
+                  <Icon size={18} />
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-baseline gap-2">
@@ -136,7 +136,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
                     {card.description}
                   </p>
                 </div>
-                <ChevronRight className="size-4 shrink-0 -translate-x-1 text-muted-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:text-eco-green group-hover:opacity-100" />
+                <CaretRight size={16} className="shrink-0 -translate-x-1 text-muted-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:text-eco-green group-hover:opacity-100" />
               </div>
             );
           })}
@@ -150,7 +150,7 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
             className="group w-full max-w-[18rem] rounded-full bg-eco-green! text-white shadow-sm hover:bg-eco-hover! hover:shadow-[0_12px_32px_rgba(22,163,74,0.25)] focus-visible:ring-eco-green/40!"
           >
             Start setup
-            <ArrowRight className="size-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+            <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-0.5" />
           </Button>
 
           <Link

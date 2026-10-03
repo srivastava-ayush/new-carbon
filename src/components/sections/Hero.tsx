@@ -4,7 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform, AnimatePresence } from "motion/react";
-import { X } from "lucide-react";
+import { X } from "@phosphor-icons/react";
 import type { GlobeNode } from "@/components/ui/globeData";
 import Container from "@/components/ui/Container";
 import { EASE, maskReveal, stagger } from "@/lib/animations";
@@ -191,7 +191,7 @@ export default function Hero() {
               aria-label="Close details"
               className="absolute top-[14px] right-[14px] rounded-lg p-[4px] text-[#92a5a3] transition-colors hover:bg-black/[0.04] hover:text-[#0b1f1e]"
             >
-              <X className="h-[15px] w-[15px]" />
+              <X size={15} />
             </button>
             <div className="mb-[10px] flex items-center gap-[10px] pr-[24px]">
               <span className="h-[9px] w-[9px] rounded-full" style={{ backgroundColor: selectedNode.color }} />

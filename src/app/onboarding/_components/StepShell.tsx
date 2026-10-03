@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, SkipForward } from "lucide-react";
+import { ArrowLeft, ArrowRight, SkipForward } from "@phosphor-icons/react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -101,7 +101,7 @@ export function StepShell({
             className={!showBack ? "invisible" : undefined}
             aria-label="Go back"
           >
-            <ArrowLeft className="size-4" />
+            <ArrowLeft size={16} />
             <span className="hidden sm:inline">Back</span>
           </Button>
 
@@ -114,7 +114,7 @@ export function StepShell({
                 onClick={onSkip}
                 className="text-muted-foreground"
               >
-                <SkipForward className="size-4" />
+                <SkipForward size={16} />
                 {skipLabel}
               </Button>
             )}
@@ -127,7 +127,7 @@ export function StepShell({
                 className="min-w-[7.5rem]"
               >
                 {continueLabel}
-                <ArrowRight className="size-4" />
+                <ArrowRight size={16} />
               </Button>
             </motion.div>
           </div>

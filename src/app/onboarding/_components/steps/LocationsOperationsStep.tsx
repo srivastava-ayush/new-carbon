@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Building, Car, Factory, Leaf, MapPin, PlugZap } from "lucide-react";
+import { Building, Car, Factory, Leaf, MapPin, PlugCharging } from "@phosphor-icons/react";
 
 import { ChipMultiSelect } from "../chips";
 import { SelectableCards } from "../controls";
@@ -127,7 +127,7 @@ export function LocationsOperationsStep({
 
           {!showSites && (
             <p className="flex items-center gap-2 rounded-xl border border-dashed border-border bg-muted/40 px-4 py-3 text-sm text-muted-foreground">
-              <Building className="size-4 shrink-0" />
+              <Building size={16} className="shrink-0" />
               No facility-related questions — we&apos;ll skip straight to fleet and energy.
             </p>
           )}
@@ -168,13 +168,13 @@ export function LocationsOperationsStep({
 
           <div className="flex flex-wrap gap-2 pt-1">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-muted px-3 py-1.5 text-xs font-medium text-primary">
-              <Car className="size-3.5" /> Fleet
+              <Car size={14} /> Fleet
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-muted px-3 py-1.5 text-xs font-medium text-primary">
-              <Leaf className="size-3.5" /> On-site generation
+              <Leaf size={14} /> On-site generation
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-muted px-3 py-1.5 text-xs font-medium text-primary">
-              <PlugZap className="size-3.5" /> Purchased energy
+              <PlugCharging size={14} /> Purchased energy
             </span>
           </div>
         </Section>
