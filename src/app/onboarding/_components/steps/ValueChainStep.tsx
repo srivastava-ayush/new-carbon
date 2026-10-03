@@ -2,13 +2,12 @@
 
 import * as React from "react";
 import {
-  Boxes,
-  Handshake,
   Package,
-  Plane,
+  Handshake,
+  Airplane,
   Recycle,
   Truck,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 
 import { ChipMultiSelect } from "../chips";
 import { SegmentedControl, SelectableCards } from "../controls";
@@ -75,7 +74,7 @@ export function ValueChainStep({ data, update, err, section }: StepProps) {
               value={v.supplierData}
               onChange={(s) => update("valueChain", { supplierData: s })}
               options={[
-                { ...SUPPLIER_DATA_OPTIONS[0], icon: Boxes },
+                { ...SUPPLIER_DATA_OPTIONS[0], icon: Package },
                 { ...SUPPLIER_DATA_OPTIONS[1], icon: Handshake },
                 { ...SUPPLIER_DATA_OPTIONS[2], icon: Package },
               ]}
@@ -125,7 +124,7 @@ export function ValueChainStep({ data, update, err, section }: StepProps) {
                 onChange={(s) => update("valueChain", { businessTravel: s })}
                 options={BUSINESS_TRAVEL_OPTIONS.map((o) => ({
                   ...o,
-                  icon: Plane,
+                  icon: Airplane,
                 }))}
                 error={err("businessTravel")}
               />

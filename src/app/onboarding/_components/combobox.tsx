@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { motion } from "framer-motion";
-import { Check, ChevronsUpDown, Search, X } from "lucide-react";
+import { Check, CaretUpDown, MagnifyingGlass, X } from "@phosphor-icons/react";
 
 import { cn } from "@/lib/utils";
 import { FieldError } from "./fields";
@@ -118,7 +118,7 @@ export function Combobox({
             >
               {selected?.label ?? placeholder}
             </span>
-            <ChevronsUpDown className="size-4 shrink-0 text-muted-foreground/70" />
+            <CaretUpDown size={16} className="shrink-0 text-muted-foreground/70" />
           </button>
         </PopoverPrimitive.Trigger>
 
@@ -136,7 +136,7 @@ export function Combobox({
               onKeyDown={onKeyDown}
             >
               <div className="relative">
-                <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground/70" />
+                <MagnifyingGlass size={16} className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground/70" />
                 <input
                   ref={inputRef}
                   value={query}
@@ -152,7 +152,7 @@ export function Combobox({
                     onClick={() => setQuery("")}
                     className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-0.5 text-muted-foreground hover:text-foreground"
                   >
-                    <X className="size-3.5" />
+                    <X size={14} />
                   </button>
                 )}
               </div>
@@ -187,7 +187,7 @@ export function Combobox({
                       >
                         <span className="truncate">{option.label}</span>
                         {isSelected && (
-                          <Check className="size-4 shrink-0 text-primary" strokeWidth={2.5} />
+                          <Check size={16} className="shrink-0 text-primary" strokeWidth={2.5} />
                         )}
                       </button>
                     );

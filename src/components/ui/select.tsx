@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, CaretDown, CaretUp } from "@phosphor-icons/react";
 
 import { cn } from "@/lib/utils";
 
@@ -26,7 +26,7 @@ function SelectTrigger({
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDown className="size-4 shrink-0 opacity-60" />
+        <CaretDown size={16} className="shrink-0 opacity-60" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
@@ -52,7 +52,7 @@ function SelectContent({
         {...props}
       >
         <SelectPrimitive.ScrollUpButton className="flex h-6 items-center justify-center">
-          <ChevronUp className="size-4 opacity-60" />
+          <CaretUp size={16} className="opacity-60" />
         </SelectPrimitive.ScrollUpButton>
         <SelectPrimitive.Viewport
           className={cn(
@@ -64,7 +64,7 @@ function SelectContent({
           {children}
         </SelectPrimitive.Viewport>
         <SelectPrimitive.ScrollDownButton className="flex h-6 items-center justify-center">
-          <ChevronDown className="size-4 opacity-60" />
+          <CaretDown size={16} className="opacity-60" />
         </SelectPrimitive.ScrollDownButton>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
@@ -100,7 +100,7 @@ function SelectItem({
     >
       <span className="w-4 shrink-0">
         <SelectPrimitive.ItemIndicator>
-          <Check className="size-4 text-primary" strokeWidth={2.5} />
+          <Check size={16} className="text-primary" strokeWidth={2.5} />
         </SelectPrimitive.ItemIndicator>
       </span>
       <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>

@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { CircleAlert, Info } from "lucide-react";
+import { WarningCircle, Info } from "@phosphor-icons/react";
 
 import { cn } from "@/lib/utils";
 
@@ -54,7 +54,7 @@ export function FieldHelper({
         className
       )}
     >
-      <Info className="mt-0.5 size-3.5 shrink-0 text-muted-foreground/70" />
+      <Info size={14} className="mt-0.5 shrink-0 text-muted-foreground/70" />
       <span>{children}</span>
     </p>
   );
@@ -71,7 +71,7 @@ export function FieldError({ message }: { message?: string }) {
       role="alert"
       className="flex items-start gap-1.5 text-[0.8125rem] font-medium leading-5 text-destructive"
     >
-      <CircleAlert className="mt-0.5 size-3.5 shrink-0" />
+      <WarningCircle size={14} className="mt-0.5 shrink-0" />
       <span>{message}</span>
     </motion.p>
   );

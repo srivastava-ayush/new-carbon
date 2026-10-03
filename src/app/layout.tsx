@@ -1,24 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, DM_Serif_Display, Geist } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
 import { Toaster } from "sonner";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const dmSans = DM_Sans({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
   display: "swap",
 });
 
-const dmSerif = DM_Serif_Display({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-dm-serif-display",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Carbonsynq — Carbon Intelligence, Measured Beautifully",
@@ -34,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", dmSans.variable, dmSerif.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", poppins.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col">
         <AuthProvider>

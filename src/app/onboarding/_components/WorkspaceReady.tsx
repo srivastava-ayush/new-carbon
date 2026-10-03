@@ -4,16 +4,16 @@ import * as React from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Building2,
-  CalendarRange,
+  Building,
+  CalendarBlank,
   Check,
   FileText,
-  FolderKanban,
+  Folder,
   Plug,
   Rocket,
   Target,
   Users,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -69,14 +69,14 @@ export function WorkspaceReady({
       done: false,
     },
     {
-      icon: Building2,
+      icon: Building,
       title: "Add facility details",
       description: "Layer in floor area and meter numbers for each of your sites.",
       tag: "Optional",
       done: false,
     },
     {
-      icon: CalendarRange,
+      icon: CalendarBlank,
       title: "Schedule your first report",
       description: "We'll draft it as soon as your data is flowing.",
       tag: "Optional",
@@ -93,7 +93,7 @@ export function WorkspaceReady({
           transition={{ type: "spring", stiffness: 220, damping: 14, delay: 0.1 }}
           className="mx-auto flex size-16 items-center justify-center rounded-2xl bg-primary shadow-[0_10px_30px_rgba(99,91,255,0.35)]"
         >
-          <Check className="size-8 text-primary-foreground" strokeWidth={3} />
+          <Check size={32} className="text-primary-foreground" strokeWidth={3} />
         </motion.div>
 
         <motion.h1
@@ -134,13 +134,13 @@ export function WorkspaceReady({
                       : "flex size-9 items-center justify-center rounded-lg bg-accent-muted text-primary"
                   }
                 >
-                  <Icon className="size-4.5" />
+                  <Icon size={18} />
                 </span>
                 <Badge variant={task.done ? "soft" : "muted"}>{task.tag}</Badge>
               </div>
               <h3 className="mt-3 flex items-center gap-1.5 text-[0.9375rem] font-semibold text-foreground">
                 {task.title}
-                {task.done && <Check className="size-4 text-emerald-500" strokeWidth={3} />}
+                {task.done && <Check size={16} className="text-emerald-500" strokeWidth={3} />}
               </h3>
               <p className="mt-1 text-sm leading-5 text-muted-foreground">
                 {task.description}
@@ -157,16 +157,16 @@ export function WorkspaceReady({
         className="mt-12 flex flex-col items-center gap-3"
       >
         <Button size="lg" onClick={onEnterDashboard} className="min-w-[14rem]">
-          <Rocket className="size-4" />
+          <Rocket size={16} />
           Go to your dashboard
-          <ArrowRight className="size-4" />
+          <ArrowRight size={16} />
         </Button>
         <Button variant="ghost" size="lg" onClick={onInvite}>
-          <Users className="size-4" />
+          <Users size={16} />
           Invite teammates
         </Button>
         <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-          <FolderKanban className="size-3.5" />
+          <Folder size={14} />
           We&apos;ve also queued a guided setup checklist inside the workspace.
         </p>
       </motion.div>

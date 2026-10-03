@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CloudCog, Database, FileUp, Mail, Plug, ShieldCheck } from "lucide-react";
+import { Cloud, Database, FileArrowUp, EnvelopeSimple, Plug, ShieldCheck } from "@phosphor-icons/react";
 
 import { Combobox } from "../combobox";
 import { ChipMultiSelect } from "../chips";
@@ -36,13 +36,13 @@ const BILLING_METHODS = [
     value: "upload",
     label: "I'll upload bills",
     description: "Monthly or quarterly PDF / CSV batches",
-    icon: FileUp,
+    icon: FileArrowUp,
   },
   {
     value: "email",
     label: "Forward to a sync address",
     description: "A unique inbox CarbonSynq watches",
-    icon: Mail,
+    icon: EnvelopeSimple,
   },
   {
     value: "api",
@@ -54,7 +54,7 @@ const BILLING_METHODS = [
     value: "manual",
     label: "We'll collect manually",
     description: "You prefer to keep it in-house",
-    icon: CloudCog,
+    icon: Cloud,
   },
 ];
 
@@ -238,8 +238,8 @@ export function DataIntegrationsStep({
               onChange={(v) => update("integrations", { dataInputMethod: v })}
               options={[
                 { ...DATA_INPUT_METHODS[0], icon: Database },
-                { ...DATA_INPUT_METHODS[1], icon: FileUp },
-                { ...DATA_INPUT_METHODS[2], icon: CloudCog },
+                { ...DATA_INPUT_METHODS[1], icon: FileArrowUp },
+                { ...DATA_INPUT_METHODS[2], icon: Cloud },
                 { ...DATA_INPUT_METHODS[3], icon: Plug },
                 { ...DATA_INPUT_METHODS[4], icon: ShieldCheck },
               ]}

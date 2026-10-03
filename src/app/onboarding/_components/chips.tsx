@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { Check } from "@phosphor-icons/react";
 
 import { cn } from "@/lib/utils";
 import { FieldError } from "./fields";
@@ -70,7 +70,7 @@ export function ChipMultiSelect({
               )}
             >
               {isSelected && (
-                <Check className="size-3.5" strokeWidth={3} />
+                <Check size={14} strokeWidth={3} />
               )}
               {opt.label}
             </motion.button>

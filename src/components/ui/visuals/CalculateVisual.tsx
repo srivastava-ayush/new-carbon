@@ -1,6 +1,6 @@
 export default function CalculateVisual() {
   return (
-    <svg viewBox="0 0 480 360" preserveAspectRatio="xMidYMid slice" className="h-full w-full" role="img" aria-label="Calculating emissions visual">
+    <svg viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" className="h-full w-full" role="img" aria-label="Calculating emissions visual">
       <style>{`
         @keyframes vc-pulse {
           0%, 100% { opacity: 0.25; }

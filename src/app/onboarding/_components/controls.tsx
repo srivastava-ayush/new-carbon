@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { Check, type LucideIcon } from "lucide-react";
+import { Check, type Icon } from "@phosphor-icons/react";
 
 import { cn } from "@/lib/utils";
 import { FieldError } from "./fields";
@@ -11,7 +11,7 @@ interface BaseOption {
   value: string;
   label: string;
   description?: string;
-  icon?: LucideIcon;
+  icon?: Icon;
 }
 
 interface SegmentedControlProps {
@@ -125,7 +125,7 @@ export function SelectableCards({
                       : "border-border bg-muted text-muted-foreground group-hover:text-foreground"
                   )}
                 >
-                  <Icon className="size-4" />
+                  <Icon size={16} />
                 </span>
               )}
               <span className="flex min-w-0 flex-col gap-0.5">
@@ -152,7 +152,7 @@ export function SelectableCards({
                 )}
                 aria-hidden="true"
               >
-                {isSelected && <Check className="size-3" strokeWidth={3} />}
+                {isSelected && <Check size={12} strokeWidth={3} />}
               </span>
             </button>
           );
