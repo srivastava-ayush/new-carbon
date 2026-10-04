@@ -51,33 +51,33 @@ export default function Scopes() {
       <div className="mt-[44px] grid grid-cols-1 gap-[18px] md:mt-[68px] md:grid-cols-3 md:gap-[20px]">
         {SCOPES.map((scope, i) => (
           <Reveal key={scope.num} delay={0.1 + i * 0.1} className="h-full">
-            <article className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#188f8b]/15 bg-white p-[24px] transition-all duration-300 hover:-translate-y-[4px] hover:border-[#188f8b]/40 hover:shadow-[0_36px_70px_-34px_rgba(13,79,75,0.45)] md:p-[28px]">
+            <article className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#188f8b]/15 bg-white p-[24px] transition-all duration-300 hover:-translate-y-[4px] hover:border-[#188f8b] hover:bg-[#188f8b] hover:shadow-[0_32px_80px_rgba(11,59,56,0.28)] md:p-[28px]">
            
               <span
                 aria-hidden
-                className="pointer-events-none absolute -top-[26px] right-[14px] font-display text-[128px] leading-none text-[#188f8b]/[0.07] transition-colors duration-500 group-hover:text-[#188f8b]/[0.14]"
+                className="pointer-events-none absolute -top-[26px] right-[14px] font-display text-[128px] leading-none text-[#188f8b]/[0.07] transition-colors duration-500 group-hover:text-white/[0.14]"
               >
                 {scope.num}
               </span>
 
-              <span className="absolute top-0 left-0 h-[3px] w-[34px] rounded-full bg-gradient-to-r from-[#188f8b] to-[#3faea7]/40 transition-all duration-500 ease-out group-hover:w-[calc(100%-0px)]" />
+              <span className="absolute top-0 left-0 h-[3px] w-[34px] rounded-full bg-gradient-to-r from-[#188f8b] to-[#3faea7]/40 transition-all duration-500 ease-out group-hover:w-[calc(100%-0px)] group-hover:from-white/60 group-hover:to-white/20" />
 
               <div className="relative flex items-center gap-[10px]">
-                <span className="rounded-full border border-[#188f8b]/25 bg-[#188f8b]/[0.06] px-[11px] py-[5px] text-[10px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
+                <span className="rounded-full border border-[#188f8b]/25 bg-[#188f8b]/[0.06] px-[11px] py-[5px] text-[10px] font-semibold uppercase tracking-[0.18em] text-[#188f8b] transition-colors duration-300 group-hover:border-white/30 group-hover:bg-white/10 group-hover:text-white">
                   Scope {scope.num}
                 </span>
               </div>
 
-              <h3 className="relative mt-[22px] font-display text-[26px] leading-[1.05] tracking-[-0.5px] text-black md:text-[28px]">
+              <h3 className="relative mt-[22px] font-display text-[26px] leading-[1.05] tracking-[-0.5px] text-black transition-colors duration-300 group-hover:text-white md:text-[28px]">
                 {scope.title}
               </h3>
 
-              <p className="relative mt-[12px] flex-1 text-[14px] leading-[1.55] tracking-[-0.14px] text-[#848484]">
+              <p className="relative mt-[12px] flex-1 text-[14px] leading-[1.55] tracking-[-0.14px] text-[#848484] transition-colors duration-300 group-hover:text-[#ade5df]/85">
                 {scope.description}
               </p>
 
-              <div className="relative mt-[26px] border-t border-black/[0.07] pt-[20px]">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#188f8b]">
+              <div className="relative mt-[26px] border-t border-black/[0.07] pt-[20px] transition-colors duration-300 group-hover:border-white/15">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#188f8b] transition-colors duration-300 group-hover:text-[#ade5df]">
                   Examples
                 </span>
 
@@ -85,7 +85,7 @@ export default function Scopes() {
                   {scope.examples.map((example) => (
                     <span
                       key={example}
-                      className="rounded-full bg-[#188f8b]/[0.07] px-[12px] py-[6px] text-[12.5px] leading-none tracking-[-0.14px] text-[#0f5c58] transition-colors duration-300 group-hover:bg-[#188f8b]/[0.13]"
+                      className="rounded-full bg-[#188f8b]/[0.07] px-[12px] py-[6px] text-[12.5px] leading-none tracking-[-0.14px] text-[#0f5c58] transition-colors duration-300 group-hover:bg-white/15 group-hover:text-white"
                     >
                       {example}
                     </span>
