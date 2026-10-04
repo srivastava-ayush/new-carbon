@@ -29,8 +29,6 @@ export default function Scopes() {
   return (
     <Section id="scopes" narrow>
       <Reveal>
-        <div className="mb-[28px] h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
-
         <div className="flex flex-col gap-[24px] lg:flex-row lg:items-end lg:justify-between lg:gap-[64px]">
           <div className="lg:max-w-[560px]">
             <span className="mb-[18px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">

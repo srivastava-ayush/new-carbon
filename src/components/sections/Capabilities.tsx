@@ -378,7 +378,6 @@ export default function Capabilities() {
   return (
     <Section id="capabilities" narrow>
       <Reveal>
-        <div className="mb-[32px] h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
         <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
           What we help companies with
         </span>
