@@ -30,7 +30,6 @@ export default function Solutions() {
   return (
     <Section id="solutions" narrow>
       <Reveal>
-        <div className="mb-[32px] h-px w-full bg-gradient-to-r from-[#188f8b]/60 via-[#188f8b]/20 to-transparent" />
         <span className="mb-[20px] block text-[14px] font-semibold uppercase tracking-[0.18em] text-[#188f8b]">
           Solutions
         </span>
@@ -46,9 +45,8 @@ export default function Solutions() {
           return (
             <Reveal key={name} delay={0.1 + i * 0.1} className="h-full">
               <Link
-                // href={`/solutions/${name.toLowerCase().replace(/[,\s]+/g, "-")}`}
                 href="/contact"
-                className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-[#188f8b]/15 bg-white p-[24px] transition-all duration-300 hover:-translate-y-[4px] hover:border-[#188f8b] hover:bg-[#188f8b] hover:shadow-[0_32px_80px_rgba(11,59,56,0.28)] md:p-[28px]"
+                className="group relative flex h-full min-h-[280px] flex-col overflow-hidden rounded-[24px] border border-[#188f8b]/15 bg-white p-[24px] transition-all duration-300 hover:-translate-y-[4px] hover:border-[#188f8b] hover:bg-[#188f8b] hover:shadow-[0_32px_80px_rgba(11,59,56,0.28)] md:p-[28px]"
               >
                 <span
                   aria-hidden
