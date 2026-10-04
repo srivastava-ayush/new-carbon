@@ -14,10 +14,7 @@ const GlobeBackground = dynamic(() => import("@/components/ui/GlobeBackground"),
   loading: () => null,
 });
 
-const HEADLINE = [
-  ["Powering", "a"],
-  ["Greener", "Future"],
-];
+const HEADLINE = [["Powering", "a"], ["Greener", "Future"]];
 
 const TRUST_STATS = [
   { value: "4.2M tCO₂e", label: "Emissions tracked" },
@@ -97,23 +94,30 @@ export default function Hero() {
               Measure → Verify → Offset
             </motion.span>
 
-            <h1 className="font-display text-[52px] leading-[0.95] tracking-[-1.5px] text-[#0b1f1e] sm:text-[68px] md:text-[84px] lg:text-[96px]">
+            <h1 className="font-display font-semibold leading-[0.95] text-[#0b1f1e] sm:text-[42px] md:text-[64px] lg:text-[80px]">
               {HEADLINE.map((words, i) => (
-                <span key={i} className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
-                  <motion.span variants={line} className="block">
-                    {words.map((word, j) => (
-                      <span key={word} className={`inline-block ${j > 0 ? "ml-[0.22em]" : ""}`}>
-                        {i === 1 && j === 0 ? (
+                <span key={i} className="block overflow-hidden pb-[0.2em] mb-2">
+                  {words.map((word, j) => {
+                    const isGreener = i === 1 && j === 0;
+
+                    return (
+                      <motion.span
+                        key={j}
+                        variants={line}
+                        className="inline-block mr-[0.25em] last:mr-0"
+                      >
+                        {isGreener ? (
                           <em className="not-italic text-[#188f8b]">{word}</em>
                         ) : (
                           word
                         )}
-                      </span>
-                    ))}
-                  </motion.span>
+                      </motion.span>
+                    );
+                  })}
                 </span>
               ))}
             </h1>
+
 
             <motion.p
               variants={

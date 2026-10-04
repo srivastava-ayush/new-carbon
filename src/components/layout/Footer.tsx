@@ -38,7 +38,7 @@ export default function Footer() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.6 }}
-              className="font-display text-[40px] leading-[0.95] tracking-[-0.88px] text-[#188f8b] sm:text-[56px] md:text-[72px] lg:text-[88px]"
+              className="font-display text-[40px] leading-[0.95] tracking-[-0.88px] text-[#188f8b] sm:text-[48px] md:text-[64px] lg:text-[80px]"
             >
               {"The planet won't audit itself!".split(" ").map((word, i) => (
                 <span key={i} className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em]">
@@ -54,7 +54,7 @@ export default function Footer() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.6 }}
-              className="font-display text-[40px] leading-[0.95] tracking-[-0.88px] text-black sm:text-[28px] md:text-[36px] lg:text-[44px]"
+              className="font-display text-[40px] leading-[0.95] tracking-[-0.88px] text-black sm:text-[28px] md:text-[36px] lg:text-[48px]"
             >
               {"Let's have a talk on our own.".split(" ").map((word, i) => (
                 <span key={i} className="inline-block overflow-hidden pb-[0.14em] -mb-[0.14em]">
@@ -70,7 +70,7 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.6 }}
               transition={{ duration: 0.6, ease: EASE, delay: 0.3 }}
-              className="max-w-[420px] text-[15px] leading-[1.5] tracking-[-0.14px] text-[#848484] md:text-[16px]"
+              className="text-[15px] leading-[1.5] tracking-[-0.14px] text-[#848484] md:text-[16px]"
             >
               No jargon, no pressure — just a straight conversation about your carbon data.
             </motion.p>

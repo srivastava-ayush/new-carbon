@@ -52,7 +52,7 @@ export default function Header() {
           >
             <Link href="/" className="flex items-center gap-[9px]">
               <Logo className="h-[24px] w-auto" />
-              <span className="font-display text-[21px] tracking-[-0.3px] text-[#0b1f1e]">
+              <span className="font-display text-[21px] font-bold tracking-[-0.3px] text-[#0b1f1e]">
                 CarbonSynq
               </span>
             </Link>
