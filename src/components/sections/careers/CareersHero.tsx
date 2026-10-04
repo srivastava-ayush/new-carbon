@@ -65,7 +65,7 @@ export default function CareersHero() {
             </p>
 
             <div className="mt-[40px] flex flex-wrap items-center gap-[14px]">
-              <a
+              <Link
                 href="#mission"
                 className="group inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full bg-[#0b3b38] px-[32px] text-[15px] font-semibold tracking-[-0.16px] text-white shadow-[0_14px_34px_rgba(11,59,56,0.28)] transition-all duration-300 hover:-translate-y-[2px] hover:bg-[#0e4a47] hover:shadow-[0_20px_44px_rgba(11,59,56,0.36)]"
               >
@@ -73,7 +73,7 @@ export default function CareersHero() {
                 <svg viewBox="0 0 24 24" fill="none" className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-[3px]">
                   <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </a>
+              </Link>
             </div>
           </motion.div>
 

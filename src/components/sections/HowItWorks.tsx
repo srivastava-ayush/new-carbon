@@ -223,20 +223,20 @@ export default function HowItWorks() {
               style={getFrameStyles(position)}
             >
               {/* Text card */}
-              <div className="flex flex-col justify-center rounded-[24px] border border-[#188f8b]/15 bg-white p-[24px] md:w-[40%] md:p-[32px]">
-                <span className="font-display text-[32px] leading-none text-[#188f8b] md:text-[40px]">
+              <div className="flex flex-col justify-center rounded-[24px] border border-[#188f8b] bg-[#188f8b] p-[24px] text-white shadow-[0_32px_80px_rgba(11,59,56,0.28)] md:w-[40%] md:p-[32px]">
+                <span className="font-display text-[32px] leading-none text-[#ade5df] md:text-[40px]">
                   {step.num}
                 </span>
-                <h3 className="mt-[12px] font-display text-[22px] leading-[1.1] tracking-[-0.4px] text-black md:text-[26px]">
+                <h3 className="mt-[12px] font-display text-[22px] leading-[1.1] tracking-[-0.4px] text-white md:text-[26px]">
                   {step.title}
                 </h3>
-                <p className="mt-[12px] text-[14px] leading-[1.5] tracking-[-0.14px] text-[#848484] md:text-[16px]">
+                <p className="mt-[12px] text-[14px] leading-[1.5] tracking-[-0.14px] text-[#ade5df]/85 md:text-[16px]">
                   {step.description}
                 </p>
               </div>
 
               {/* SVG card */}
-              <div className="flex flex-1 items-center justify-center rounded-[24px] border border-[#188f8b]/15 bg-white p-[16px] md:w-[60%] md:p-[24px]">
+              <div className="flex flex-1 items-center justify-center rounded-[24px] border border-[#188f8b] p-[16px] shadow-[0_32px_80px_rgba(11,59,56,0.28)] md:w-[60%] md:p-[24px]">
                 <div className="h-[280px] w-full max-w-[520px] md:h-[380px]">
                   <Visual />
                 </div>
