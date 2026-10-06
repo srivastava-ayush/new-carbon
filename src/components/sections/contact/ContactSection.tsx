@@ -81,8 +81,12 @@ export default function ContactSection() {
               <div className="absolute inset-x-0 top-0 z-10 h-[2px] bg-gradient-to-r from-[#188f8b] to-[#43b0a9]" />
 
               <div className="p-[12px] md:p-[16px]">
-                <div className="overflow-hidden rounded-[16px] border border-black/[0.06] bg-white">
+                <div className="relative overflow-hidden rounded-[16px] border border-black/[0.06] bg-white">
                   <BookDemo />
+                  <div
+                    aria-hidden="true"
+                    className="absolute bottom-[20px] left-1/2 z-10 hidden h-[48px] w-[96px] -translate-x-1/2 rounded-[4px] bg-white md:block"
+                  />
                 </div>
               </div>
             </div>
