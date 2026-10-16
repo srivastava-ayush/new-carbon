@@ -96,42 +96,43 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.7, ease: EASE }}
-          className="flex flex-col gap-[28px] md:flex-row md:items-end md:justify-between md:gap-0"
+          className="flex flex-col gap-[20px]"
         >
-          {/* Brand + legal */}
-          <div className="flex flex-col gap-[20px]">
-            <div className="flex items-center gap-[12px]">
-              <Logo className="h-[22px] w-auto" />
-              <p className="text-[12px] font-medium uppercase leading-[1.2] tracking-[1.44px] text-[#0b1f1e]">
-                &copy; 2026 Carbonsynq.
-              </p>
-            </div>
+          {/* Brand */}
+          <div className="flex items-center gap-[12px]">
+            <Logo className="h-[22px] w-auto" />
+            <p className="text-[12px] font-medium uppercase leading-[1.2] tracking-[1.44px] text-[#0b1f1e]">
+              &copy; 2026 Carbonsynq.
+            </p>
+          </div>
+
+          {/* Legal + social — same line, social aligned right */}
+          <div className="flex items-center justify-between gap-[20px]">
             <div className="flex items-center gap-[24px]">
               {LEGAL_LINKS.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-[12px] font-medium uppercase leading-[1.2] tracking-[1.44px] text-[#5f706e] transition-colors duration-200 hover:text-[#188f8b]"
+                  className="relative text-[12px] font-medium uppercase leading-[1.2] tracking-[1.44px] text-[#5f706e] transition-colors duration-200 hover:text-[#0b1f1e] after:absolute after:-bottom-[5px] after:left-0 after:h-[1.5px] after:w-0 after:bg-[#188f8b] after:transition-all after:duration-300 hover:after:w-full"
                 >
                   {item.label}
                 </a>
               ))}
             </div>
-          </div>
 
-          {/* Social */}
-          <div className="flex items-center gap-[12px]">
-            {SOCIAL_LINKS.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex h-[40px] items-center gap-[10px] rounded-full border border-black/[0.08] bg-white px-[16px] transition-all duration-300 hover:-translate-y-[2px] hover:border-[#188f8b]/30 hover:shadow-[0_8px_24px_rgba(11,59,56,0.1)]"
-              >
-                <item.Icon size={16} weight="fill" className="text-[#5f706e] transition-colors duration-300 group-hover:text-[#188f8b]" />
-              </a>
-            ))}
+            <div className="flex items-center gap-[12px]">
+              {SOCIAL_LINKS.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-[40px] items-center gap-[10px] rounded-full border border-black/[0.08] bg-white px-[16px] transition-all duration-300 hover:-translate-y-[2px] hover:border-[#188f8b]/30 hover:shadow-[0_8px_24px_rgba(11,59,56,0.1)]"
+                >
+                  <item.Icon size={16} weight="fill" className="text-[#5f706e] transition-colors duration-300 group-hover:text-[#188f8b]" />
+                </a>
+              ))}
+            </div>
           </div>
         </motion.div>
       </Container>

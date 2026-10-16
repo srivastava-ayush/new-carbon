@@ -31,7 +31,7 @@ interface PolicySection {
 const SECTIONS: PolicySection[] = [
   {
     id: "ai-governance",
-    num: "02",
+    num: "01",
     title: "AI governance",
     Icon: RobotIcon,
     body: [
@@ -45,7 +45,7 @@ const SECTIONS: PolicySection[] = [
   },
   {
     id: "collection",
-    num: "03",
+    num: "02",
     title: "What we collect",
     Icon: DatabaseIcon,
     body: [
@@ -60,7 +60,7 @@ const SECTIONS: PolicySection[] = [
   },
   {
     id: "biometrics",
-    num: "04",
+    num: "03",
     title: "Biometric login",
     Icon: FingerprintIcon,
     body: [
@@ -69,7 +69,7 @@ const SECTIONS: PolicySection[] = [
   },
   {
     id: "usage",
-    num: "05",
+    num: "04",
     title: "How we use it",
     Icon: ChartPieSliceIcon,
     body: [
@@ -82,7 +82,7 @@ const SECTIONS: PolicySection[] = [
   },
   {
     id: "supply-chain",
-    num: "06",
+    num: "05",
     title: "Supply chain data",
     Icon: TruckIcon,
     body: [
@@ -95,7 +95,7 @@ const SECTIONS: PolicySection[] = [
   },
   {
     id: "cookies",
-    num: "07",
+    num: "06",
     title: "Cookies & tracking",
     Icon: CookieIcon,
     body: [
@@ -105,7 +105,7 @@ const SECTIONS: PolicySection[] = [
   },
   {
     id: "rights",
-    num: "08",
+    num: "07",
     title: "Your rights",
     Icon: ListChecksIcon,
     body: [
@@ -118,7 +118,7 @@ const SECTIONS: PolicySection[] = [
   },
   {
     id: "history",
-    num: "09",
+    num: "08",
     title: "Policy history",
     Icon: ClockCounterClockwiseIcon,
     body: [
@@ -128,7 +128,7 @@ const SECTIONS: PolicySection[] = [
   },
   {
     id: "legal",
-    num: "10",
+    num: "09",
     title: "Arbitration & governance",
     Icon: ScalesIcon,
     body: [
