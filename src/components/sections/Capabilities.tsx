@@ -14,6 +14,7 @@ import type { IconProps } from "@phosphor-icons/react";
 import type { ComponentType, CSSProperties } from "react";
 import Reveal from "@/components/shared/Reveal";
 import Section from "@/components/ui/Section";
+import CarbonCard from "@/components/ui/CarbonCard";
 
 // Types
 interface Capability {
@@ -132,128 +133,128 @@ function CapCard({ item }: { item: Capability }) {
   const { num, title, Icon, points, trace, report, chart } = item;
 
   return (
-    <div className="flex h-full min-h-full flex-col items-center rounded-[24px] border border-[#188f8b]/15 bg-[#188f8b] p-[20px] text-center">
-      {/* Header */}
-      <div className="flex w-full items-center justify-center gap-[10px]">
-        <Icon size={18} weight="regular" className="text-[#f2faf9]" />
-        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f2faf9]">
-          {num}
-        </span>
-      </div>
+    <CarbonCard
+      inverted
+      align="center"
+      num={num}
+      badge={<Icon size={13} weight="duotone" />}
+      title={title}
+    >
+      {points && (
+        <ul className="flex flex-col items-center gap-[6px]">
+          {points.map((point) => (
+            <li
+              key={point}
+              className="flex items-center gap-[6px] text-[12px] leading-[1.4] text-white transition-colors duration-300 group-hover:text-[#52525b]"
+            >
+              <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-white/60 transition-colors duration-300 group-hover:bg-[#188f8b]" />
+              {point}
+            </li>
+          ))}
+        </ul>
+      )}
 
-      {/* Title */}
-      <h3 className="mt-[12px] font-display text-[18px] leading-[1.15] tracking-[-0.3px] text-[#f2faf9]">
-        {title}
-      </h3>
-
-      {/* Content */}
-      <div className="mt-[12px] flex w-full flex-1 flex-col items-center">
-        {points && (
-          <ul className="flex flex-col gap-[6px]">
-            {points.map((point) => (
-              <li
-                key={point}
-                className="flex items-center gap-[6px] text-[12px] leading-[1.4] text-[#f2faf9]"
-              >
-                <span className="h-[3px] w-[3px] shrink-0 rounded-full bg-[#f2faf9]/50" />
-                {point}
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {trace && (
-          <div className="mt-[10px] flex flex-wrap items-center justify-center gap-[4px]">
-            {trace.map((step, i) => (
-              <span key={step} className="flex items-center gap-[4px]">
-                <span className="rounded-full border border-black/10 px-[8px] py-[4px] text-[10px] font-medium text-[#f2faf9]">
-                  {step}
+      {trace && (
+        <div className="flex flex-wrap items-center gap-[4px]">
+          {trace.map((step, i) => (
+            <span key={step} className="flex items-center gap-[4px]">
+              <span className="rounded-full border border-white/30 bg-white/10 px-[8px] py-[4px] text-[10px] font-medium text-white transition-colors duration-300 group-hover:border-[#188f8b]/25 group-hover:bg-[#188f8b]/[0.06] group-hover:text-[#0f5c58]">
+                {step}
+              </span>
+              {i < trace.length - 1 && (
+                <span className="text-[9px] text-white transition-colors duration-300 group-hover:text-[#188f8b]">
+                  →
                 </span>
-                {i < trace.length - 1 && (
-                  <span className="text-[9px] text-[#f2faf9]">→</span>
-                )}
-              </span>
+              )}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {report && (
+        <div className="w-full max-w-[180px] rounded-[12px] border border-[#188f8b]/15 bg-[#f8fcfb] p-[10px]">
+          <div className="flex items-center justify-between">
+            <span className="text-[8px] font-semibold uppercase tracking-[0.12em] text-[#188f8b]">
+              Scope 1 · 2 · 3
+            </span>
+          </div>
+          <div className="mt-[6px] flex gap-[4px]">
+            <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/10" />
+            <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/25" />
+            <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/60" />
+            <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]" />
+          </div>
+          <div className="mt-[4px] flex items-center justify-between">
+            <span className="text-[8px] font-medium text-[#a1a1aa]">2023 → 2025</span>
+            <span className="text-[9px] font-semibold text-[#188f8b]">−42%</span>
+          </div>
+        </div>
+      )}
+
+      {chart === "sources" && (
+        <div className="w-full max-w-[200px]">
+          <p className="text-center text-[10px] font-semibold uppercase tracking-[0.14em] text-white/60 transition-colors duration-300 group-hover:text-[#a1a1aa]">
+            Biggest sources
+          </p>
+          <div className="mt-[8px] flex flex-col gap-[6px]">
+            {BIGGEST_SOURCES.map((source) => (
+              <div key={source.name} className="flex items-center gap-[6px]">
+                <span className="w-[80px] shrink-0 text-left text-[10px] text-white transition-colors duration-300 group-hover:text-[#52525b]">
+                  {source.name}
+                </span>
+                <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/20 transition-colors duration-300 group-hover:bg-black/[0.06]">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-white to-[#ade5df] transition-colors duration-300 group-hover:from-[#188f8b] group-hover:to-[#43b0a9]"
+                    style={{ width: source.value }}
+                  />
+                </div>
+                <span className="w-[24px] shrink-0 text-right text-[10px] font-semibold text-white transition-colors duration-300 group-hover:text-[#188f8b]">
+                  {source.value}
+                </span>
+              </div>
             ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {report && (
-          <div className="mt-[10px] w-full max-w-[180px] rounded-[12px] border border-black/8 bg-white p-[10px]">
-            <div className="flex items-center justify-between">
-              <span className="text-[8px] font-semibold uppercase tracking-[0.12em] text-[#f2faf9]">
-                Scope 1 · 2 · 3
-              </span>
-            </div>
-            <div className="mt-[6px] flex gap-[4px]">
-              <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/10" />
-              <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/25" />
-              <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]/60" />
-              <div className="h-[20px] flex-1 rounded-[4px] bg-[#188f8b]" />
-            </div>
-            <div className="mt-[4px] flex items-center justify-between">
-              <span className="text-[8px] font-medium text-[#a1a1aa]">2023 → 2025</span>
-              <span className="text-[9px] font-semibold text-[#188f8b]">−42%</span>
-            </div>
+      {chart === "target" && (
+        <div className="w-full max-w-[200px]">
+          <div className="mb-[4px] flex items-center justify-between text-[10px] font-medium">
+            <span className="text-white transition-colors duration-300 group-hover:text-[#0b1f1e]">
+              Progress to 2030 target
+            </span>
+            <span className="text-white/70 transition-colors duration-300 group-hover:text-[#a1a1aa]">
+              −42%
+            </span>
           </div>
-        )}
-
-        {chart === "sources" && (
-          <div className="mt-[10px] w-full max-w-[200px]">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#f2faf9]/40">
-              Biggest sources
-            </p>
-            <div className="mt-[8px] flex flex-col gap-[6px]">
-              {BIGGEST_SOURCES.map((source) => (
-                <div key={source.name} className="flex items-center gap-[6px]">
-                  <span className="w-[80px] shrink-0 text-left text-[10px] text-[#f2faf9]">
-                    {source.name}
-                  </span>
-                  <div className="h-[3px] flex-1 overflow-hidden rounded-full bg-[#f0f0f0]">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
-                      style={{ width: source.value }}
-                    />
-                  </div>
-                  <span className="w-[24px] shrink-0 text-right text-[10px] font-semibold text-[#f2faf9]/50">
-                    {source.value}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <div className="h-[5px] w-full overflow-hidden rounded-full bg-white/20 transition-colors duration-300 group-hover:bg-black/[0.06]">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-white to-[#ade5df] transition-colors duration-300 group-hover:from-[#188f8b] group-hover:to-[#43b0a9]"
+              style={{ width: "42%" }}
+            />
           </div>
-        )}
-
-        {chart === "target" && (
-          <div className="mt-[10px] w-full max-w-[200px]">
-            <div className="mb-[4px] flex items-center justify-between text-[10px] font-medium">
-              <span className="text-[#f2faf9]">Progress to 2030 target</span>
-              <span className="text-[#f2faf9]/50">−42%</span>
-            </div>
-            <div className="h-[5px] w-full overflow-hidden rounded-full bg-[#f0f0f0]">
+          <div className="mt-[10px] flex flex-col gap-[6px]">
+            {[
+              { label: "Baseline 2023", value: "8,420 tCO₂e" },
+              { label: "Current 2025", value: "4,880 tCO₂e" },
+              { label: "Target 2030", value: "−50%" },
+            ].map((row) => (
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#188f8b] to-[#43b0a9]"
-                style={{ width: "42%" }}
-              />
-            </div>
-            <div className="mt-[10px] flex flex-col gap-[6px]">
-              {[
-                { label: "Baseline 2023", value: "8,420 tCO₂e" },
-                { label: "Current 2025", value: "4,880 tCO₂e" },
-                { label: "Target 2030", value: "−50%" },
-              ].map((row) => (
-                <div
-                  key={row.label}
-                  className="flex items-center justify-between border-b border-black/5 pb-[6px] last:border-0 last:pb-0"
-                >
-                  <span className="text-[10px] text-[#f2faf9]">{row.label}</span>
-                  <span className="text-[10px] font-semibold text-[#f2faf9]/50">{row.value}</span>
-                </div>
-              ))}
-            </div>
+                key={row.label}
+                className="flex items-center justify-between border-b border-white/15 pb-[6px] transition-colors duration-300 last:border-0 last:pb-0 group-hover:border-black/5"
+              >
+                <span className="text-[10px] text-white transition-colors duration-300 group-hover:text-[#52525b]">
+                  {row.label}
+                </span>
+                <span className="text-[10px] font-semibold text-white transition-colors duration-300 group-hover:text-[#188f8b]">
+                  {row.value}
+                </span>
+              </div>
+            ))}
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </CarbonCard>
   );
 }
 

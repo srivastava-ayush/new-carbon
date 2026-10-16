@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "motion/react";
 import Container from "@/components/ui/Container";
 import { EASE } from "@/lib/animations";
 import Reveal from "@/components/shared/Reveal";
+import CarbonCard from "@/components/ui/CarbonCard";
 
 export default function CareersMission() {
   const reduced = useReducedMotion();
@@ -30,26 +31,24 @@ export default function CareersMission() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.15}>
-            <div className="relative overflow-hidden rounded-[24px] border border-black/[0.06] bg-[#f2faf9] p-[32px] md:p-[40px]">
-              <div className="mb-[28px] flex items-center gap-[12px]">
-                <span className="flex h-[36px] w-[36px] items-center justify-center rounded-full bg-[#188f8b]/15 text-[#188f8b]">
-                  <svg viewBox="0 0 24 24" fill="none" className="h-[18px] w-[18px]">
-                    <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-                <div>
-                  <p className="text-[13px] font-semibold text-[#0b1f1e]">Featured on Republic Bharat</p>
-                  <p className="text-[11px] text-[#5f706e]">Education Conclave Keynote</p>
-                </div>
-              </div>
-
-              <p className="text-[16px] leading-[1.5] tracking-[-0.14px] text-[#3f5a55]">
-                <span className="font-semibold text-[#0b1f1e]">Pioneering the Carbon Space on National Television.</span>{" "}
-                CarbonSynq was recognized at the prestigious <strong>R. Education Conclave</strong> hosted by Republic Bharat — validation of our mission to drive enterprise-wide net-zero intelligence.
+          <Reveal delay={0.15} className="h-full">
+            <CarbonCard
+              badge={
+                <svg viewBox="0 0 24 24" fill="none" className="h-[13px] w-[13px]">
+                  <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              }
+              title="Featured on Republic Bharat"
+              description="Education Conclave Keynote"
+            >
+              <p className="text-[16px] leading-[1.5] tracking-[-0.14px] text-[#3f5a55] transition-colors duration-300 group-hover:text-[#ade5df]/85">
+                <span className="font-semibold text-[#0b1f1e] transition-colors duration-300 group-hover:text-white">
+                  Pioneering the Carbon Space on National Television.
+                </span>{" "}
+                CarbonSynq was recognized at the prestigious <strong className="transition-colors duration-300 group-hover:text-white">R. Education Conclave</strong> hosted by Republic Bharat — validation of our mission to drive enterprise-wide net-zero intelligence.
               </p>
 
-              <div className="mt-[28px] rounded-[14px] border border-black/[0.06] bg-white p-[20px]">
+              <div className="mt-[16px] rounded-[14px] border border-black/[0.06] bg-white p-[20px]">
                 <div className="flex items-center gap-[10px]">
                   <span className="h-[6px] w-[6px] rounded-full bg-[#188f8b]" />
                   <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#188f8b]">
@@ -60,7 +59,7 @@ export default function CareersMission() {
                   Education Conclave Keynote — CarbonSynq&apos;s vision for climate tech and enterprise sustainability.
                 </p>
               </div>
-            </div>
+            </CarbonCard>
           </Reveal>
         </div>
       </Container>

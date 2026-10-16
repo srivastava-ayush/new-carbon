@@ -1,5 +1,6 @@
 import Reveal from "@/components/shared/Reveal";
 import Section from "@/components/ui/Section";
+import CarbonCard from "@/components/ui/CarbonCard";
 import {
   HandshakeIcon,
   UserCircleIcon,
@@ -132,59 +133,52 @@ const SECTIONS: TermSection[] = [
 
 function TermCard({ section, delay }: { section: TermSection; delay: number }) {
   const { id, num, title, Icon, body, list, note, span } = section;
+  const [first, ...rest] = body;
 
   return (
     <Reveal delay={delay} className={`${span ?? ""} h-full`}>
-      <div
+      <CarbonCard
         id={id}
-        className="group relative flex h-full flex-col scroll-mt-[100px] overflow-hidden rounded-[20px] border border-black/[0.07] bg-white p-[26px] transition-all duration-500 hover:-translate-y-[3px] hover:border-[#0b3b38]/30 hover:shadow-[0_24px_56px_rgba(11,59,56,0.12)] md:p-[30px]"
+        num={num}
+        badge={<Icon size={13} weight="duotone" />}
+        title={title}
+        description={first}
       >
-        {/* dark green top rule */}
-        <span className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-[#0b3b38] via-[#0d4f4b] to-[#188f8b] transition-transform duration-500 group-hover:scale-x-100" />
-
-        {/* hover sheen */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(130%_70%_at_50%_-10%,rgba(11,59,56,0.07),transparent_70%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-        <div className="relative flex items-start justify-between">
-          <span className="flex h-[46px] w-[46px] items-center justify-center rounded-[14px] border border-[#0b3b38]/15 bg-[#0b3b38]/[0.05] text-[#0d4f4b] transition-all duration-500 group-hover:border-[#0b3b38] group-hover:bg-[#0b3b38] group-hover:text-white">
-            <Icon size={20} weight="duotone" />
-          </span>
-          <span className="pt-[2px] text-[11px] font-semibold tracking-[0.18em] text-[#0b3b38]/35 transition-colors duration-500 group-hover:text-[#0b3b38]">
-            {num}
-          </span>
-        </div>
-
-        <h3 className="relative mt-[24px] font-display text-[23px] leading-[1.15] tracking-[-0.35px] text-[#0b1f1e] md:text-[25px]">
-          {title}
-        </h3>
-
-        <div className="relative mt-[14px] flex flex-col gap-[12px]">
-          {body.map((p, j) => (
-            <p key={j} className="text-[13.5px] leading-[1.6] tracking-[-0.1px] text-[#7c8f8d]">
-              {p}
-            </p>
-          ))}
-
-          {list && (
-            <ul className="grid grid-cols-1 gap-[8px] pt-[4px] sm:grid-cols-2">
-              {list.map((item) => (
-                <li key={item} className="flex items-start gap-[10px] text-[13px] leading-[1.5] tracking-[-0.1px] text-[#7c8f8d]">
-                  <span className="mt-[6px] h-[4px] w-[4px] shrink-0 rounded-full bg-[#188f8b]" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          {note && (
-            <div className="mt-[4px] rounded-[14px] border border-[#188f8b]/15 bg-[#188f8b]/[0.05] px-[16px] py-[14px]">
-              <p className="text-[13px] leading-[1.6] tracking-[-0.1px] text-[#166b68]">
-                {note}
+        {(rest.length > 0 || list || note) && (
+          <>
+            {rest.map((p, j) => (
+              <p
+                key={j}
+                className="text-[14px] leading-[1.55] tracking-[-0.14px] text-[#848484] transition-colors duration-300 group-hover:text-[#ade5df]/85"
+              >
+                {p}
               </p>
-            </div>
-          )}
-        </div>
-      </div>
+            ))}
+
+            {list && (
+              <ul className="grid grid-cols-1 gap-[8px] sm:grid-cols-2">
+                {list.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-[10px] text-[13px] leading-[1.5] tracking-[-0.1px] text-[#848484] transition-colors duration-300 group-hover:text-[#ade5df]/85"
+                  >
+                    <span className="mt-[6px] h-[4px] w-[4px] shrink-0 rounded-full bg-[#188f8b] transition-colors duration-300 group-hover:bg-white" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {note && (
+              <div className="rounded-[14px] border border-[#188f8b]/15 bg-[#188f8b]/[0.06] px-[16px] py-[14px] transition-colors duration-300 group-hover:border-white/25 group-hover:bg-white/10">
+                <p className="text-[13px] leading-[1.6] tracking-[-0.1px] text-[#166b68] transition-colors duration-300 group-hover:text-white">
+                  {note}
+                </p>
+              </div>
+            )}
+          </>
+        )}
+      </CarbonCard>
     </Reveal>
   );
 }

@@ -10,6 +10,7 @@ export default function ProductShowcase() {
   return (
     <section
       ref={ref}
+      id="product-showcase"
       className="relative overflow-hidden"
     >
       {/* Gradient bridge from hero (light) into teal showcase */}

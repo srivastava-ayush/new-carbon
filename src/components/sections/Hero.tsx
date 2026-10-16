@@ -150,7 +150,7 @@ export default function Hero() {
                 </svg>
               </Link>
               <a
-                href="#how-it-works"
+                href="#product-showcase"
                 className="inline-flex h-[54px] items-center justify-center gap-[10px] rounded-full border border-black/10 bg-white/80 px-[32px] text-[15px] font-semibold tracking-[-0.16px] text-[#0b1f1e] backdrop-blur-md transition-all duration-300 hover:border-[#188f8b]/40 hover:text-[#188f8b]"
               >
                 Explore More
@@ -221,7 +221,7 @@ export default function Hero() {
 
       {/* Scroll cue */}
       <motion.a
-        href="#how-it-works"
+        href="#product-showcase"
         aria-label="Scroll to content"
         initial={reduced ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}

@@ -1,5 +1,6 @@
 import Reveal from "@/components/shared/Reveal";
 import Section from "@/components/ui/Section";
+import CarbonCard from "@/components/ui/CarbonCard";
 
 export default function CareersMandate() {
   return (
@@ -18,36 +19,37 @@ export default function CareersMandate() {
       </Reveal>
 
       <div className="grid grid-cols-1 gap-[14px] md:grid-cols-3">
-        <Reveal delay={0.1}>
-          <div className="group flex flex-col rounded-[24px] border border-black/10 bg-white p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/20 md:p-[32px]">
-            <span className="text-[48px] font-display leading-none tracking-[-1px] text-[#188f8b]">2026</span>
-            <span className="mt-[8px] text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
+        <Reveal delay={0.1} className="h-full">
+          <CarbonCard>
+            <span className="text-[48px] font-display leading-none tracking-[-1px] text-[#188f8b] transition-colors duration-300 group-hover:text-white">
+              2026
+            </span>
+            <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa] transition-colors duration-300 group-hover:text-white/70">
               Founded
             </span>
-          </div>
+          </CarbonCard>
         </Reveal>
 
-        <Reveal delay={0.15}>
-          <div className="group flex flex-col rounded-[24px] border border-[#188f8b]/15 bg-[#f2faf9] p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/25 md:p-[32px]">
-            <span className="text-[48px] font-display leading-none tracking-[-1px] text-[#188f8b]">100%</span>
-            <span className="mt-[8px] text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa]">
+        <Reveal delay={0.15} className="h-full">
+          <CarbonCard>
+            <span className="text-[48px] font-display leading-none tracking-[-1px] text-[#188f8b] transition-colors duration-300 group-hover:text-white">
+              100%
+            </span>
+            <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#a1a1aa] transition-colors duration-300 group-hover:text-white/70">
               Scientific Bias
             </span>
-          </div>
+          </CarbonCard>
         </Reveal>
 
-        <Reveal delay={0.2}>
-          <div className="group relative flex flex-col overflow-hidden rounded-[24px] border border-black/10 bg-white p-[28px] transition-all duration-300 hover:-translate-y-[1px] hover:border-[#188f8b]/20 md:p-[32px]">
-            <div className="absolute right-0 bottom-0 h-[100px] w-[100px] bg-gradient-to-tl from-[#188f8b]/10 to-transparent" />
-            <div className="relative">
-              <span className="font-display text-[18px] leading-[1.3] tracking-[-0.3px] text-[#0b1f1e]">
-                &ldquo;We believe robust methodologies matter far more than corporate check-boxing.&rdquo;
-              </span>
-              <p className="mt-[12px] text-[13px] leading-[1.5] text-[#848484]">
-                We build peer-reviewed, open-source models verified by third-party science panels. We do not participate in visual corporate greenwashing.
-              </p>
-            </div>
-          </div>
+        <Reveal delay={0.2} className="h-full">
+          <CarbonCard>
+            <span className="font-display text-[18px] leading-[1.3] tracking-[-0.3px] text-[#0b1f1e] transition-colors duration-300 group-hover:text-white">
+              &ldquo;We believe robust methodologies matter far more than corporate check-boxing.&rdquo;
+            </span>
+            <p className="text-[13px] leading-[1.5] text-[#848484] transition-colors duration-300 group-hover:text-[#ade5df]/85">
+              We build peer-reviewed, open-source models verified by third-party science panels. We do not participate in visual corporate greenwashing.
+            </p>
+          </CarbonCard>
         </Reveal>
       </div>
     </Section>
